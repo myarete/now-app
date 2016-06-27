@@ -9,10 +9,8 @@ const MenuItem = electron.MenuItem
 
 app.setName('Now')
 
-console.log(hasbin.sync('now'))
-
 app.on('ready', () => {
-  const tray = new Tray(path.join(__dirname, 'tray-icon.png'))
+  const tray = new Tray(path.join(__dirname, 'iconTemplate.png'))
   const menu = new Menu()
 
   if (!hasbin.sync('now')) {
