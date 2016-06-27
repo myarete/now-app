@@ -1,0 +1,17 @@
+{
+  "name": "now-app",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager . $npm_package_productName --prune --asar"
+  },
+  "keywords": [],
+  "author": "leo",
+  "license": "MIT",
+  "devDependencies": {
+    "electron-packager": "^7.1.0",
+    "electron-prebuilt": "^1.2.5"
+  }
+}
