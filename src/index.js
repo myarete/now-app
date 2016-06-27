@@ -1,19 +1,14 @@
-const electron = require('electron')
-const path = require('path')
-const hasbin = require('hasbin')
-
-const app = electron.app
-const Tray = electron.Tray
-const Menu = electron.Menu
-const MenuItem = electron.MenuItem
+import { app, Tray, Menu, MenuItem } from 'electron'
+import path from 'path'
+import { sync as isInstalled } from 'hasbin'
 
 app.setName('Now')
 
 app.on('ready', () => {
-  const tray = new Tray(path.join(__dirname, 'iconTemplate.png'))
+  const tray = new Tray(path.join(__dirname + '/../assets', 'iconTemplate.png'))
   const menu = new Menu()
 
-  if (!hasbin.sync('now')) {
+  if (!isInstalled('now')) {
     menu.append(new MenuItem({
       label: 'Global module not installed',
       enabled: false

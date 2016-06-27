@@ -2,17 +2,29 @@
   "name": "now-app",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index",
   "scripts": {
-    "start": "electron .",
-    "build": "electron-packager . $npm_package_productName --prune --asar"
+    "start": "electron dist",
+    "prepublish": "npm run build && npm run build-electron",
+    "build": "gulp transpile",
+    "build-electron": "electron-packager dist $npm_package_productName --prune --asar"
+  },
+  "babel": {
+    "plugins": [
+      "transform-es2015-modules-commonjs"
+    ]
   },
   "keywords": [],
   "author": "leo",
   "license": "MIT",
   "devDependencies": {
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.10.3",
+    "babel-register": "^6.9.0",
     "electron-packager": "^7.1.0",
-    "electron-prebuilt": "^1.2.5"
+    "electron-prebuilt": "^1.2.5",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-cached": "^1.1.0"
   },
   "dependencies": {
     "hasbin": "^1.2.3"
