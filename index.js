@@ -1,5 +1,6 @@
 const electron = require('electron')
 const path = require('path')
+const hasbin = require('hasbin')
 
 const app = electron.app
 const Tray = electron.Tray
@@ -8,15 +9,22 @@ const MenuItem = electron.MenuItem
 
 app.setName('Now')
 
+console.log(hasbin.sync('now'))
+
 app.on('ready', () => {
   const tray = new Tray(path.join(__dirname, 'tray-icon.png'))
   const menu = new Menu()
 
-  menu.append(new MenuItem({
-    label: 'Haha',
-    type: 'radio',
-    checked: true
-  }))
+  if (!hasbin.sync('now')) {
+    menu.append(new MenuItem({
+      label: 'Global module not installed',
+      enabled: false
+    }))
+
+    menu.append(new MenuItem({
+      label: 'Install'
+    }))
+  }
 
   menu.append(new MenuItem({
     type: 'separator'
@@ -24,7 +32,8 @@ app.on('ready', () => {
 
   menu.append(new MenuItem({
     label: process.platform === 'darwin' ? `Quit ${app.getName()}` : 'Quit',
-    click: app.quit
+    click: app.quit,
+    role: 'quit'
   }))
 
   tray.setToolTip('This is my application.')
