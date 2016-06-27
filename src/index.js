@@ -4,8 +4,8 @@ import { sync as isInstalled } from 'hasbin'
 import { exec } from 'child_process'
 import notify from 'display-notification'
 
-app.setName('Now')
 app.dock.hide()
+app.setName('Now')
 
 let tray
 
