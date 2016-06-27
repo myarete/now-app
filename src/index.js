@@ -33,7 +33,7 @@ const installNow = () => {
     }
 
     notify({
-      title: 'Installing now successfully!',
+      title: 'Successfully installed now!',
       text: 'You can now start using the "now" command in your terminal.',
       sound: 'Pop'
     })
