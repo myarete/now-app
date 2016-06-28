@@ -57,13 +57,15 @@ const setupMenu = isInstalling => {
   }))
 
   if (!installed) {
-    menu.append(new MenuItem({
-      label: 'Couldn\'t find module',
-      enabled: false
-    }))
+    if (!isInstalling) {
+      menu.append(new MenuItem({
+        label: 'Couldn\'t find module',
+        enabled: false
+      }))
+    }
 
     menu.append(new MenuItem({
-      label: isInstalling ? 'Installing...' : 'Install',
+      label: isInstalling ? 'Installing module...' : 'Install',
       enabled: isInstalling ? false : true,
       click: installNow
     }))
@@ -121,9 +123,28 @@ const fillTray = menu => {
   tray.setContextMenu(menu)
 }
 
+const sharePath = which => {
+  console.log(which)
+}
+
 app.on('ready', () => {
   tray = new Tray(path.join(__dirname + '/../assets', 'iconTemplate.png'))
-  const menu = setupMenu()
 
-  fillTray(menu)
+  tray.on('drop-files', (event, files) => {
+    if (!isInstalled('now')) {
+      return showError('The global package isn\'t installed. You need it for sharing stuff!')
+    }
+
+    if (files.length > 1) {
+      return showError('It\'s not yet possible to share multiple files/directories at once.')
+    }
+
+    for (let file of files) {
+      sharePath(file)
+    }
+
+    event.preventDefault()
+  })
+
+  fillTray(setupMenu())
 })

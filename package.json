@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "display-notification": "^2.0.0",
-    "hasbin": "^1.2.3"
+    "hasbin": "^1.2.3",
+    "node-notifier": "^4.6.0"
   }
 }
