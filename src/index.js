@@ -22,7 +22,7 @@ const installNow = () => {
   fillTray(setupMenu(true))
 
   notify({
-    title: 'Installing now...',
+    title: 'Installing module...',
     text: 'We\'ll notify you when it\'s ready to be used!',
     sound: 'Pop'
   })
@@ -34,8 +34,8 @@ const installNow = () => {
     }
 
     notify({
-      title: 'Successfully installed now!',
-      text: 'You can now start using the "now" command in your terminal.',
+      title: 'Successfully installed module!',
+      text: 'You now have access to various actions within the "now" application.',
       sound: 'Pop'
     })
 
