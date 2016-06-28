@@ -49,7 +49,7 @@ const setupMenu = isInstalling => {
 
   if (!installed) {
     menu.append(new MenuItem({
-      label: 'Global module not installed',
+      label: 'Couldn\'t find module',
       enabled: false
     }))
 
