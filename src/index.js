@@ -179,6 +179,8 @@ const sharePath = which => {
     }
   })
 
+  uploader.stderr.on('data', data => showError(String(data)))
+
   uploader.on('close', code => {
     notify({
       title: 'Done sharing!',
