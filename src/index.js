@@ -45,8 +45,9 @@ const installNow = () => {
 
 const setupMenu = isInstalling => {
   const menu = new Menu()
+  const installed = isInstalled('now')
 
-  if (!isInstalled('now')) {
+  if (!installed) {
     menu.append(new MenuItem({
       label: 'Global module not installed',
       enabled: false
@@ -57,22 +58,35 @@ const setupMenu = isInstalling => {
       enabled: isInstalling ? false : true,
       click: installNow
     }))
-  } else {
-    menu.append(new MenuItem({
-      label: 'Version 0.18.1',
-      enabled: false
-    }))
   }
 
   menu.append(new MenuItem({
     type: 'separator'
   }))
 
+  if (installed) {
+    const aboutMenu = new Menu()
+
+    aboutMenu.append(new MenuItem({
+      label: 'Version 0.18.1',
+      enabled: false
+    }))
+
+    aboutMenu.append(new MenuItem({
+      label: 'Docs',
+      click () {
+        shell.openExternal('https://zeit.co/now')
+      }
+    }))
+
+    menu.append(new MenuItem({
+      label: 'About',
+      submenu: aboutMenu
+    }))
+  }
+
   menu.append(new MenuItem({
-    label: 'About',
-    click () {
-      shell.openExternal('https://zeit.co/now')
-    }
+    type: 'separator'
   }))
 
   menu.append(new MenuItem({
