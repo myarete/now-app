@@ -87,6 +87,7 @@ const setupMenu = isInstalling => {
   if (installed) {
     menu.append(new MenuItem({
       label: 'Share...',
+      accelerator: 'CmdOrCtrl+S',
       click () {
         const filePath = dialog.showOpenDialog({
           title: 'Select something to share',
@@ -105,6 +106,7 @@ const setupMenu = isInstalling => {
 
     menu.append(new MenuItem({
       label: 'Deploy...',
+      accelerator: 'CmdOrCtrl+D',
       click () {
         const filePath = dialog.showOpenDialog({
           title: 'Select a folder to deploy',
