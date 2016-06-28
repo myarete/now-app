@@ -96,7 +96,7 @@ const setupMenu = isInstalling => {
           buttonLabel: 'Share'
         })
 
-        sharePath(filePath)
+        sharePath(filePath[0])
       }
     }))
 
