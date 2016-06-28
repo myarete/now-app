@@ -1,6 +1,6 @@
 import path from 'path'
 import { sync as isInstalled } from 'hasbin'
-import { exec } from 'child_process'
+import { exec, spawn } from 'child_process'
 import notify from 'display-notification'
 
 import {
@@ -157,24 +157,32 @@ const fillTray = menu => {
 }
 
 const sharePath = which => {
-  notify({
-    title: 'Sharing files...',
-    text: 'We\'ll notify you once they\'re online!',
-    sound: 'Pop'
+  const filePath = which.replace(/ /g, '\\ ')
+  const uploader = spawn('ns', [ filePath ])
+
+  let notified = false
+
+  uploader.stdout.on('data', data => {
+    const dataString = String(data)
+
+    if (dataString.includes('https://ns-') && notified == false) {
+      notified = true
+
+      const url = /https:\/\/ns-(.*).now.sh/g.exec(dataString)
+      clipboard.writeText(url[0])
+
+      notify({
+        title: 'Sharing files...',
+        text: 'Your clipboard already contains the URL.',
+        sound: 'Pop'
+      })
+    }
   })
 
-  exec('ns ' + which, (err, stdout, stderr) => {
-    if (err) {
-      showError(String(err))
-      return
-    }
-
-    const url = /https:\/\/ns-(.*).now.sh/g.exec(stdout)
-    clipboard.writeText(url[0])
-
+  uploader.on('close', code => {
     notify({
       title: 'Done sharing!',
-      text: 'Your clipboard now contains the URL.',
+      text: 'Successfully finished uploading all files.',
       sound: 'Pop'
     })
   })
