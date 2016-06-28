@@ -1,8 +1,17 @@
-import { app, Tray, Menu, MenuItem, dialog, shell } from 'electron'
 import path from 'path'
 import { sync as isInstalled } from 'hasbin'
 import { exec } from 'child_process'
 import notify from 'display-notification'
+
+import {
+  app,
+  Tray,
+  Menu,
+  MenuItem,
+  dialog,
+  shell,
+  clipboard
+} from 'electron'
 
 app.dock.hide()
 app.setName('Now')
@@ -124,7 +133,27 @@ const fillTray = menu => {
 }
 
 const sharePath = which => {
-  console.log(which)
+  notify({
+    title: 'Sharing files...',
+    text: 'We\'ll notify you once they\'re online!',
+    sound: 'Pop'
+  })
+
+  exec('ns ' + which, (err, stdout, stderr) => {
+    if (err) {
+      showError(err)
+      return
+    }
+
+    const url = /https:\/\/ns-(.*).now.sh/g.exec(stdout)
+    clipboard.writeText(url[0])
+
+    notify({
+      title: 'Done sharing!',
+      text: 'Your clipboard now contains the URL.',
+      sound: 'Pop'
+    })
+  })
 }
 
 app.on('ready', () => {
