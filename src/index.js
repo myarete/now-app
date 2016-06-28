@@ -88,13 +88,15 @@ const setupMenu = isInstalling => {
     menu.append(new MenuItem({
       label: 'Share Folder...',
       click () {
-        dialog.showOpenDialog({
+        const filePath = dialog.showOpenDialog({
           title: 'Select a folder to share',
           properties: [
             'openDirectory'
           ],
           buttonLabel: 'Share'
         })
+
+        sharePath(filePath)
       }
     }))
 
