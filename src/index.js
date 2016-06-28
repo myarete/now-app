@@ -86,17 +86,37 @@ const setupMenu = isInstalling => {
 
   if (installed) {
     menu.append(new MenuItem({
-      label: 'Share Folder...',
+      label: 'Share...',
       click () {
         const filePath = dialog.showOpenDialog({
-          title: 'Select a folder to share',
+          title: 'Select something to share',
           properties: [
-            'openDirectory'
+            'openDirectory',
+            'openFile'
           ],
           buttonLabel: 'Share'
         })
 
-        sharePath(filePath[0])
+        if (filePath) {
+          sharePath(filePath[0])
+        }
+      }
+    }))
+
+    menu.append(new MenuItem({
+      label: 'Deploy...',
+      click () {
+        const filePath = dialog.showOpenDialog({
+          title: 'Select a folder to deploy',
+          properties: [
+            'openDirectory'
+          ],
+          buttonLabel: 'Deploy'
+        })
+
+        if (filePath) {
+          console.log(filePath[0])
+        }
       }
     }))
 
