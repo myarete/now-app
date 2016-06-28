@@ -76,7 +76,15 @@ const setupMenu = isInstalling => {
   if (installed) {
     menu.append(new MenuItem({
       label: 'Share Folder...',
-      role: 'about'
+      click () {
+        dialog.showOpenDialog({
+          title: 'Select a folder to share',
+          properties: [
+            'openDirectory'
+          ],
+          buttonLabel: 'Share'
+        })
+      }
     }))
 
     menu.append(new MenuItem({
