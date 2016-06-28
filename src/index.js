@@ -38,7 +38,7 @@ const installNow = () => {
 
   exec('npm install -g now', (err, stdout, stderr) => {
     if (err) {
-      showError(err)
+      showError(String(err))
       return
     }
 
@@ -165,7 +165,7 @@ const sharePath = which => {
 
   exec('ns ' + which, (err, stdout, stderr) => {
     if (err) {
-      showError(err)
+      showError(String(err))
       return
     }
 
