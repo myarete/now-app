@@ -1,4 +1,4 @@
-import { app, Tray, Menu, MenuItem, dialog } from 'electron'
+import { app, Tray, Menu, MenuItem, dialog, shell } from 'electron'
 import path from 'path'
 import { sync as isInstalled } from 'hasbin'
 import { exec } from 'child_process'
@@ -57,10 +57,22 @@ const setupMenu = isInstalling => {
       enabled: isInstalling ? false : true,
       click: installNow
     }))
+  } else {
+    menu.append(new MenuItem({
+      label: 'Version 0.18.1',
+      enabled: false
+    }))
   }
 
   menu.append(new MenuItem({
     type: 'separator'
+  }))
+
+  menu.append(new MenuItem({
+    label: 'About',
+    click () {
+      shell.openExternal('https://zeit.co/now')
+    }
   }))
 
   menu.append(new MenuItem({
