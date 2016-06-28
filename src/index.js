@@ -47,6 +47,15 @@ const setupMenu = isInstalling => {
   const menu = new Menu()
   const installed = isInstalled('now')
 
+  menu.append(new MenuItem({
+    label: process.platform === 'darwin' ? `About ${app.getName()}` : 'About',
+    role: 'about'
+  }))
+
+  menu.append(new MenuItem({
+    type: 'separator'
+  }))
+
   if (!installed) {
     menu.append(new MenuItem({
       label: 'Couldn\'t find module',
@@ -65,23 +74,24 @@ const setupMenu = isInstalling => {
   }))
 
   if (installed) {
-    const aboutMenu = new Menu()
-
-    aboutMenu.append(new MenuItem({
-      label: 'Version 0.18.1',
-      enabled: false
+    menu.append(new MenuItem({
+      label: 'Share Folder...',
+      role: 'about'
     }))
 
-    aboutMenu.append(new MenuItem({
-      label: 'Docs',
+    menu.append(new MenuItem({
+      type: 'separator'
+    }))
+
+    menu.append(new MenuItem({
+      label: 'Documentation...',
       click () {
         shell.openExternal('https://zeit.co/now')
       }
     }))
 
     menu.append(new MenuItem({
-      label: 'About',
-      submenu: aboutMenu
+      label: 'Uninstall'
     }))
   }
 
