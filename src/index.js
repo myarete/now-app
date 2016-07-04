@@ -202,7 +202,10 @@ app.on('ready', () => {
   onboarding = new BrowserWindow({
     width: 800,
     height: 600,
-    show: false
+    show: false,
+    title: 'Getting started with Zeit',
+    resizable: false,
+    center: true
   })
 
   tray.on('drop-files', (event, files) => {
