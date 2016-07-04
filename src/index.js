@@ -140,10 +140,6 @@ const setupMenu = isInstalling => {
         shell.openExternal('https://zeit.co/now')
       }
     }))
-
-    menu.append(new MenuItem({
-      label: 'Uninstall'
-    }))
   }
 
   menu.append(new MenuItem({
