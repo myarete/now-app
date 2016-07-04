@@ -204,7 +204,7 @@ app.on('ready', () => {
     center: true
   })
 
-  onboarding.loadURL(`file://${__dirname}/../index.html`)
+  onboarding.loadURL(`file://${__dirname}/../pages/welcome.html`)
 
   tray.on('drop-files', (event, files) => {
     if (!isInstalled('now')) {
