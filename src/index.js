@@ -58,21 +58,22 @@ const setupMenu = isInstalling => {
   const menu = new Menu()
   const installed = isInstalled('now')
 
-  menu.append(new MenuItem({
-    label: process.platform === 'darwin' ? `About ${app.getName()}` : 'About',
-    role: 'about'
-  }))
+  if (installed) {
+    menu.append(new MenuItem({
+      label: process.platform === 'darwin' ? `About ${app.getName()}` : 'About',
+      role: 'about'
+    }))
 
-  menu.append(new MenuItem({
-    type: 'separator'
-  }))
-
-  if (!installed) {
+    menu.append(new MenuItem({
+      type: 'separator'
+    }))
+  } else {
     menu.append(new MenuItem({
       label: 'Get Started',
       click: () => onboarding.show()
     }))
 
+    /*
     if (!isInstalling) {
       menu.append(new MenuItem({
         label: 'Couldn\'t Find Module',
@@ -84,7 +85,7 @@ const setupMenu = isInstalling => {
       label: isInstalling ? 'Installing Module...' : 'Install',
       enabled: isInstalling ? false : true,
       click: installNow
-    }))
+    }))*/
   }
 
   menu.append(new MenuItem({
