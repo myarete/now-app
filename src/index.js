@@ -204,6 +204,8 @@ app.on('ready', () => {
     center: true
   })
 
+  onboarding.loadURL(`file://${__dirname}/../index.html`)
+
   tray.on('drop-files', (event, files) => {
     if (!isInstalled('now')) {
       return showError('The global package isn\'t installed. You need it for sharing stuff!')
