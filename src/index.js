@@ -10,13 +10,15 @@ import {
   MenuItem,
   dialog,
   shell,
-  clipboard
+  clipboard,
+  BrowserWindow
 } from 'electron'
 
 app.dock.hide()
 app.setName('Now')
 
-let tray
+let tray,
+    onboarding
 
 const showError = detail => dialog.showMessageBox({
   type: 'error',
@@ -66,15 +68,20 @@ const setupMenu = isInstalling => {
   }))
 
   if (!installed) {
+    menu.append(new MenuItem({
+      label: 'Get Started',
+      click: () => onboarding.show()
+    }))
+
     if (!isInstalling) {
       menu.append(new MenuItem({
-        label: 'Couldn\'t find module',
+        label: 'Couldn\'t Find Module',
         enabled: false
       }))
     }
 
     menu.append(new MenuItem({
-      label: isInstalling ? 'Installing module...' : 'Install',
+      label: isInstalling ? 'Installing Module...' : 'Install',
       enabled: isInstalling ? false : true,
       click: installNow
     }))
@@ -190,6 +197,12 @@ const sharePath = which => {
 
 app.on('ready', () => {
   tray = new Tray(path.join(__dirname + '/../assets', 'iconTemplate.png'))
+
+  onboarding = new BrowserWindow({
+    width: 800,
+    height: 600,
+    show: false
+  })
 
   tray.on('drop-files', (event, files) => {
     if (!isInstalled('now')) {
