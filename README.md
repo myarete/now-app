@@ -10,3 +10,9 @@ A macOS client that allows developers to access all of [ZEIT](https://zeit.co)'s
 4. Start the app: `npm start`
 
 As always, you can run the [AVA](https://github.com/sindresorhus/ava) and [ESLint](http://eslint.org) tests using: `npm test`
+
+## Credits
+
+- Copyright © 2016 Zeit, Inc. and project authors.
+- Licensed under MIT.
+- ▲
