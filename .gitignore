@@ -1,5 +1,6 @@
 # build output
 dist
+now-*
 
 # dependencies
 node_modules
