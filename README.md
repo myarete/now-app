@@ -15,4 +15,3 @@ As always, you can run the [AVA](https://github.com/sindresorhus/ava) and [ESLin
 
 - Copyright © 2016 Zeit, Inc. and project authors.
 - Licensed under MIT.
-- ▲
