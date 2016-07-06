@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Realtime instant deployment with a single command",
   "main": "dist/index",
+  "productName": "now",
   "scripts": {
     "start": "electron dist",
     "prepublish": "npm run build && npm run build-electron",
