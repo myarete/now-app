@@ -7,7 +7,7 @@
   "scripts": {
     "start": "electron dist",
     "build": "gulp transpile && npm run build-electron",
-    "build-electron": "electron-packager dist --platform=darwin --arch=all",
+    "build-electron": "electron-packager . --platform=darwin --arch=all --overwrite",
     "test": "ava && eslint lib/** test/**"
   },
   "babel": {
