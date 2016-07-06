@@ -6,9 +6,9 @@
   "productName": "now",
   "scripts": {
     "start": "electron dist",
-    "build": "npm run clean && gulp transpile && npm run build-electron",
+    "prebuild": "rm -rf now-darwin-x64 dist",
+    "build": "gulp transpile && npm run build-electron",
     "build-electron": "electron-packager . --platform=darwin --arch=all --overwrite",
-    "clean": "rm -rf now-darwin-x64 dist",
     "test": "ava && eslint lib/** test/**"
   },
   "babel": {
