@@ -7,21 +7,35 @@
     "start": "electron dist",
     "prepublish": "npm run build && npm run build-electron",
     "build": "gulp transpile",
-    "build-electron": "electron-packager dist $npm_package_productName --prune --asar"
+    "build-electron": "electron-packager dist $npm_package_productName --prune --asar",
+    "test": "ava && eslint lib/** test/**"
   },
   "babel": {
     "plugins": [
       "transform-es2015-modules-commonjs"
     ]
   },
+  "ava": {
+    "files": [
+      "test/*.js"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "default",
+    "parser": "babel-eslint"
+  },
   "keywords": [],
   "author": "leo",
   "license": "MIT",
   "devDependencies": {
+    "ava": "^0.15.2",
+    "babel-eslint": "^6.1.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.10.3",
     "babel-register": "^6.9.0",
     "electron-packager": "^7.1.0",
     "electron-prebuilt": "^1.2.5",
+    "eslint": "^3.0.1",
+    "eslint-config-default": "^0.2.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-cached": "^1.1.0"

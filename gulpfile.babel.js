@@ -2,7 +2,7 @@ import gulp from 'gulp'
 import babel from 'gulp-babel'
 import cache from 'gulp-cached'
 
-const path = 'src/**/*'
+const path = 'lib/**/*'
 
 gulp.task('transpile', () =>
   gulp.src(path)
