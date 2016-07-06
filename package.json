@@ -7,7 +7,7 @@
   "scripts": {
     "start": "electron dist",
     "build": "gulp transpile && npm run build-electron",
-    "build-electron": "electron-packager . --platform=darwin --arch=all --overwrite",
+    "build-electron": "rm -rf now-darwin-x64 && electron-packager . --platform=darwin --arch=all --overwrite",
     "test": "ava && eslint lib/** test/**"
   },
   "babel": {
@@ -41,8 +41,6 @@
     "babel-eslint": "^6.1.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.10.3",
     "babel-register": "^6.9.0",
-    "electron-packager": "^7.1.0",
-    "electron-prebuilt": "^1.2.5",
     "eslint": "^3.0.1",
     "eslint-config-default": "^0.2.1",
     "gulp": "^3.9.1",
@@ -51,6 +49,8 @@
   },
   "dependencies": {
     "display-notification": "^2.0.0",
+    "electron-packager": "^7.2.0",
+    "electron-prebuilt": "^1.2.6",
     "hasbin": "^1.2.3",
     "npm-registry-client": "^7.1.2"
   }
