@@ -1,7 +1,7 @@
 {
   "name": "now-app",
   "version": "0.1.0",
-  "description": "",
+  "description": "Realtime instant deployment with a single command",
   "main": "dist/index",
   "scripts": {
     "start": "electron dist",
@@ -24,7 +24,16 @@
     "extends": "default",
     "parser": "babel-eslint"
   },
-  "keywords": [],
+  "keywords": [
+    "realtime",
+    "instant",
+    "deployment",
+    "command",
+    "cli",
+    "zeit",
+    "inc",
+    "publish"
+  ],
   "author": "leo",
   "license": "MIT",
   "devDependencies": {
