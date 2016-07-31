@@ -9,21 +9,22 @@
     "prebuild": "rm -rf now-darwin-x64 dist",
     "build": "gulp transpile && npm run build-electron",
     "build-electron": "electron-packager . --platform=darwin --arch=all --overwrite",
-    "test": "ava && eslint lib/** test/**"
+    "test": "ava && xo"
   },
   "babel": {
     "plugins": [
       "transform-es2015-modules-commonjs"
     ]
   },
+  "xo": {
+    "esnext": true,
+    "space": true,
+    "semicolon": false
+  },
   "ava": {
     "files": [
       "test/*.js"
     ]
-  },
-  "eslintConfig": {
-    "extends": "default",
-    "parser": "babel-eslint"
   },
   "keywords": [
     "realtime",
@@ -39,14 +40,12 @@
   "license": "MIT",
   "devDependencies": {
     "ava": "^0.15.2",
-    "babel-eslint": "^6.1.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.10.3",
     "babel-register": "^6.9.0",
-    "eslint": "^3.0.1",
-    "eslint-config-default": "^0.2.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
-    "gulp-cached": "^1.1.0"
+    "gulp-cached": "^1.1.0",
+    "xo": "^0.16.0"
   },
   "dependencies": {
     "display-notification": "^2.0.0",
