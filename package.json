@@ -19,7 +19,11 @@
   "xo": {
     "esnext": true,
     "space": true,
-    "semicolon": false
+    "semicolon": false,
+    "rules": {
+      "import/no-extraneous-dependencies": 0,
+      "ava/no-ignored-test-files": 0
+    }
   },
   "ava": {
     "files": [
