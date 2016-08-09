@@ -9,7 +9,7 @@ A macOS client that allows developers to access all of [ZEIT](https://zeit.co)'s
 3. Transpile the source code and watch for changes: `gulp`
 4. Start the app: `npm start`
 
-As always, you can run the [AVA](https://github.com/sindresorhus/ava) and [ESLint](http://eslint.org) tests using: `npm test`
+As always, you can run the tests using: `npm test`
 
 ## Credits
 
