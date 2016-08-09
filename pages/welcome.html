@@ -8,6 +8,9 @@
         background: #000;
         font-family: 'SF UI Text';
         -webkit-font-smoothing: antialiased;
+        -webkit-app-region: drag;
+        color: #fff;
+        margin: 0;
       }
 
       #window-title {
@@ -23,10 +26,29 @@
 
       #window-title h1 {
         margin: 0;
-        color: #fff;
+        color: #9B9B9B;
         font-size: 12px;
         letter-spacing: 0.02em;
         font-weight: 400;
+      }
+
+      #content section {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      #intro h1 {
+        font-size: 15px;
+        font-weight: 400;
+      }
+
+      #intro img {
+        width: 100px;
+        margin-bottom: 25px;
       }
     </style>
   </head>
@@ -38,6 +60,7 @@
 
     <section id="content">
       <section id="intro">
+        <img src="./vectors/logo.svg" />
         <h1><b>now:</b> realtime deployments made easy</h1>
       </section>
 
