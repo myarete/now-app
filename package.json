@@ -43,7 +43,7 @@
   "author": "leo",
   "license": "MIT",
   "devDependencies": {
-    "ava": "^0.15.2",
+    "ava": "^0.16.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.10.3",
     "babel-register": "^6.9.0",
     "gulp": "^3.9.1",
