@@ -13,7 +13,8 @@
   },
   "babel": {
     "plugins": [
-      "transform-es2015-modules-commonjs"
+      "transform-es2015-modules-commonjs",
+      "transform-async-to-generator"
     ]
   },
   "xo": {
@@ -44,6 +45,7 @@
   "license": "MIT",
   "devDependencies": {
     "ava": "^0.16.0",
+    "babel-plugin-transform-async-to-generator": "^6.8.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.10.3",
     "babel-register": "^6.9.0",
     "gulp": "^3.9.1",
@@ -55,7 +57,9 @@
     "display-notification": "^2.0.0",
     "electron-packager": "^7.2.0",
     "electron-prebuilt": "^1.2.6",
-    "hasbin": "^1.2.3",
-    "npm-registry-client": "^7.1.2"
+    "now-api": "^0.3.0",
+    "npm-registry-client": "^7.1.2",
+    "path-exists": "^3.0.0",
+    "user-home": "^2.0.0"
   }
 }
