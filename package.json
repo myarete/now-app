@@ -54,11 +54,15 @@
     "xo": "^0.16.0"
   },
   "dependencies": {
+    "denodeify": "^1.2.1",
     "display-notification": "^2.0.0",
     "electron-packager": "^7.2.0",
     "electron-prebuilt": "^1.2.6",
+    "file-exists": "^2.0.0",
+    "istextorbinary": "^2.1.0",
     "now-api": "^0.3.0",
     "path-exists": "^3.0.0",
-    "user-home": "^2.0.0"
+    "user-home": "^2.0.0",
+    "walk": "^2.3.9"
   }
 }
