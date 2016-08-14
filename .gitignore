@@ -1,5 +1,5 @@
 # build output
-dist
+app/lib
 
 # dependencies
 node_modules

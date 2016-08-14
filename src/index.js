@@ -83,7 +83,7 @@ app.on('ready', async () => {
   // DO NOT create the tray icon BEFORE the login status has been checked!
   // Otherwise, the user will start clicking...
   // ...the icon and the app wouldn't know what to do
-  const tray = new Tray(path.join(__dirname, '/../assets', 'iconTemplate.png'))
+  const tray = new Tray(path.join(__dirname, '/../icons', 'iconTemplate.png'))
 
   if (loggedIn) {
     tray.on('drop-files', fileDropped)

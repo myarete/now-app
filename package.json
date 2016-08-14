@@ -5,10 +5,11 @@
   "main": "dist/index",
   "productName": "now",
   "scripts": {
-    "start": "electron dist",
-    "prebuild": "rm -rf now-darwin-x64 dist",
+    "start": "electron app/lib",
+    "prebuild": "rm -rf now-darwin-x64 app/lib",
+    "watch": "gulp",
     "build": "gulp transpile && npm run build-electron",
-    "build-electron": "electron-packager . --platform=darwin --arch=all --overwrite",
+    "build-electron": "electron-packager app --platform=darwin --arch=all --overwrite",
     "test": "ava && xo"
   },
   "babel": {
