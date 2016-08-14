@@ -12,17 +12,16 @@ import menuItems from './menu'
 import {error as showError} from './dialogs'
 import share from './actions/share'
 
-// Get path of config file
-const configFile = path.join(userHome, '.now.json')
-let loggedIn = false
-
 // Prevent garbage collection
 // Otherwise the tray icon would randomly hide after some time
 let tray = null
+let loggedIn = false
 
 // Hide dock icon and set app name
 app.dock.hide()
 app.setName('Now')
+
+const configFile = path.join(userHome, '.now.json')
 
 const onboarding = () => {
   const win = new BrowserWindow({
