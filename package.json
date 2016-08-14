@@ -5,9 +5,7 @@
     "start": "electron app/lib",
     "postinstall": "install-app-deps",
     "dev": "gulp",
-    "build": "npm run build-gulp && npm run build-electron",
-    "build-gulp": "gulp transpile",
-    "build-electron": "electron-packager app --platform=darwin --arch=all --overwrite",
+    "build": "gulp transpile",
     "test": "ava && xo",
     "pack": "npm run build && build --dir"
   },
@@ -17,7 +15,8 @@
   },
   "build": {
     "appId": "co.zeit.now",
-    "category": "public.app-category.developer-tools"
+    "category": "public.app-category.developer-tools",
+    "asar": false
   },
   "babel": {
     "plugins": [
