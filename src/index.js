@@ -158,6 +158,7 @@ app.on('ready', async () => {
 
     let submenuShown = false
 
+    // Ability to close the app when logged out
     tray.on('right-click', async event => {
       const menu = Menu.buildFromTemplate([
         {
@@ -167,8 +168,10 @@ app.on('ready', async () => {
         }
       ])
 
-      // Toggle highlight mode
-      toggleHighlight()
+      // Toggle highlight mode if tutorial isn't visible
+      if (!tutorial.isVisible()) {
+        toggleHighlight()
+      }
 
       // Toggle submenu
       tray.popUpContextMenu(submenuShown ? null : menu)
