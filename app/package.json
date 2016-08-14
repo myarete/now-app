@@ -1,0 +1,28 @@
+{
+  "name": "now-app",
+  "productName": "Now",
+  "description": "Realtime node deployments made easy",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": {
+    "name": "Leo Lamprecht",
+    "email": "leo@zeit.co"
+  },
+  "repository": "zeit/now-app",
+  "homepage": "https://zeit.co/now",
+  "dependencies": {
+    "dasherize": "^2.0.0",
+    "denodeify": "^1.2.1",
+    "display-notification": "^2.0.0",
+    "file-exists": "^2.0.0",
+    "fs-extra": "^0.30.0",
+    "glob": "^7.0.5",
+    "is-directory": "^0.3.1",
+    "istextorbinary": "^2.1.0",
+    "md5": "^2.1.0",
+    "now-api": "^0.3.0",
+    "path-exists": "^3.0.0",
+    "tmp": "0.0.28",
+    "user-home": "^2.0.0"
+  }
+}
