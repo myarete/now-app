@@ -16,6 +16,10 @@ import {share} from './actions'
 const configFile = path.join(userHome, '.now.json')
 let loggedIn = false
 
+// Prevent garbage collection
+// Otherwise the tray icon would randomly hide after some time
+let tray = null
+
 // Hide dock icon and set app name
 app.dock.hide()
 app.setName('Now')
@@ -83,7 +87,7 @@ app.on('ready', async () => {
   // DO NOT create the tray icon BEFORE the login status has been checked!
   // Otherwise, the user will start clicking...
   // ...the icon and the app wouldn't know what to do
-  const tray = new Tray(path.join(__dirname, '/../icons', 'iconTemplate.png'))
+  tray = new Tray(path.join(__dirname, '/../icons', 'iconTemplate.png'))
 
   if (loggedIn) {
     tray.on('drop-files', fileDropped)
