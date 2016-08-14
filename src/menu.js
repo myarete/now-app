@@ -43,7 +43,7 @@ export default async app => {
         },
         {
           label: 'Logout',
-          click: logout
+          click: () => logout(app)
         }
       ]
     },
