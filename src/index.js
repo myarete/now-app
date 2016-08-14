@@ -155,5 +155,26 @@ app.on('ready', async () => {
       // Don't open the menu
       event.preventDefault()
     })
+
+    let submenuShown = false
+
+    tray.on('right-click', async event => {
+      const menu = Menu.buildFromTemplate([
+        {
+          label: process.platform === 'darwin' ? `Quit ${app.getName()}` : 'Quit',
+          click: app.quit,
+          role: 'quit'
+        }
+      ])
+
+      // Toggle highlight mode
+      toggleHighlight()
+
+      // Toggle submenu
+      tray.popUpContextMenu(submenuShown ? null : menu)
+      submenuShown = !submenuShown
+
+      event.preventDefault()
+    })
   }
 })
