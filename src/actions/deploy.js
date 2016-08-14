@@ -4,30 +4,21 @@ import fs from 'fs-extra'
 
 // Packages
 import fileExists from 'file-exists'
+import {Glob} from 'glob'
 import toPromise from 'denodeify'
-import notify from 'display-notification'
+import isDirectory from 'is-directory'
 import {isText} from 'istextorbinary'
 import {clipboard, shell} from 'electron'
-import tmp from 'tmp'
-import md5 from 'md5'
-import isDirectory from 'is-directory'
-import {Glob} from 'glob'
-import dasherize from 'dasherize'
+import notify from 'display-notification'
 
 // Ours
-import session from './api'
-import injectPackage from './utils/inject'
-import copyContents from './utils/copy'
+import session from '../api'
 
 const ignoredFiles = [
   '.DS_Store'
 ]
 
-export function logout() {
-  console.log('logged out')
-}
-
-export function deploy(folder, sharing) {
+export default (folder, sharing) => {
   const details = {}
 
   const dir = path.resolve(folder)
@@ -159,56 +150,4 @@ export function deploy(folder, sharing) {
     // Trigger an error if the deployment didn't work
     console.error('Not able to deploy')
   })
-}
-
-export async function share(item) {
-  const uniqueIdentifier = md5(item)
-  const itemName = path.parse(item).name
-
-  const pkgDefaults = {
-    name: dasherize(itemName),
-    version: '1.0.0',
-    scripts: {
-      start: 'list ./content'
-    },
-    dependencies: {
-      'micro-list': 'latest'
-    }
-  }
-
-  let tmpDir = false
-
-  try {
-    tmpDir = await toPromise(tmp.dir)({
-      // We need to use the hased directory identifier
-      // Because if we don't use the same id every time,
-      // now won't update the existing deployment and create a new one instead
-      name: `now-app-${uniqueIdentifier}`,
-
-      // Keep it, because we'll remove it manually later
-      keep: true
-    })
-  } catch (err) {
-    throw err
-  }
-
-  console.log('Created temporary directory for sharing')
-  const details = fs.lstatSync(item)
-
-  if (details.isDirectory()) {
-    copyContents(item, tmpDir, pkgDefaults)
-  } else if (details.isFile()) {
-    const fileName = path.parse(item).base
-    const target = path.join(tmpDir, '/content', fileName)
-
-    fs.copy(item, target, err => {
-      if (err) {
-        throw err
-      }
-
-      injectPackage(tmpDir, pkgDefaults)
-    })
-  } else {
-    console.error('Path is neither a file nor a directory!')
-  }
 }

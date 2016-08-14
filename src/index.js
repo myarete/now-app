@@ -10,7 +10,7 @@ import Now from 'now-api'
 // Ours
 import menuItems from './menu'
 import {error as showError} from './dialogs'
-import {share} from './actions'
+import share from './actions/share'
 
 // Get path of config file
 const configFile = path.join(userHome, '.now.json')

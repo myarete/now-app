@@ -2,10 +2,8 @@
 import {dialog} from 'electron'
 
 // Ours
-import {
-  deploy as deployment,
-  share as sharing
-} from './actions'
+import deployment from './actions/deploy'
+import sharing from './actions/share'
 
 const showDialog = details => {
   const filePath = dialog.showOpenDialog(details)

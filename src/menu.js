@@ -3,7 +3,7 @@ import {shell} from 'electron'
 
 // Ours
 import {deploy, share} from './dialogs'
-import {logout} from './actions'
+import logout from './actions/logout'
 
 export default async app => {
   return [

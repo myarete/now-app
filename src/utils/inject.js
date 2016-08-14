@@ -5,7 +5,7 @@ import path from 'path'
 import fs from 'fs-extra'
 
 // Ours
-import {deploy} from '../actions'
+import deploy from '../actions/deploy'
 
 export default (tmpDir, defaults) => {
   const pkgPath = path.join(tmpDir, 'package.json')
