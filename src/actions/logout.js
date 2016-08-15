@@ -19,7 +19,7 @@ export default async app => {
   try {
     await fs.remove(configFile)
   } catch (err) {
-    return console.error(err)
+    return showError(err)
   }
 
   // Restart the application

@@ -6,6 +6,7 @@ import {Glob} from 'glob'
 import fs from 'fs-promise'
 
 // Ours
+import {error as showError} from '../dialogs'
 import injectPackage from './inject'
 
 export default (content, tmp, defaults) => {
@@ -30,7 +31,7 @@ export default (content, tmp, defaults) => {
     try {
       await fs.copy(file, target)
     } catch (err) {
-      throw err
+      return showError(err)
     }
 
     walker.resume()

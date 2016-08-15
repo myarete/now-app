@@ -12,7 +12,7 @@ const showDialog = details => {
     return filePath[0]
   }
 
-  console.error('No file patch received...')
+  error('No file path received...')
 }
 
 export async function share() {
@@ -34,7 +34,7 @@ export async function share() {
   try {
     await sharing(path)
   } catch (err) {
-    console.error(err)
+    error(err)
   }
 }
 
@@ -50,7 +50,11 @@ export async function deploy() {
   const path = showDialog(info)
 
   if (path) {
-    await deployment(path)
+    try {
+      await deployment(path)
+    } catch (err) {
+      error(err)
+    }
   }
 }
 

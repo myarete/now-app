@@ -12,6 +12,7 @@ import osTmpDir from 'os-tmpdir'
 // Ours
 import injectPackage from '../utils/inject'
 import copyContents from '../utils/copy'
+import {error as showError} from '../dialogs'
 
 export default async item => {
   const uniqueIdentifier = md5(item)
@@ -47,7 +48,7 @@ export default async item => {
       try {
         await fs.remove(created)
       } catch (err) {
-        console.error(err)
+        showError(err)
       }
     }
   })
@@ -64,11 +65,11 @@ export default async item => {
     try {
       await fs.copy(item, target)
     } catch (err) {
-      return console.error(err)
+      return showError(err)
     }
 
     await injectPackage(tmpDir.path, pkgDefaults)
   } else {
-    console.error('Path is neither a file nor a directory!')
+    showError('Path is neither a file nor a directory!')
   }
 }

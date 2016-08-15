@@ -12,6 +12,7 @@ import notify from 'display-notification'
 
 // Ours
 import session from '../api'
+import {error as showError} from '../dialogs'
 
 const ignoredFiles = [
   '.DS_Store'
@@ -25,8 +26,7 @@ export default async (folder, sharing) => {
 
   // Ignore the project if there's no package file
   if (!await pathExists(pkgFile)) {
-    console.log('Not a node project!')
-    return false
+    showError('Not a node project!')
   }
 
   // Load the package file
@@ -50,8 +50,7 @@ export default async (folder, sharing) => {
     try {
       isDir = await isDirectory(itemPath)
     } catch (err) {
-      console.error(err)
-      return
+      return showError(err)
     }
 
     if (!isDir && !ignoredFiles.includes(fileName) && item !== 'package.json') {
@@ -60,7 +59,7 @@ export default async (folder, sharing) => {
       try {
         fileContent = await fs.readFile(itemPath)
       } catch (err) {
-        console.error(err)
+        showError(err)
         walker.resume()
         return
       }
@@ -90,8 +89,7 @@ export default async (folder, sharing) => {
     try {
       deployment = await apiSession.createDeployment(details)
     } catch (err) {
-      console.error(err)
-      return
+      return showError(err)
     }
 
     if (deployment) {
@@ -103,8 +101,7 @@ export default async (folder, sharing) => {
         try {
           current = await apiSession.getDeployment(deployment.uid)
         } catch (err) {
-          console.error(err)
-          return
+          return showError(err)
         }
 
         if (current.state === 'READY') {
@@ -137,7 +134,7 @@ export default async (folder, sharing) => {
         try {
           await fs.remove(folder)
         } catch (err) {
-          console.error(err)
+          return showError(err)
         }
 
         console.log('Removed temporary folder')
@@ -147,6 +144,6 @@ export default async (folder, sharing) => {
     }
 
     // Trigger an error if the deployment didn't work
-    console.error('Not able to deploy')
+    showError('Not able to deploy')
   })
 }
