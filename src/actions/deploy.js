@@ -92,9 +92,18 @@ export default async (folder, sharing) => {
       return showError(err)
     }
 
-    if (deployment) {
-      const url = 'https://' + deployment.host
+    if (!deployment) {
+      // Trigger an error if the deployment didn't work
+      showError('Not able to deploy')
+    }
 
+    const url = 'https://' + deployment.host
+
+    if (deployment.state === 'READY') {
+      // Open the URL in the default browser
+      shell.openExternal(url)
+    } else {
+      // If the deployment isn't ready, regularly check for the state
       const checker = setInterval(async () => {
         let current
 
@@ -119,31 +128,34 @@ export default async (folder, sharing) => {
         // Log the current state of the deployment
         console.log(current)
       }, 5000)
-
-      // Copy deployment URL to clipboard
-      clipboard.writeText(url)
-
-      // Let the user now
-      notify({
-        title: (sharing ? 'Sharing' : 'Deploying') + '...',
-        text: 'Your clipboard already contains the URL.'
-      })
-
-      // Delete the local deployed directory if required
-      if (sharing) {
-        try {
-          await fs.remove(folder)
-        } catch (err) {
-          return showError(err)
-        }
-
-        console.log('Removed temporary folder')
-      }
-
-      return
     }
 
-    // Trigger an error if the deployment didn't work
-    showError('Not able to deploy')
+    // Copy deployment URL to clipboard
+    clipboard.writeText(url)
+
+    const genTitle = () => {
+      if (deployment.state === 'READY') {
+        return 'Already deployed!'
+      }
+
+      return (sharing ? 'Sharing' : 'Deploying') + '...'
+    }
+
+    // Let the user now
+    notify({
+      title: genTitle(),
+      text: 'Your clipboard already contains the URL.'
+    })
+
+    // Delete the local deployed directory if required
+    if (sharing) {
+      try {
+        await fs.remove(folder)
+      } catch (err) {
+        return showError(err)
+      }
+
+      console.log('Removed temporary folder')
+    }
   })
 }
