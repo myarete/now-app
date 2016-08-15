@@ -16,7 +16,7 @@
     "denodeify": "^1.2.1",
     "display-notification": "^2.0.0",
     "file-exists": "^2.0.0",
-    "fs-extra": "^0.30.0",
+    "fs-promise": "^0.5.0",
     "glob": "^7.0.5",
     "is-directory": "^0.3.1",
     "istextorbinary": "^2.1.0",

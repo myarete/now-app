@@ -1,6 +1,6 @@
 // Native
 import path from 'path'
-import fs from 'fs-extra'
+import fs from 'fs-promise'
 
 // Packages
 import md5 from 'md5'
@@ -44,7 +44,7 @@ export default async item => {
   }
 
   console.log('Created temporary directory for sharing')
-  const details = fs.lstatSync(item)
+  const details = await fs.lstat(item)
 
   if (details.isDirectory()) {
     copyContents(item, tmpDir, pkgDefaults)
@@ -52,13 +52,13 @@ export default async item => {
     const fileName = path.parse(item).base
     const target = path.join(tmpDir, '/content', fileName)
 
-    fs.copy(item, target, err => {
-      if (err) {
-        throw err
-      }
+    try {
+      await fs.copy(item, target)
+    } catch (err) {
+      throw err
+    }
 
-      injectPackage(tmpDir, pkgDefaults)
-    })
+    await injectPackage(tmpDir, pkgDefaults)
   } else {
     console.error('Path is neither a file nor a directory!')
   }

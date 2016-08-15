@@ -2,19 +2,19 @@
 import path from 'path'
 
 // Packages
-import fs from 'fs-extra'
+import fs from 'fs-promise'
 
 // Ours
 import deploy from '../actions/deploy'
 
-export default (tmpDir, defaults) => {
+export default async (tmpDir, defaults) => {
   const pkgPath = path.join(tmpDir, 'package.json')
 
-  fs.writeJSON(pkgPath, defaults, err => {
-    if (err) {
-      throw err
-    }
+  try {
+    await fs.writeJSON(pkgPath, defaults)
+  } catch (err) {
+    throw err
+  }
 
-    deploy(tmpDir, true)
-  })
+  deploy(tmpDir, true)
 }

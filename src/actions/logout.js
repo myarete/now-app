@@ -1,11 +1,10 @@
 // Native
 import path from 'path'
-import fs from 'fs-extra'
+import fs from 'fs-promise'
 
 // Packages
 import userHome from 'user-home'
 import pathExists from 'path-exists'
-import toPromise from 'denodeify'
 
 // Ours
 import {error as showError} from '../dialogs'
@@ -18,7 +17,7 @@ export default async app => {
   }
 
   try {
-    await toPromise(fs.remove)(configFile)
+    await fs.remove(configFile)
   } catch (err) {
     return console.error(err)
   }

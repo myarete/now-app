@@ -3,7 +3,7 @@ import path from 'path'
 
 // Packages
 import {Glob} from 'glob'
-import fs from 'fs-extra'
+import fs from 'fs-promise'
 
 // Ours
 import injectPackage from './inject'
@@ -20,21 +20,21 @@ export default (content, tmp, defaults) => {
     ]
   })
 
-  walker.on('match', item => {
+  walker.on('match', async item => {
     walker.pause()
 
     const file = path.join(content, item)
     const target = path.join(tmp + '/content', path.relative(content, file))
 
     // Once a file is found, copy it to the temp directory
-    fs.copy(file, target, err => {
-      if (err) {
-        throw err
-      }
+    try {
+      await fs.copy(file, target)
+    } catch (err) {
+      throw err
+    }
 
-      walker.resume()
-    })
+    walker.resume()
   })
 
-  walker.on('end', () => injectPackage(tmp, defaults))
+  walker.on('end', async () => await injectPackage(tmp, defaults))
 }

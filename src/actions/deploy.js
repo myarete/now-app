@@ -1,6 +1,6 @@
 // Native
 import path from 'path'
-import fs from 'fs-extra'
+import fs from 'fs-promise'
 
 // Packages
 import fileExists from 'file-exists'
@@ -59,7 +59,7 @@ export default (folder, sharing) => {
       let fileContent
 
       try {
-        fileContent = await toPromise(fs.readFile)(itemPath)
+        fileContent = await fs.readFile(itemPath)
       } catch (err) {
         console.error(err)
         walker.resume()
@@ -135,13 +135,13 @@ export default (folder, sharing) => {
 
       // Delete the local deployed directory if required
       if (sharing) {
-        fs.remove(folder, err => {
-          if (err) {
-            console.error(err)
-          }
+        try {
+          await fs.remove(folder)
+        } catch (err) {
+          console.error(err)
+        }
 
-          console.log('Removed temporary folder')
-        })
+        console.log('Removed temporary folder')
       }
 
       return
