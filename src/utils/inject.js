@@ -16,5 +16,5 @@ export default async (tmpDir, defaults) => {
     throw err
   }
 
-  deploy(tmpDir, true)
+  await deploy(tmpDir, true)
 }

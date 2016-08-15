@@ -45,7 +45,7 @@ const fileDropped = async (event, files) => {
     return showError('It\'s not yet possible to share multiple files/directories at once.')
   }
 
-  share(files[0])
+  await share(files[0])
   event.preventDefault()
 }
 

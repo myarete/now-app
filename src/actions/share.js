@@ -5,8 +5,7 @@ import fs from 'fs-promise'
 // Packages
 import md5 from 'md5'
 import dasherize from 'dasherize'
-import toPromise from 'denodeify'
-import tmp from 'tmp'
+import tmp from 'tmp-promise'
 
 // Ours
 import injectPackage from '../utils/inject'
@@ -27,10 +26,12 @@ export default async item => {
     }
   }
 
+  console.log(item)
+
   let tmpDir = false
 
   try {
-    tmpDir = await toPromise(tmp.dir)({
+    tmpDir = await tmp.dir({
       // We need to use the hased directory identifier
       // Because if we don't use the same id every time,
       // now won't update the existing deployment and create a new one instead
@@ -40,7 +41,7 @@ export default async item => {
       keep: true
     })
   } catch (err) {
-    throw err
+    return console.error(err)
   }
 
   console.log('Created temporary directory for sharing')

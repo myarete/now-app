@@ -38,7 +38,7 @@ export async function share() {
   }
 }
 
-export function deploy() {
+export async function deploy() {
   const info = {
     title: 'Select a folder to deploy',
     properties: [
@@ -50,7 +50,7 @@ export function deploy() {
   const path = showDialog(info)
 
   if (path) {
-    deployment(path)
+    await deployment(path)
   }
 }
 

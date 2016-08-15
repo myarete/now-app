@@ -22,7 +22,7 @@ export default async app => {
     {
       label: 'Deploy...',
       accelerator: 'CmdOrCtrl+D',
-      click: deploy
+      click: await deploy
     },
     {
       type: 'separator'

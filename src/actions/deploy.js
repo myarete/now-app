@@ -3,11 +3,10 @@ import path from 'path'
 import fs from 'fs-promise'
 
 // Packages
-import fileExists from 'file-exists'
+import pathExists from 'path-exists'
 import {Glob} from 'glob'
-import toPromise from 'denodeify'
-import isDirectory from 'is-directory'
-import {isText} from 'istextorbinary'
+import {dir as isDirectory} from 'path-type'
+import {isTextSync as isText} from 'istextorbinary'
 import {clipboard, shell} from 'electron'
 import notify from 'display-notification'
 
@@ -18,14 +17,14 @@ const ignoredFiles = [
   '.DS_Store'
 ]
 
-export default (folder, sharing) => {
+export default async (folder, sharing) => {
   const details = {}
 
   const dir = path.resolve(folder)
   const pkgFile = path.join(dir, 'package.json')
 
   // Ignore the project if there's no package file
-  if (!fileExists(pkgFile)) {
+  if (!await pathExists(pkgFile)) {
     console.log('Not a node project!')
     return false
   }
@@ -49,7 +48,7 @@ export default (folder, sharing) => {
     let isDir
 
     try {
-      isDir = await toPromise(isDirectory)(itemPath)
+      isDir = await isDirectory(itemPath)
     } catch (err) {
       console.error(err)
       return
@@ -67,7 +66,7 @@ export default (folder, sharing) => {
       }
 
       // Find out if the file is text-based or binary
-      const fileIsText = await toPromise(isText)(fileName, fileContent)
+      const fileIsText = isText(fileName, fileContent)
 
       // If its a binary one, ignore it
       // This is just temporary, we need to support them later

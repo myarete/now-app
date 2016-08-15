@@ -13,17 +13,15 @@
   "homepage": "https://zeit.co/now",
   "dependencies": {
     "dasherize": "^2.0.0",
-    "denodeify": "^1.2.1",
     "display-notification": "^2.0.0",
-    "file-exists": "^2.0.0",
     "fs-promise": "^0.5.0",
     "glob": "^7.0.5",
-    "is-directory": "^0.3.1",
     "istextorbinary": "^2.1.0",
     "md5": "^2.1.0",
     "now-api": "^0.3.0",
     "path-exists": "^3.0.0",
-    "tmp": "0.0.28",
+    "path-type": "^1.1.0",
+    "tmp-promise": "^1.0.2",
     "user-home": "^2.0.0"
   }
 }
