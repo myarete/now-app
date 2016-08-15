@@ -9,6 +9,7 @@ import {dir as isDirectory} from 'path-type'
 import {isTextSync as isText} from 'istextorbinary'
 import {clipboard, shell} from 'electron'
 import notify from 'display-notification'
+import chalk from 'chalk'
 
 // Ours
 import session from '../api'
@@ -29,8 +30,15 @@ export default async (folder, sharing) => {
     showError('Not a node project!')
   }
 
+  // Log separator
+  if (!sharing) {
+    console.log(chalk.grey('---'))
+  }
+
   // Load the package file
   details.package = require(pkgFile)
+
+  const logStatus = message => console.log(chalk.yellow(`[${details.package.name}]`) + ' ' + message)
 
   const walker = new Glob('**', {
     cwd: dir,
@@ -102,6 +110,9 @@ export default async (folder, sharing) => {
     if (deployment.state === 'READY') {
       // Open the URL in the default browser
       shell.openExternal(url)
+
+      // Log the current state of the deployment
+      logStatus(deployment.state)
     } else {
       // If the deployment isn't ready, regularly check for the state
       const checker = setInterval(async () => {
@@ -126,7 +137,7 @@ export default async (folder, sharing) => {
         }
 
         // Log the current state of the deployment
-        console.log(current)
+        logStatus(current.state)
       }, 5000)
     }
 
@@ -155,7 +166,7 @@ export default async (folder, sharing) => {
         return showError(err)
       }
 
-      console.log('Removed temporary folder')
+      logStatus('Removed temporary directory')
     }
   })
 }

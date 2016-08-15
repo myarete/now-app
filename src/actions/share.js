@@ -8,6 +8,7 @@ import dasherize from 'dasherize'
 import tmp from 'tmp-promise'
 import retry from 'async-retry'
 import osTmpDir from 'os-tmpdir'
+import chalk from 'chalk'
 
 // Ours
 import injectPackage from '../utils/inject'
@@ -53,7 +54,10 @@ export default async item => {
     }
   })
 
-  console.log('Created temporary directory for sharing')
+  // Log status of deployment
+  console.log(chalk.grey('---'))
+  console.log(chalk.yellow(`[${pkgDefaults.name}]`) + ' Created temporary directory for sharing')
+
   const details = await fs.lstat(item)
 
   if (details.isDirectory()) {
