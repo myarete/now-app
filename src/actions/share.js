@@ -6,6 +6,8 @@ import fs from 'fs-promise'
 import md5 from 'md5'
 import dasherize from 'dasherize'
 import tmp from 'tmp-promise'
+import retry from 'async-retry'
+import osTmpDir from 'os-tmpdir'
 
 // Ours
 import injectPackage from '../utils/inject'
@@ -26,40 +28,46 @@ export default async item => {
     }
   }
 
-  console.log(item)
+  const identifier = 'now-app-' + uniqueIdentifier
 
-  let tmpDir = false
+  const tmpDir = await retry(async () => await tmp.dir({
+    // We need to use the hased directory identifier
+    // Because if we don't use the same id every time,
+    // now won't update the existing deployment and create a new one instead
+    name: identifier,
 
-  try {
-    tmpDir = await tmp.dir({
-      // We need to use the hased directory identifier
-      // Because if we don't use the same id every time,
-      // now won't update the existing deployment and create a new one instead
-      name: `now-app-${uniqueIdentifier}`,
+    // Keep it, because we'll remove it manually later
+    keep: true
+  }), {
+    retries: 5,
+    onRetry: async () => {
+      const root = osTmpDir()
+      const created = path.join(root, identifier)
 
-      // Keep it, because we'll remove it manually later
-      keep: true
-    })
-  } catch (err) {
-    return console.error(err)
-  }
+      try {
+        await fs.remove(created)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+  })
 
   console.log('Created temporary directory for sharing')
   const details = await fs.lstat(item)
 
   if (details.isDirectory()) {
-    copyContents(item, tmpDir, pkgDefaults)
+    copyContents(item, tmpDir.path, pkgDefaults)
   } else if (details.isFile()) {
     const fileName = path.parse(item).base
-    const target = path.join(tmpDir, '/content', fileName)
+    const target = path.join(tmpDir.path, '/content', fileName)
 
     try {
       await fs.copy(item, target)
     } catch (err) {
-      throw err
+      return console.error(err)
     }
 
-    await injectPackage(tmpDir, pkgDefaults)
+    await injectPackage(tmpDir.path, pkgDefaults)
   } else {
     console.error('Path is neither a file nor a directory!')
   }

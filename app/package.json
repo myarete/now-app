@@ -12,6 +12,7 @@
   "repository": "zeit/now-app",
   "homepage": "https://zeit.co/now",
   "dependencies": {
+    "async-retry": "^0.2.1",
     "dasherize": "^2.0.0",
     "display-notification": "^2.0.0",
     "fs-promise": "^0.5.0",
@@ -19,6 +20,7 @@
     "istextorbinary": "^2.1.0",
     "md5": "^2.1.0",
     "now-api": "^0.3.0",
+    "os-tmpdir": "^1.0.1",
     "path-exists": "^3.0.0",
     "path-type": "^1.1.0",
     "tmp-promise": "^1.0.2",
