@@ -38,6 +38,9 @@
       "test/*.js"
     ]
   },
+  "greenkeeper": {
+    "emails": false
+  },
   "license": "MIT",
   "devDependencies": {
     "ava": "^0.16.0",
