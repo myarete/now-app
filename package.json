@@ -27,6 +27,10 @@
     "esnext": true,
     "space": true,
     "semicolon": false,
+    "env": [
+      "browser",
+      "node"
+    ],
     "rules": {
       "import/no-extraneous-dependencies": 0,
       "ava/no-ignored-test-files": 0
