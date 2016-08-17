@@ -4,7 +4,7 @@ import nodeResolve from 'rollup-plugin-node-resolve'
 
 export default {
   entry: './app/react/index.js',
-  dest: './app/dist/front/app.js',
+  dest: './app/dist/react.js',
   plugins: [
     nodeResolve({
       jsnext: true,
