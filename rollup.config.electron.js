@@ -5,7 +5,6 @@ export default {
   dest: './app/dist/electron.js',
   plugins: [
     babel({
-      babelrc: false,
       presets: [
         'es2015-rollup'
       ],
