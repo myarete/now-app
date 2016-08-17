@@ -1,6 +1,7 @@
 {
   "name": "now-app",
   "version": "0.1.0",
+  "repository": "zeit/now-app",
   "scripts": {
     "start": "electron app/dist/electron",
     "postinstall": "install-app-deps",
