@@ -5,7 +5,7 @@
   "scripts": {
     "start": "electron app/dist/electron",
     "postinstall": "install-app-deps",
-    "watch": "concurrently 'npm run watch-front' 'npm run watch-back'",
+    "watch": "concurrently -k 'npm run watch-front' 'npm run watch-back' -p '[{name}]' -n 'react,electron'",
     "watch-front": "npm run build-front -- -w",
     "watch-back": "npm run build-back -- -w",
     "build": "npm run build-front && npm run build-back",
