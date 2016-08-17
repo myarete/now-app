@@ -3,7 +3,7 @@ import commonjs from 'rollup-plugin-commonjs'
 import nodeResolve from 'rollup-plugin-node-resolve'
 
 export default {
-  entry: './app/react/index.js',
+  entry: './src/react/index.js',
   dest: './app/dist/react.js',
   plugins: [
     nodeResolve({
