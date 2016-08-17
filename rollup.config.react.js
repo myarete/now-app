@@ -16,6 +16,7 @@ export default {
       ]
     }),
     babel({
+      minified: true,
       presets: [
         'react',
         'es2015-rollup'
