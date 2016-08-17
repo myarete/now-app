@@ -1,21 +1,15 @@
 import gulp from 'gulp'
-import gulpBabel from 'gulp-babel'
+import babel from 'gulp-babel'
 import cache from 'gulp-cached'
 
-const paths = {
-  back: 'src/**/*',
-  front: 'app/react/index.js'
-}
+const path = 'src/**/*'
 
-gulp.task('back', () => {
-  return gulp.src(paths.back)
-  .pipe(cache('back'))
-  .pipe(gulpBabel())
+gulp.task('transpile', () => {
+  return gulp.src(path)
+  .pipe(cache('transpile'))
+  .pipe(babel())
   .pipe(gulp.dest('app/dist/back'))
 })
 
-gulp.task('watch', () => {
-  gulp.watch(paths.back, ['back'])
-})
-
-gulp.task('default', ['watch', 'back'])
+gulp.task('watch', () => gulp.watch(path, ['transpile']))
+gulp.task('default', ['watch', 'transpile'])
