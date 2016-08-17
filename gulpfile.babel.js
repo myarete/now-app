@@ -1,14 +1,56 @@
 import gulp from 'gulp'
-import babel from 'gulp-babel'
+import gulpBabel from 'gulp-babel'
 import cache from 'gulp-cached'
 
-const path = 'src/**/*'
+import rollup from 'rollup-stream'
+import rollupBabel from 'rollup-plugin-babel'
+import commonjs from 'rollup-plugin-commonjs'
+import nodeResolve from 'rollup-plugin-node-resolve'
 
-gulp.task('transpile', () =>
-  gulp.src(path)
-  .pipe(cache('transpile'))
-  .pipe(babel())
-  .pipe(gulp.dest('app/lib')))
+import source from 'vinyl-source-stream'
 
-gulp.task('watch', () => gulp.watch(path, ['transpile']))
-gulp.task('default', ['watch', 'transpile'])
+const paths = {
+  back: 'src/**/*',
+  front: 'app/react/index.js'
+}
+
+gulp.task('back', () => {
+  return gulp.src(paths.back)
+  .pipe(cache('back'))
+  .pipe(gulpBabel())
+  .pipe(gulp.dest('app/dist/back'))
+})
+
+gulp.task('front', () => {
+  return rollup({
+    entry: paths.front,
+    plugins: [
+      nodeResolve({
+        jsnext: true,
+        main: true
+      }),
+      commonjs({
+        include: [
+          'node_modules/**'
+        ]
+      }),
+      rollupBabel({
+        babelrc: false,
+        presets: [
+          'react',
+          'es2015-rollup'
+        ]
+      })
+    ],
+    format: 'cjs'
+  })
+  .pipe(source('app.js'))
+  .pipe(gulp.dest('app/dist/front'))
+})
+
+gulp.task('watch', () => {
+  gulp.watch(paths.front, ['front'])
+  gulp.watch(paths.back, ['back'])
+})
+
+gulp.task('default', ['watch', 'front', 'back'])

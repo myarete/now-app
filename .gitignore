@@ -1,5 +1,5 @@
 # build output
-app/lib
+app/dist
 dist
 
 # dependencies
