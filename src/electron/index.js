@@ -35,7 +35,7 @@ const onboarding = () => {
     titleBarStyle: 'hidden-inset'
   })
 
-  win.loadURL(`file://${__dirname}/../../pages/welcome.html`)
+  win.loadURL(`file://${__dirname}/../pages/welcome.html`)
 
   return win
 }
@@ -86,7 +86,7 @@ app.on('ready', async () => {
   // DO NOT create the tray icon BEFORE the login status has been checked!
   // Otherwise, the user will start clicking...
   // ...the icon and the app wouldn't know what to do
-  tray = new Tray(path.join(__dirname, '/../../icons', 'iconTemplate.png'))
+  tray = new Tray(path.join(__dirname, '/../icons', 'iconTemplate.png'))
 
   if (loggedIn) {
     tray.on('drop-files', fileDropped)

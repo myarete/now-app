@@ -5,9 +5,6 @@ export default {
   dest: './app/dist/electron.js',
   plugins: [
     babel({
-      presets: [
-        'es2015-rollup'
-      ],
       plugins: [
         'transform-async-to-generator'
       ]
