@@ -4,8 +4,8 @@
   "scripts": {
     "start": "electron app/dist/back",
     "postinstall": "install-app-deps",
-    "dev": "gulp",
-    "build": "gulp transpile",
+    "dev": "rollup -w -c",
+    "build": "gulp back",
     "test": "ava && xo",
     "pack": "npm run build && build --dir"
   },
@@ -56,11 +56,11 @@
     "gulp-cached": "^1.1.0",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
+    "rollup": "^0.34.9",
     "rollup-plugin-babel": "^2.6.1",
     "rollup-plugin-commonjs": "^3.3.1",
     "rollup-plugin-node-resolve": "^2.0.0",
-    "rollup-stream": "^1.11.0",
-    "vinyl-source-stream": "^1.1.0",
+    "rollup-watch": "^2.5.0",
     "xo": "^0.16.0"
   }
 }
