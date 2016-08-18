@@ -12,7 +12,7 @@ const showDialog = details => {
     return filePath[0]
   }
 
-  error('No file path received...')
+  return false
 }
 
 export async function share() {
