@@ -4,6 +4,7 @@ import path from 'path'
 // Packages
 import userHome from 'user-home'
 import {app, Tray, Menu, BrowserWindow} from 'electron'
+import Config from 'electron-config'
 import pathExists from 'path-exists'
 import Now from 'now-api'
 
@@ -21,7 +22,7 @@ let loggedIn = false
 app.dock.hide()
 app.setName('Now')
 
-const configFile = path.join(userHome, '.now.json')
+const config = new Config()
 
 const onboarding = () => {
   const win = new BrowserWindow({
@@ -74,8 +75,8 @@ app.on('ready', async () => {
   let user
 
   // Check if now's configuration file exists
-  if (await pathExists(configFile)) {
-    user = require(configFile)
+  if (config.has('now.user')) {
+    user = config.get('now.user')
 
     // If yes, get the token and see if it's valid
     if (user.token && await testConnection(user)) {
