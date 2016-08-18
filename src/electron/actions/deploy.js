@@ -138,7 +138,7 @@ export default async (folder, sharing) => {
 
         // Log the current state of the deployment
         logStatus(current.state)
-      }, 5000)
+      }, 3000)
     }
 
     // Copy deployment URL to clipboard
