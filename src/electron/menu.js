@@ -2,10 +2,9 @@
 import {shell} from 'electron'
 
 // Ours
-import {deploy, share} from './dialogs'
-import logout from './actions/logout'
+import {deploy, share, error} from './dialogs'
 
-export default async app => {
+export default async (app, config) => {
   return [
     {
       label: process.platform === 'darwin' ? `About ${app.getName()}` : 'About',
@@ -43,7 +42,18 @@ export default async app => {
         },
         {
           label: 'Logout',
-          click: () => logout(app)
+          click() {
+            config.delete('now.user')
+            const existent = config.has('now.user')
+
+            if (existent) {
+              error('Couldn\'t log out')
+            }
+
+            // Restart the application
+            app.relaunch()
+            app.exit(0)
+          }
         }
       ]
     },
