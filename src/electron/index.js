@@ -95,7 +95,7 @@ app.on('ready', async () => {
   if (loggedIn) {
     tray.on('drop-files', fileDropped)
 
-    const generatedMenu = await menuItems(app, config)
+    const generatedMenu = await menuItems(app, tray, config)
     const menu = Menu.buildFromTemplate(generatedMenu)
 
     tray.setContextMenu(menu)

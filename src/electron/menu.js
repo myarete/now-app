@@ -4,7 +4,7 @@ import {shell} from 'electron'
 // Ours
 import {deploy, share, error} from './dialogs'
 
-export default async (app, config) => {
+export default async (app, tray, config) => {
   return [
     {
       label: process.platform === 'darwin' ? `About ${app.getName()}` : 'About',
@@ -16,12 +16,12 @@ export default async (app, config) => {
     {
       label: 'Share...',
       accelerator: 'CmdOrCtrl+S',
-      click: await share
+      click: async () => await share(tray)
     },
     {
       label: 'Deploy...',
       accelerator: 'CmdOrCtrl+D',
-      click: await deploy
+      click: async () => await deploy(tray)
     },
     {
       type: 'separator'

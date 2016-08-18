@@ -15,7 +15,7 @@ const showDialog = details => {
   return false
 }
 
-export async function share() {
+export async function share(tray) {
   const info = {
     title: 'Select something to share',
     properties: [
@@ -25,7 +25,9 @@ export async function share() {
     buttonLabel: 'Share'
   }
 
+  tray.setHighlightMode('always')
   const path = showDialog(info)
+  tray.setHighlightMode('never')
 
   if (!path) {
     return
@@ -38,7 +40,7 @@ export async function share() {
   }
 }
 
-export async function deploy() {
+export async function deploy(tray) {
   const info = {
     title: 'Select a folder to deploy',
     properties: [
@@ -47,7 +49,9 @@ export async function deploy() {
     buttonLabel: 'Deploy'
   }
 
+  tray.setHighlightMode('always')
   const path = showDialog(info)
+  tray.setHighlightMode('never')
 
   if (path) {
     try {
