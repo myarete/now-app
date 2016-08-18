@@ -2,10 +2,8 @@
 import path from 'path'
 
 // Packages
-import userHome from 'user-home'
 import {app, Tray, Menu, BrowserWindow} from 'electron'
 import Config from 'electron-config'
-import pathExists from 'path-exists'
 import Now from 'now-api'
 
 // Ours
