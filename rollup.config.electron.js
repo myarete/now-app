@@ -1,8 +1,8 @@
 import babel from 'rollup-plugin-babel'
 import json from 'rollup-plugin-json'
+import nodeResolve from 'rollup-plugin-node-resolve'
 
 const external = [
-  'path',
   'electron'
 ]
 
@@ -21,6 +21,11 @@ export default {
   dest: './app/dist/electron.js',
   plugins: [
     json(),
+    nodeResolve({
+      jsnext: true,
+      main: true,
+      module: true
+    }),
     babel({
       plugins: [
         'transform-async-to-generator'
