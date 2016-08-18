@@ -10,6 +10,7 @@ import Now from 'now-api'
 import menuItems from './menu'
 import {error as showError} from './dialogs'
 import share from './actions/share'
+import autoUpdater from './updates'
 
 // Prevent garbage collection
 // Otherwise the tray icon would randomly hide after some time
@@ -74,6 +75,11 @@ app.on('window-all-closed', () => {
 
 app.on('ready', async () => {
   let user
+
+  // Automatically check for updates regularly
+  if (process.platform !== 'linux') {
+    autoUpdater()
+  }
 
   // Check if now's configuration file exists
   if (config.has('now.user')) {
