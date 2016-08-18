@@ -34,7 +34,7 @@ export default async (app, tray, config) => {
       label: 'Account',
       submenu: [
         {
-          label: process.env.USER_EMAIL || 'No user defined',
+          label: config.get('now.user.email') || 'No user defined',
           enabled: false
         },
         {

@@ -59,11 +59,9 @@ const testConnection = async user => {
   try {
     await now.getDeployments()
   } catch (err) {
+    console.error(err)
     return false
   }
-
-  process.env.USER_TOKEN = user.token
-  process.env.USER_EMAIL = user.email
 
   return true
 }
