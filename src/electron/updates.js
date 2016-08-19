@@ -12,7 +12,12 @@ const feedURL = 'https://now-updates.now.sh/update/' + platform
 
 export default () => {
   autoUpdater.on('error', showError)
-  autoUpdater.setFeedURL(feedURL + '/' + version)
+
+  try {
+    autoUpdater.setFeedURL(feedURL + '/' + version)
+  } catch (err) {
+    console.log(err)
+  }
 
   setTimeout(autoUpdater.checkForUpdates, ms('10s'))
   setInterval(autoUpdater.checkForUpdates, ms('5m'))
