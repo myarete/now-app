@@ -27,7 +27,7 @@ export default async (folder, sharing) => {
 
   // Ignore the project if there's no package file
   if (!await pathExists(pkgFile)) {
-    showError('Not a node project!')
+    return showError('Not a node project!')
   }
 
   // Log separator
@@ -36,7 +36,11 @@ export default async (folder, sharing) => {
   }
 
   // Load the package file
-  details.package = require(pkgFile)
+  try {
+    details.package = await fs.readJSON(pkgFile)
+  } catch (err) {
+    return showError(err)
+  }
 
   const logStatus = message => console.log(chalk.yellow(`[${details.package.name}]`) + ' ' + message)
 
