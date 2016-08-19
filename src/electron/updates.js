@@ -16,7 +16,7 @@ export default () => {
   try {
     autoUpdater.setFeedURL(feedURL + '/' + version)
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 
   setTimeout(autoUpdater.checkForUpdates, ms('10s'))
