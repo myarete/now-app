@@ -1,6 +1,11 @@
+// Native
 const path = require('path')
 
+// Packages
+const webpack = require('webpack')
+
 const outputPath = path.join(__dirname, 'app', 'dist')
+const nodeEnv = process.env.NODE_ENV || 'development'
 
 module.exports = [
   {
@@ -31,7 +36,14 @@ module.exports = [
           loader: 'json'
         }
       ]
-    }
+    },
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.env': {
+          NODE_ENV: JSON.stringify(nodeEnv)
+        }
+      })
+    ]
   },
   {
     name: 'electron',

@@ -5,12 +5,8 @@
   "scripts": {
     "start": "electron app/dist/electron",
     "postinstall": "install-app-deps",
-    "watch": "webpack -w",
-    "watch-front": "npm run build-front -- -w",
-    "watch-back": "npm run build-back -- -w",
-    "build": "npm run build-front && npm run build-back",
-    "build-front": "rollup -c rollup.config.react.js",
-    "build-back": "rollup -c rollup.config.electron.js",
+    "dev": "webpack -w",
+    "build": "NODE_ENV=production webpack",
     "test": "ava && xo",
     "pack": "npm run build && build --dir"
   },
