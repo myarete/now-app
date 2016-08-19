@@ -54,7 +54,7 @@ module.exports = [
       filename: 'electron.js'
     },
     externals(context, request, callback) {
-      callback(null, request.charAt(0) === '.' ? false : true)
+      callback(null, request.charAt(0) === '.' ? false : 'require("' + request + '")')
     },
     module: {
       loaders: [
