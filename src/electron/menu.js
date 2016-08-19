@@ -1,8 +1,12 @@
 // Packages
-import {shell} from 'electron'
+import {shell, autoUpdater} from 'electron'
 
 // Ours
 import {deploy, share, error} from './dialogs'
+
+// Determine if an update is ready to be installed
+// Based on an environment variable
+const updateAvailable = process.env.UPDATE_AVAILABLE || false
 
 export default async (app, tray, config) => {
   return [
@@ -56,6 +60,19 @@ export default async (app, tray, config) => {
           }
         }
       ]
+    },
+    {
+      type: 'separator'
+    },
+    {
+      label: 'Update available',
+      enabled: false,
+      visible: updateAvailable
+    },
+    {
+      label: 'Install',
+      click: () => autoUpdater.quitAndInstall(),
+      visible: updateAvailable
     },
     {
       type: 'separator'
