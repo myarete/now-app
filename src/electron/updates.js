@@ -3,23 +3,22 @@ import {autoUpdater} from 'electron'
 import ms from 'ms'
 import notify from 'display-notification'
 
-const platform = process.platform ? 'osx' : process.platform === 'darwin'
-const feedURL = 'https://now-updates.now.sh/update/' + platform
+// Ours
+import {error as showError} from './dialogs'
 
-export default app => {
-  autoUpdater.on('error', (err, msg) => {
-    console.error('Error fetching updates', msg + ' (' + err.stack + ')')
-  })
+// const platform = process.platform ? 'osx' : process.platform === 'darwin'
+// const feedURL = 'https://hyperterm-updates.now.sh/update/' + platform
 
-  autoUpdater.setFeedURL(feedURL + '/' + app.getVersion())
+export default () => {
+  autoUpdater.on('error', showError)
+
+  // autoUpdater.setFeedURL(feedURL + '/' + app.getVersion())
 
   setTimeout(autoUpdater.checkForUpdates, ms('10s'))
   setInterval(autoUpdater.checkForUpdates, ms('5m'))
 
-  autoUpdater.on('update-downloaded', () => {
-    notify({
-      title: 'Update downloaded',
-      text: 'Sheesh'
-    })
-  })
+  autoUpdater.on('update-downloaded', () => notify({
+    title: 'Update downloaded',
+    text: 'Sheesh'
+  }))
 }

@@ -1,12 +1,10 @@
-// Native
-import path from 'path'
-
 // Packages
 import {app, Tray, Menu, BrowserWindow} from 'electron'
 import Config from 'electron-config'
 import Now from 'now-api'
 
 // Ours
+import {resolve as resolvePath} from 'app-root-path'
 import menuItems from './menu'
 import {error as showError} from './dialogs'
 import share from './actions/share'
@@ -94,7 +92,13 @@ app.on('ready', async () => {
   // DO NOT create the tray icon BEFORE the login status has been checked!
   // Otherwise, the user will start clicking...
   // ...the icon and the app wouldn't know what to do
-  tray = new Tray(path.join(__dirname, '/../icons', 'iconTemplate.png'))
+
+  // I have no idea why, but path.resolve doesn't work here
+  try {
+    tray = new Tray(resolvePath('/icons/iconTemplate.png'))
+  } catch (err) {
+    return showError(err)
+  }
 
   if (loggedIn) {
     tray.on('drop-files', fileDropped)
