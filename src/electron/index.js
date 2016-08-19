@@ -38,8 +38,7 @@ const onboarding = () => {
     titleBarStyle: 'hidden-inset'
   })
 
-  win.loadURL(`file://${__dirname}/../pages/welcome.html`)
-
+  win.loadURL('file://' + resolvePath('../app/pages/welcome.html'))
   return win
 }
 
