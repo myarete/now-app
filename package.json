@@ -12,8 +12,8 @@
     "pack": "npm run build && build --dir"
   },
   "author": {
-    "name": "Leo Lamprecht",
-    "email": "leo@zeit.co"
+    "name": "Zeit, Inc.",
+    "email": "team@zeit.co"
   },
   "build": {
     "appId": "co.zeit.now",
