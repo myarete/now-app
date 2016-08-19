@@ -4,7 +4,7 @@
   "repository": "zeit/now-app",
   "scripts": {
     "start": "electron app/dist/electron",
-    "postinstall": "install-app-deps",
+    "postinstall": "install-app-deps && webpack",
     "dev": "webpack -w",
     "clean": "rm -rf node_modules app/node_modules dist app/dist",
     "build": "NODE_ENV=production webpack",
