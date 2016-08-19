@@ -6,8 +6,8 @@
   "license": "MIT",
   "main": "dist/electron.js",
   "author": {
-    "name": "Leo Lamprecht",
-    "email": "leo@zeit.co"
+    "name": "Zeit, Inc.",
+    "email": "team@zeit.co"
   },
   "repository": "zeit/now-app",
   "homepage": "https://zeit.co/now",
