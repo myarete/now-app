@@ -8,7 +8,13 @@ import {deploy, share, error} from './dialogs'
 // Based on an environment variable
 const updateAvailable = process.env.UPDATE_AVAILABLE || false
 
-export default async (app, tray, config) => {
+export default async (app, tray, config, deployments) => {
+  let hasDeployments = false
+
+  if (Array.isArray(deployments) && deployments.length > 0) {
+    hasDeployments = true
+  }
+
   return [
     {
       label: process.platform === 'darwin' ? `About ${app.getName()}` : 'About',
@@ -31,8 +37,17 @@ export default async (app, tray, config) => {
       type: 'separator'
     },
     {
-      label: 'Documentation...',
-      click: () => shell.openExternal('https://zeit.co/now')
+      label: 'Deployments',
+
+      // We need this because electron otherwise keeps the item alive
+      // Even if the submenu is just an empty array
+      type: hasDeployments ? 'submenu' : 'normal',
+
+      submenu: hasDeployments ? deployments : [],
+      visible: hasDeployments
+    },
+    {
+      type: 'separator'
     },
     {
       label: 'Account',
@@ -60,6 +75,10 @@ export default async (app, tray, config) => {
           }
         }
       ]
+    },
+    {
+      label: 'Documentation...',
+      click: () => shell.openExternal('https://zeit.co/now')
     },
     {
       type: 'separator'

@@ -1,7 +1,6 @@
 // Packages
-import {app, Tray, Menu, BrowserWindow} from 'electron'
+import {app, Tray, Menu, BrowserWindow, shell} from 'electron'
 import Config from 'electron-config'
-import Now from 'now-api'
 
 // Ours
 import {resolve as resolvePath} from 'app-root-path'
@@ -9,6 +8,7 @@ import menuItems from './menu'
 import {error as showError} from './dialogs'
 import share from './actions/share'
 import autoUpdater from './updates'
+import api from './api'
 
 // Prevent garbage collection
 // Otherwise the tray icon would randomly hide after some time
@@ -50,7 +50,7 @@ const fileDropped = async (event, files) => {
   await share(files[0])
   event.preventDefault()
 }
-
+/*
 const testConnection = async user => {
   const now = new Now(user.token)
 
@@ -62,6 +62,20 @@ const testConnection = async user => {
   }
 
   return true
+}*/
+
+const loadDeployments = async user => {
+  const now = api(user.token)
+  let list
+
+  try {
+    list = await now.getDeployments()
+  } catch (err) {
+    console.error(err)
+    return false
+  }
+
+  return list
 }
 
 app.on('window-all-closed', () => {
@@ -72,6 +86,7 @@ app.on('window-all-closed', () => {
 
 app.on('ready', async () => {
   let user
+  let deployments
 
   // Automatically check for updates regularly
   if (process.platform !== 'linux') {
@@ -83,7 +98,11 @@ app.on('ready', async () => {
     user = config.get('now.user')
 
     // If yes, get the token and see if it's valid
-    if (user.token && await testConnection(user)) {
+    if (user.token) {
+      deployments = await loadDeployments(user.token)
+    }
+
+    if (deployments) {
       loggedIn = true
     }
   }
@@ -102,7 +121,20 @@ app.on('ready', async () => {
   if (loggedIn) {
     tray.on('drop-files', fileDropped)
 
-    const generatedMenu = await menuItems(app, tray, config)
+    for (const deployment of deployments) {
+      const info = deployment
+      const index = deployments.indexOf(deployment)
+
+      deployments[index] = {
+        label: info.name,
+        click() {
+          const url = 'https://' + info.url
+          shell.openExternal(url)
+        }
+      }
+    }
+
+    const generatedMenu = await menuItems(app, tray, config, deployments)
     const menu = Menu.buildFromTemplate(generatedMenu)
 
     tray.setContextMenu(menu)
