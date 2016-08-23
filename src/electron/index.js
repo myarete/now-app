@@ -121,11 +121,11 @@ app.on('ready', async () => {
         label: info.name,
         submenu: [
           {
-            label: 'Open in browser',
+            label: 'Open in Browser...',
             click: () => shell.openExternal(url)
           },
           {
-            label: 'Copy URL to clipboard',
+            label: 'Copy URL to Clipboard',
             click() {
               clipboard.writeText(url)
 
@@ -140,7 +140,7 @@ app.on('ready', async () => {
             type: 'separator'
           },
           {
-            label: 'Time of creation:',
+            label: 'Time of Creation:',
             enabled: false
           },
           {
