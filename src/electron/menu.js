@@ -57,6 +57,11 @@ export function deploymentOptions(info) {
             return
           }
 
+          notify({
+            title: `Deleting ${info.name}...`,
+            text: 'The deployment is being deleted from our infrastructure. We\'ll let you know once it\'s gone!'
+          })
+
           // Otherwise, delete the deployment
           const now = api()
 
