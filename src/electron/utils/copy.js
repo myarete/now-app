@@ -14,7 +14,7 @@ export default async (content, tmp, defaults) => {
   const copiers = []
 
   try {
-    items = await glob(content + '**/*', {
+    items = await glob(path.join(content, '**/*'), {
       dot: true,
       strict: true,
       mark: true,
