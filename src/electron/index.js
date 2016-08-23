@@ -51,19 +51,6 @@ const fileDropped = async (event, files) => {
   await share(files[0])
   event.preventDefault()
 }
-/*
-const testConnection = async user => {
-  const now = new Now(user.token)
-
-  try {
-    await now.getDeployments()
-  } catch (err) {
-    console.error(err)
-    return false
-  }
-
-  return true
-}*/
 
 const loadDeployments = async user => {
   const now = api(user.token)
