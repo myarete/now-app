@@ -140,18 +140,7 @@ app.on('ready', async () => {
             type: 'separator'
           },
           {
-            label: 'Time of Creation:',
-            enabled: false
-          },
-          {
-            label: created.format('MMMM Do YYYY') + ', ' + created.format('h:mm a'),
-            enabled: false
-          },
-          {
-            type: 'separator'
-          },
-          {
-            label: 'Remove',
+            label: 'Delete...',
             click: async () => {
               // Ask the user if it was an accident
               const keepIt = dialog.showMessageBox({
@@ -187,6 +176,13 @@ app.on('ready', async () => {
                 text: 'The deployment has successfully been deleted.'
               })
             }
+          },
+          {
+            type: 'separator'
+          },
+          {
+            label: 'Created on ' + created.format('MMMM Do YYYY') + ', ' + created.format('h:mm a'),
+            enabled: false
           }
         ]
       }
