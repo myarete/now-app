@@ -1,14 +1,92 @@
 // Packages
-import {shell, autoUpdater} from 'electron'
+import {shell, autoUpdater, clipboard, dialog} from 'electron'
+import moment from 'moment'
+import notify from 'display-notification'
 
 // Ours
 import {deploy, share, error} from './dialogs'
+import api from './api'
 
 // Determine if an update is ready to be installed
 // Based on an environment variable
 const updateAvailable = process.env.UPDATE_AVAILABLE || false
 
-export default async (app, tray, config, deployments) => {
+export async function deploymentOptions(info) {
+  const created = moment(new Date(parseInt(info.created, 10)))
+  const url = 'https://' + info.url
+
+  return {
+    label: info.name,
+    submenu: [
+      {
+        label: 'Open in Browser...',
+        click: () => shell.openExternal(url)
+      },
+      {
+        label: 'Copy URL to Clipboard',
+        click() {
+          clipboard.writeText(url)
+
+          // Let the user know
+          notify({
+            title: 'Copied to clipboard',
+            text: 'Your clipboard now contains the URL of your deployment.'
+          })
+        }
+      },
+      {
+        type: 'separator'
+      },
+      {
+        label: 'Delete...',
+        click: async () => {
+          // Ask the user if it was an accident
+          const keepIt = dialog.showMessageBox({
+            type: 'question',
+            title: 'Removal of ' + info.name,
+            message: 'Do you really want to delete this deployment?',
+            detail: info.name,
+            buttons: [
+              'Yes',
+              'Cancel'
+            ]
+          })
+
+          // If so, do nothing
+          if (keepIt) {
+            return
+          }
+
+          // Otherwise, delete the deployment
+          const now = api()
+
+          try {
+            await now.deleteDeployment(info.uid)
+          } catch (err) {
+            console.error(err)
+            error('Wasn\'t not able to remove deployment ' + info.name)
+
+            return
+          }
+
+          notify({
+            title: 'Deleted ' + info.name,
+            text: 'The deployment has successfully been deleted.'
+          })
+        }
+      },
+      {
+        type: 'separator'
+      },
+      {
+        label: 'Created on ' + created.format('MMMM Do YYYY') + ', ' + created.format('h:mm a'),
+        enabled: false
+      }
+    ]
+  }
+}
+
+export async function menuItems(app, tray, config, deployments) {
   let hasDeployments = false
 
   if (Array.isArray(deployments) && deployments.length > 0) {

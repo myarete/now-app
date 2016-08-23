@@ -1,12 +1,10 @@
 // Packages
-import {app, Tray, Menu, BrowserWindow, shell, clipboard, dialog} from 'electron'
+import {app, Tray, Menu, BrowserWindow} from 'electron'
 import Config from 'electron-config'
-import notify from 'display-notification'
 
 // Ours
 import {resolve as resolvePath} from 'app-root-path'
-import moment from 'moment'
-import menuItems from './menu'
+import {menuItems, deploymentOptions} from './menu'
 import {error as showError} from './dialogs'
 import share from './actions/share'
 import autoUpdater from './updates'
@@ -114,78 +112,7 @@ app.on('ready', async () => {
       const info = deployment
       const index = deployments.indexOf(deployment)
 
-      const created = moment(new Date(parseInt(info.created, 10)))
-      const url = 'https://' + info.url
-
-      deployments[index] = {
-        label: info.name,
-        submenu: [
-          {
-            label: 'Open in Browser...',
-            click: () => shell.openExternal(url)
-          },
-          {
-            label: 'Copy URL to Clipboard',
-            click() {
-              clipboard.writeText(url)
-
-              // Let the user know
-              notify({
-                title: 'Copied to clipboard',
-                text: 'Your clipboard now contains the URL of your deployment.'
-              })
-            }
-          },
-          {
-            type: 'separator'
-          },
-          {
-            label: 'Delete...',
-            click: async () => {
-              // Ask the user if it was an accident
-              const keepIt = dialog.showMessageBox({
-                type: 'question',
-                title: 'Removal of ' + info.name,
-                message: 'Do you really want to delete this deployment?',
-                detail: info.name,
-                buttons: [
-                  'Yes',
-                  'Cancel'
-                ]
-              })
-
-              // If so, do nothing
-              if (keepIt) {
-                return
-              }
-
-              // Otherwise, delete the deployment
-              const now = api()
-
-              try {
-                await now.deleteDeployment(info.uid)
-              } catch (err) {
-                console.error(err)
-                showError('Wasn\'t not able to remove deployment ' + info.name)
-
-                return
-              }
-
-              notify({
-                title: 'Deleted ' + info.name,
-                text: 'The deployment has successfully been deleted.'
-              })
-            }
-          },
-          {
-            type: 'separator'
-          },
-          {
-            label: 'Created on ' + created.format('MMMM Do YYYY') + ', ' + created.format('h:mm a'),
-            enabled: false
-          }
-        ]
-      }
+      deployments[index] = deploymentOptions(info)
     }
 
     const generatedMenu = await menuItems(app, tray, config, deployments)
