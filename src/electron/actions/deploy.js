@@ -62,7 +62,7 @@ export default async (folder, sharing) => {
 
   for (const itemPath of items) {
     const itemDetails = path.parse(itemPath)
-    const fileName = itemDetails.name
+    const fileName = itemDetails.base
     const relativePath = path.relative(dir, itemPath)
 
     let isDir
@@ -86,15 +86,16 @@ export default async (folder, sharing) => {
       // Find out if the file is text-based or binary
       const fileIsText = isText(fileName, fileContent)
 
-      // If its a binary one, ignore it
-      // This is just temporary, we need to support them later
       if (!fileIsText) {
+        details[relativePath] = {
+          binary: true,
+          content: fileContent.toString('base64')
+        }
+
         continue
       }
 
-      // Make the file's content readable
-      const stringContent = Buffer.from(fileContent).toString()
-      details[relativePath] = stringContent
+      details[relativePath] = fileContent.toString()
     }
   }
 
