@@ -152,7 +152,7 @@ app.on('ready', async () => {
           },
           {
             label: 'Remove',
-            click() {
+            click: async () => {
               // Ask the user if it was an accident
               const keepIt = dialog.showMessageBox({
                 type: 'question',
@@ -171,7 +171,21 @@ app.on('ready', async () => {
               }
 
               // Otherwise, delete the deployment
-              console.log('Deleting...')
+              const now = api()
+
+              try {
+                await now.deleteDeployment(info.uid)
+              } catch (err) {
+                console.error(err)
+                showError('Wasn\'t not able to remove deployment ' + info.name)
+
+                return
+              }
+
+              notify({
+                title: 'Deleted ' + info.name,
+                text: 'The deployment has successfully been deleted.'
+              })
             }
           }
         ]
