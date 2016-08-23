@@ -1,9 +1,10 @@
 // Packages
-import {app, Tray, Menu, BrowserWindow, shell} from 'electron'
+import {app, Tray, Menu, BrowserWindow, shell, clipboard} from 'electron'
 import Config from 'electron-config'
 
 // Ours
 import {resolve as resolvePath} from 'app-root-path'
+import moment from 'moment'
 import menuItems from './menu'
 import {error as showError} from './dialogs'
 import share from './actions/share'
@@ -125,12 +126,32 @@ app.on('ready', async () => {
       const info = deployment
       const index = deployments.indexOf(deployment)
 
+      const created = moment(new Date(parseInt(info.created, 10)))
+      const url = 'https://' + info.url
+
       deployments[index] = {
         label: info.name,
-        click() {
-          const url = 'https://' + info.url
-          shell.openExternal(url)
-        }
+        submenu: [
+          {
+            label: 'Open in browser',
+            click: () => shell.openExternal(url)
+          },
+          {
+            label: 'Copy URL to clipboard',
+            click: () => clipboard.writeText(url)
+          },
+          {
+            type: 'separator'
+          },
+          {
+            label: 'Time of creation:',
+            enabled: false
+          },
+          {
+            label: created.format('MMMM Do YYYY') + ', ' + created.format('h:mm a'),
+            enabled: false
+          }
+        ]
       }
     }
 
