@@ -2,40 +2,41 @@
 import path from 'path'
 
 // Packages
-import {Glob} from 'glob'
+import glob from 'glob-promise'
 import fs from 'fs-promise'
 
 // Ours
 import {error as showError} from '../dialogs'
 import injectPackage from './inject'
 
-export default (content, tmp, defaults) => {
-  // Ignore packages
-  const walker = new Glob('**', {
-    cwd: content,
-    dot: true,
-    strict: true,
-    mark: true,
-    ignore: [
-      'node_modules'
-    ]
-  })
+export default async (content, tmp, defaults) => {
+  let items
+  const copiers = []
 
-  walker.on('match', async item => {
-    walker.pause()
+  try {
+    items = await glob(content + '**/*', {
+      dot: true,
+      strict: true,
+      mark: true,
+      ignore: [
+        'node_modules',
+        '.git'
+      ]
+    })
+  } catch (err) {
+    return showError(err)
+  }
 
-    const file = path.join(content, item)
-    const target = path.join(tmp + '/content', path.relative(content, file))
+  for (const item of items) {
+    const target = path.join(tmp + '/content', path.relative(content, item))
+    copiers.push(fs.copy(item, target))
+  }
 
-    // Once a file is found, copy it to the temp directory
-    try {
-      await fs.copy(file, target)
-    } catch (err) {
-      return showError(err)
-    }
+  try {
+    await Promise.all(copiers)
+  } catch (err) {
+    return showError(err)
+  }
 
-    walker.resume()
-  })
-
-  walker.on('end', async () => await injectPackage(tmp, defaults))
+  await injectPackage(tmp, defaults)
 }

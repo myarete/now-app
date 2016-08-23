@@ -61,7 +61,7 @@ export default async item => {
   const details = await fs.lstat(item)
 
   if (details.isDirectory()) {
-    copyContents(item, tmpDir.path, pkgDefaults)
+    await copyContents(item, tmpDir.path, pkgDefaults)
   } else if (details.isFile()) {
     const fileName = path.parse(item).base
     const target = path.join(tmpDir.path, '/content', fileName)

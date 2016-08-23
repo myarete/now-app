@@ -20,6 +20,7 @@
     "electron-config": "^0.2.1",
     "fs-promise": "^0.5.0",
     "glob": "^7.0.5",
+    "glob-promise": "^1.0.6",
     "istextorbinary": "^2.1.0",
     "md5": "^2.1.0",
     "moment": "^2.14.1",
