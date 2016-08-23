@@ -93,7 +93,9 @@ export default async (folder, sharing) => {
 
       // Make the file's content readable
       const stringContent = Buffer.from(fileContent).toString()
-      details[item] = stringContent
+      const relativePath = path.relative(dir, itemPath)
+
+      details[relativePath] = stringContent
     }
   }
 
