@@ -1,6 +1,7 @@
 // Packages
 import {app, Tray, Menu, BrowserWindow, shell, clipboard} from 'electron'
 import Config from 'electron-config'
+import notify from 'display-notification'
 
 // Ours
 import {resolve as resolvePath} from 'app-root-path'
@@ -125,7 +126,15 @@ app.on('ready', async () => {
           },
           {
             label: 'Copy URL to clipboard',
-            click: () => clipboard.writeText(url)
+            click() {
+              clipboard.writeText(url)
+
+              // Let the user know
+              notify({
+                title: 'Copied to clipboard',
+                text: 'Your clipboard now contains the URL of your deployment.'
+              })
+            }
           },
           {
             type: 'separator'
