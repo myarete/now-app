@@ -61,8 +61,9 @@ export default async (folder, sharing) => {
   }
 
   for (const itemPath of items) {
-    const item = path.parse(itemPath).base
-    const fileName = path.parse(itemPath).name
+    const itemDetails = path.parse(itemPath)
+    const fileName = itemDetails.name
+    const relativePath = path.relative(dir, itemPath)
 
     let isDir
 
@@ -72,7 +73,7 @@ export default async (folder, sharing) => {
       return showError(err)
     }
 
-    if (!isDir && !ignoredFiles.includes(fileName) && item !== 'package.json') {
+    if (!isDir && !ignoredFiles.includes(fileName) && relativePath !== 'package.json') {
       let fileContent
 
       try {
@@ -93,8 +94,6 @@ export default async (folder, sharing) => {
 
       // Make the file's content readable
       const stringContent = Buffer.from(fileContent).toString()
-      const relativePath = path.relative(dir, itemPath)
-
       details[relativePath] = stringContent
     }
   }
