@@ -11,7 +11,7 @@ import api from './api'
 // Based on an environment variable
 const updateAvailable = process.env.UPDATE_AVAILABLE || false
 
-export async function deploymentOptions(info) {
+export function deploymentOptions(info) {
   const created = moment(new Date(parseInt(info.created, 10)))
   const url = 'https://' + info.url
 
