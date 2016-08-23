@@ -1,5 +1,5 @@
 // Packages
-import {app, Tray, Menu, BrowserWindow, shell, clipboard} from 'electron'
+import {app, Tray, Menu, BrowserWindow, shell, clipboard, dialog} from 'electron'
 import Config from 'electron-config'
 import notify from 'display-notification'
 
@@ -146,6 +146,33 @@ app.on('ready', async () => {
           {
             label: created.format('MMMM Do YYYY') + ', ' + created.format('h:mm a'),
             enabled: false
+          },
+          {
+            type: 'separator'
+          },
+          {
+            label: 'Remove',
+            click() {
+              // Ask the user if it was an accident
+              const keepIt = dialog.showMessageBox({
+                type: 'question',
+                title: 'Removal of ' + info.name,
+                message: 'Do you really want to delete this deployment?',
+                detail: info.name,
+                buttons: [
+                  'Yes',
+                  'Cancel'
+                ]
+              })
+
+              // If so, do nothing
+              if (keepIt) {
+                return
+              }
+
+              // Otherwise, delete the deployment
+              console.log('Deleting...')
+            }
           }
         ]
       }
