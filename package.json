@@ -33,7 +33,8 @@
       "import/no-extraneous-dependencies": 0,
       "ava/no-ignored-test-files": 0,
       "react/jsx-filename-extension": 0,
-      "no-unneeded-ternary": 0
+      "no-unneeded-ternary": 0,
+      "babel/no-await-in-loop": 0
     }
   },
   "ava": {
