@@ -2,6 +2,7 @@
 import {app, Tray, Menu, BrowserWindow} from 'electron'
 import Config from 'electron-config'
 import isDev from 'electron-is-dev'
+import ms from 'ms'
 
 // Ours
 import {resolve as resolvePath} from 'app-root-path'
@@ -9,7 +10,7 @@ import {menuItems, deploymentOptions} from './menu'
 import {error as showError} from './dialogs'
 import share from './actions/share'
 import autoUpdater from './updates'
-import {connector} from './api'
+import {connector, refreshCache} from './api'
 
 // Prevent garbage collection
 // Otherwise the tray icon would randomly hide after some time
@@ -105,6 +106,9 @@ app.on('ready', async () => {
 
   if (loggedIn) {
     tray.on('drop-files', fileDropped)
+
+    // Regularly rebuild local cache every 30 seconds
+    setInterval(refreshCache, ms('30s'))
 
     tray.on('click', async () => {
       const deployments = config.get('now.cache.deployments')

@@ -17,11 +17,10 @@ export function connector(userToken) {
   return new Now(token)
 }
 
-export async function refreshCache(kind) {
-  const session = connector()
+const refreshKind = async (name, session) => {
   let method
 
-  switch (kind) {
+  switch (name) {
     case 'deployments':
       method = 'getDeployments'
       break
@@ -30,7 +29,7 @@ export async function refreshCache(kind) {
   }
 
   if (!method) {
-    console.error(`Not able to refresh ${kind} cache`)
+    console.error(`Not able to refresh ${name} cache`)
     return
   }
 
@@ -44,7 +43,41 @@ export async function refreshCache(kind) {
   }
 
   const config = new Config()
-  const configProperty = 'now.cache.' + kind
+  const configProperty = 'now.cache.' + name
 
   config.set(configProperty, freshData)
+}
+
+export async function refreshCache(kind) {
+  const session = connector()
+
+  if (kind) {
+    try {
+      await refreshKind(kind, session)
+    } catch (err) {
+      showError(err)
+    }
+
+    return
+  }
+
+  const sweepers = []
+
+  const kinds = [
+    'deployments'
+  ]
+
+  for (const kind of kinds) {
+    const refresher = refreshKind(kind, session)
+    sweepers.push(refresher)
+  }
+
+  try {
+    await Promise.all(sweepers)
+  } catch (err) {
+    showError(err)
+    return
+  }
+
+  console.log('Refreshed entire cache')
 }
