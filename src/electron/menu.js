@@ -78,6 +78,12 @@ export function deploymentOptions(info) {
             title: 'Deleted ' + info.name,
             text: 'The deployment has successfully been deleted.'
           })
+
+          try {
+            await refreshCache('deployments')
+          } catch (err) {
+            return error(err)
+          }
         }
       },
       {
@@ -102,13 +108,6 @@ export async function menuItems(app, tray, config, deployments) {
     {
       label: process.platform === 'darwin' ? `About ${app.getName()}` : 'About',
       role: 'about'
-    },
-    {
-      label: 'sheeesh',
-      click: async () => {
-        await refreshCache('deployments')
-        console.log(config.get('now.cache.deployments'))
-      }
     },
     {
       type: 'separator'
