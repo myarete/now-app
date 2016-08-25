@@ -63,6 +63,11 @@ export async function deploy(tray) {
 }
 
 export function error(detail) {
+  if (detail instanceof Error) {
+    detail = detail.stack.toString()
+    console.error(detail)
+  }
+
   dialog.showMessageBox({
     type: 'error',
     message: 'An error occured',
