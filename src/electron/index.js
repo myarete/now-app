@@ -1,6 +1,7 @@
 // Packages
 import {app, Tray, Menu, BrowserWindow} from 'electron'
 import Config from 'electron-config'
+import isDev from 'electron-is-dev'
 
 // Ours
 import {resolve as resolvePath} from 'app-root-path'
@@ -77,7 +78,7 @@ app.on('ready', async () => {
   let user
 
   // Automatically check for updates regularly
-  if (process.platform !== 'linux') {
+  if (!isDev && process.platform !== 'linux') {
     autoUpdater()
   }
 
