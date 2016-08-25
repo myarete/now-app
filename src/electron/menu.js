@@ -5,7 +5,7 @@ import notify from 'display-notification'
 
 // Ours
 import {deploy, share, error} from './dialogs'
-import api from './api'
+import {connector} from './api'
 
 // Determine if an update is ready to be installed
 // Based on an environment variable
@@ -63,7 +63,7 @@ export function deploymentOptions(info) {
           })
 
           // Otherwise, delete the deployment
-          const now = api()
+          const now = connector()
 
           try {
             await now.deleteDeployment(info.uid)

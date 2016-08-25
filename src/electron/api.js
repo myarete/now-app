@@ -5,7 +5,7 @@ import Config from 'electron-config'
 // Ours
 import {error as showError} from './dialogs'
 
-export default userToken => {
+export function connector(userToken) {
   const config = new Config()
   const token = userToken || config.get('now.user.token')
 
@@ -15,4 +15,8 @@ export default userToken => {
   }
 
   return new Now(token)
+}
+
+export function refreshCache(kind) {
+  console.log(kind)
 }

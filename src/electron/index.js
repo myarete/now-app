@@ -8,7 +8,7 @@ import {menuItems, deploymentOptions} from './menu'
 import {error as showError} from './dialogs'
 import share from './actions/share'
 import autoUpdater from './updates'
-import api from './api'
+import {connector} from './api'
 
 // Prevent garbage collection
 // Otherwise the tray icon would randomly hide after some time
@@ -52,7 +52,7 @@ const fileDropped = async (event, files) => {
 }
 
 const loadDeployments = async user => {
-  const now = api(user.token)
+  const now = connector(user.token)
   let list
 
   try {
@@ -62,6 +62,8 @@ const loadDeployments = async user => {
     return false
   }
 
+  // Save deployments to cache
+  config.set('now.cache.deployments', list)
   return list
 }
 

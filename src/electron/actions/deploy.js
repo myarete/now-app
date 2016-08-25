@@ -12,7 +12,7 @@ import notify from 'display-notification'
 import chalk from 'chalk'
 
 // Ours
-import session from '../api'
+import {connector} from '../api'
 import {error as showError} from '../dialogs'
 
 const ignoredFiles = [
@@ -100,7 +100,7 @@ export default async (folder, sharing) => {
   }
 
   let deployment
-  const apiSession = session()
+  const apiSession = connector()
 
   try {
     deployment = await apiSession.createDeployment(details)
