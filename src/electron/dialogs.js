@@ -1,5 +1,5 @@
 // Packages
-import {dialog} from 'electron'
+import {dialog, shell} from 'electron'
 
 // Ours
 import deployment from './actions/deploy'
@@ -76,4 +76,6 @@ export function error(detail) {
       'Got it'
     ]
   })
+
+  shell.openExternal('https://github.com/zeit/now-app/issues/')
 }

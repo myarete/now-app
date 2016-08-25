@@ -1,8 +1,8 @@
 // Packages
 import {app, Tray, Menu, BrowserWindow} from 'electron'
+import ms from 'ms'
 import Config from 'electron-config'
 import isDev from 'electron-is-dev'
-import ms from 'ms'
 
 // Ours
 import {resolve as resolvePath} from 'app-root-path'
@@ -103,6 +103,8 @@ app.on('ready', async () => {
   } catch (err) {
     return showError(err)
   }
+
+  showError('ddd')
 
   if (loggedIn) {
     tray.on('drop-files', fileDropped)
