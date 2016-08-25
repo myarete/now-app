@@ -5,7 +5,7 @@ import notify from 'display-notification'
 
 // Ours
 import {deploy, share, error} from './dialogs'
-import {connector} from './api'
+import {connector, refreshCache} from './api'
 
 // Determine if an update is ready to be installed
 // Based on an environment variable
@@ -102,6 +102,13 @@ export async function menuItems(app, tray, config, deployments) {
     {
       label: process.platform === 'darwin' ? `About ${app.getName()}` : 'About',
       role: 'about'
+    },
+    {
+      label: 'sheeesh',
+      click: async () => {
+        await refreshCache('deployments')
+        console.log(config.get('now.cache.deployments'))
+      }
     },
     {
       type: 'separator'
