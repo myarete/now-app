@@ -68,14 +68,17 @@ export function error(detail) {
     console.error(detail)
   }
 
-  dialog.showMessageBox({
+  const reportIt = dialog.showMessageBox({
     type: 'error',
     message: 'An error occured',
     detail,
     buttons: [
-      'Got it'
+      'Report it',
+      'Go away'
     ]
   })
 
-  shell.openExternal('https://github.com/zeit/now-app/issues/')
+  if (!reportIt) {
+    shell.openExternal('https://github.com/zeit/now-app/issues/')
+  }
 }
