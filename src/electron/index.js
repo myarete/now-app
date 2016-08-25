@@ -104,8 +104,6 @@ app.on('ready', async () => {
     return showError(err)
   }
 
-  showError('ddd')
-
   if (loggedIn) {
     tray.on('drop-files', fileDropped)
 
