@@ -64,7 +64,7 @@ const loadDeployments = async user => {
 
   // Save deployments to cache
   config.set('now.cache.deployments', list)
-  return list
+  return true
 }
 
 app.on('window-all-closed', () => {
@@ -75,7 +75,6 @@ app.on('window-all-closed', () => {
 
 app.on('ready', async () => {
   let user
-  let deployments
 
   // Automatically check for updates regularly
   if (process.platform !== 'linux') {
@@ -87,11 +86,7 @@ app.on('ready', async () => {
     user = config.get('now.user')
 
     // If yes, get the token and see if it's valid
-    if (user.token) {
-      deployments = await loadDeployments(user.token)
-    }
-
-    if (deployments) {
+    if (user.token && await loadDeployments(user.token)) {
       loggedIn = true
     }
   }
@@ -110,17 +105,21 @@ app.on('ready', async () => {
   if (loggedIn) {
     tray.on('drop-files', fileDropped)
 
-    for (const deployment of deployments) {
-      const info = deployment
-      const index = deployments.indexOf(deployment)
+    tray.on('click', async () => {
+      const deployments = config.get('now.cache.deployments')
 
-      deployments[index] = deploymentOptions(info)
-    }
+      for (const deployment of deployments) {
+        const info = deployment
+        const index = deployments.indexOf(deployment)
 
-    const generatedMenu = await menuItems(app, tray, config, deployments)
-    const menu = Menu.buildFromTemplate(generatedMenu)
+        deployments[index] = deploymentOptions(info)
+      }
 
-    tray.setContextMenu(menu)
+      const generatedMenu = await menuItems(app, tray, config, deployments)
+      const menu = Menu.buildFromTemplate(generatedMenu)
+
+      tray.popUpContextMenu(menu)
+    })
   } else {
     tray.setHighlightMode('never')
     let isHighlighted = false
