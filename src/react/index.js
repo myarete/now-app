@@ -48,7 +48,7 @@ const Sections = React.createClass({
     return (
       <Slider {...sliderSettings}>
         <section id="intro" style={sliderStyles.section}>
-          <SVGinline svg={logoSVG} width="100px"/>
+          <SVGinline svg={logoSVG} width="90px"/>
 
           <h1 style={introStyles.heading}>
             <b>now:</b> realtime deployments made easy
