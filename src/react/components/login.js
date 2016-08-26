@@ -9,7 +9,8 @@ export default React.createClass({
   getInitialState() {
     return {
       value: '',
-      focus: false
+      focus: false,
+      classes: []
     }
   },
   handleChange(event) {
@@ -18,6 +19,10 @@ export default React.createClass({
     })
   },
   handleKey(event) {
+    this.setState({
+      classes: []
+    })
+
     if (event.keyCode !== 13) {
       return
     }
@@ -25,6 +30,12 @@ export default React.createClass({
     const value = this.state.value
 
     if (!/^.+@.+\..+$/.test(value)) {
+      this.setState({
+        classes: [
+          'error'
+        ]
+      })
+
       console.log('Not a valid email')
       return
     }
@@ -44,9 +55,15 @@ export default React.createClass({
     })
   },
   render() {
+    const classes = this.state.classes
     const inputStyles = styles.input
+
     const hoverStyle = Object.assign({}, inputStyles.normal, inputStyles.focus)
     const style = this.state.focus ? hoverStyle : inputStyles.normal
+
+    if (classes.includes('error')) {
+      Object.assign(style, inputStyles.error)
+    }
 
     const inputProps = {
       type: 'email',
@@ -59,6 +76,7 @@ export default React.createClass({
       ref: c => {
         this.loginInput = c
       },
+      className: classes.join(' '),
       style
     }
 

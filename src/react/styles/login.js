@@ -20,6 +20,11 @@ export default {
     focus: {
       color: '#fff',
       borderBottomColor: '#fff'
+    },
+    error: {
+      color: '#ff286a',
+      borderBottomColor: '#ff286a',
+      animation: 'shake 1s both'
     }
   },
   text: {
