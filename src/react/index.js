@@ -13,7 +13,6 @@ const anchor = document.getElementById('anchor')
 const sliderSettings = {
   speed: 500,
   infinite: false,
-  arrows: false,
   dots: true
 }
 
