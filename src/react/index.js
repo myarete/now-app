@@ -1,28 +1,42 @@
 // Packages
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Slider from 'react-slick'
 
 // Ours
 import Title from './components/title'
 
 const anchor = document.getElementById('anchor')
 
-const Intro = React.createClass({
+const sliderSettings = {
+  speed: 500,
+  infinite: false
+}
+
+const Sections = React.createClass({
   render() {
     return (
-      <section id="intro">
-        <img src="../vectors/logo.svg"/>
-        <h1><b>now:</b> realtime deployments made easy</h1>
-      </section>
+      <Slider {...sliderSettings}>
+        <section id="intro">
+          <img src="../vectors/logo.svg"/>
+          <h1><b>now:</b> realtime deployments made easy</h1>
+        </section>
+
+        <section id="usage">
+        dd
+        </section>
+
+        <section id="login">
+        dsaads
+        </section>
+      </Slider>
     )
   }
 })
 
 ReactDOM.render((
-  <section id="content">
+  <main>
     <Title/>
-    <Intro/>
-
-    <section id="stuff"/>
-  </section>
+    <Sections/>
+  </main>
 ), anchor)

@@ -104,6 +104,8 @@ app.on('ready', async () => {
     return showError(err)
   }
 
+  loggedIn = false
+
   if (loggedIn) {
     tray.on('drop-files', fileDropped)
 
