@@ -31,7 +31,11 @@ const sliderSettings = {
       return
     }
 
-    if (index === 1) {
+    const slider = document.querySelector('.slick-track')
+    const slideCount = slider.childElementCount
+
+    // If it's the last slide, auto-focus on input
+    if (index === slideCount) {
       loginInput.focus()
     } else {
       loginInput.blur()
