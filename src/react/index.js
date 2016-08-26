@@ -5,8 +5,8 @@ import Slider from 'react-slick'
 
 // Ours
 import Title from './components/title'
-import introStyles from './styles/intro'
 import sliderStyles from './styles/slider'
+import introStyles from './styles/intro'
 
 const anchor = document.getElementById('anchor')
 
@@ -14,10 +14,6 @@ const sliderSettings = {
   speed: 500,
   infinite: false,
   arrows: false
-}
-
-const mainStyles = {
-  height: 'inherit'
 }
 
 const Sections = React.createClass({
@@ -43,6 +39,10 @@ const Sections = React.createClass({
     )
   }
 })
+
+const mainStyles = {
+  height: 'inherit'
+}
 
 ReactDOM.render((
   <main style={mainStyles}>
