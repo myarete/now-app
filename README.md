@@ -5,7 +5,11 @@
 
 A macOS client that allows developers to access all of [ZEIT](https://zeit.co)'s services directly from their OS' menu bar.
 
-## Contribute
+## Usage
+
+Simply download the application from [here](https://google.com) and put it into your "Applications" directory.
+
+## Caught a bug?
 
 1. [Fork](https://help.github.com/articles/fork-a-repo/) this repository to your own GitHub account and then [clone](https://help.github.com/articles/cloning-a-repository/) it to your local device
 2. Install all dependencies: `npm install`
