@@ -37,7 +37,7 @@ export default React.createClass({
     })
   },
   componentDidMount() {
-    const input = this.refs.loginInput
+    const input = this.loginInput
 
     autoSizeInput(input, {
       minWidth: false
@@ -56,7 +56,9 @@ export default React.createClass({
       placeholder: 'you@youremail.com',
       onFocus: this.toggleFocus,
       onBlur: this.toggleFocus,
-      ref: 'loginInput',
+      ref: c => {
+        this.loginInput = c
+      },
       style
     }
 
