@@ -1,4 +1,5 @@
 import React from 'react'
+import styling from '../styles/login'
 
 export default React.createClass({
   getInitialState() {
@@ -31,7 +32,8 @@ export default React.createClass({
       value: this.state.value,
       onChange: this.handleChange,
       onKeyDown: this.handleKey,
-      placeholder: 'dddd'
+      placeholder: 'you@youremail.com',
+      style: styling.input
     }
 
     return <input {...inputProps}/>
