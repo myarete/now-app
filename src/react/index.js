@@ -6,6 +6,7 @@ import SVGinline from 'react-svg-inline'
 
 // Ours
 import Title from './components/title'
+import Login from './components/login'
 import sliderStyles from './styles/slider'
 import introStyles from './styles/intro'
 import logoSVG from './vectors/logo.svg'
@@ -31,12 +32,8 @@ const Sections = React.createClass({
           </h1>
         </section>
 
-        <section id="usage" style={sliderStyles.section}>
-          dd
-        </section>
-
         <section id="login" style={sliderStyles.section}>
-          dsaads
+          <Login/>
         </section>
       </Slider>
     )
