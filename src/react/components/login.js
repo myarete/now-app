@@ -86,6 +86,7 @@ export default React.createClass({
       onFocus: this.toggleFocus,
       onBlur: this.toggleFocus,
       ref: c => {
+        window.loginInput = c
         this.loginInput = c
       },
       className: classes.join(' '),

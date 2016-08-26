@@ -23,7 +23,20 @@ const sliderSettings = {
   infinite: false,
   dots: true,
   arrows: false,
-  draggable: false
+  draggable: false,
+  afterChange(index) {
+    const loginInput = window.loginInput
+
+    if (!loginInput) {
+      return
+    }
+
+    if (index === 1) {
+      loginInput.focus()
+    } else {
+      loginInput.blur()
+    }
+  }
 }
 
 const Sections = React.createClass({
