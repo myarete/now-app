@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import Slider from 'react-slick'
 import SVGinline from 'react-svg-inline'
 import {remote} from 'electron'
+import ms from 'ms'
 
 // Components
 import Title from './components/title'
@@ -45,11 +46,29 @@ const sliderSettings = {
 }
 
 const Sections = React.createClass({
+  getInitialState() {
+    return {
+      fading: false
+    }
+  },
+  setRef(item) {
+    this.intro = item
+  },
   render() {
-    console.log(remote.getCurrentWindow())
+    const root = this
+    const currentWindow = remote.getCurrentWindow()
+
+    currentWindow.on('show', () => {
+      root.intro.style.animation = 'fadeIn 2s'
+
+      setTimeout(() => {
+        root.intro.style.opacity = 1
+      }, ms('2s'))
+    })
+
     return (
       <Slider {...sliderSettings}>
-        <section id="intro" style={Object.assign(sliderStyles.section, introStyles.main)}>
+        <section id="intro" style={Object.assign(sliderStyles.section, {opacity: 0})} ref={this.setRef}>
           <SVGinline svg={logoSVG} width="90px"/>
 
           <h1 style={introStyles.heading}>
