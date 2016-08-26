@@ -1,4 +1,7 @@
+// Packages
 import React from 'react'
+
+// Ours
 import styling from '../styles/title'
 
 export default React.createClass({
