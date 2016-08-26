@@ -17,7 +17,9 @@ export default {
       justifyContent: 'center',
       alignItems: 'center',
       background: 'linear-gradient(to left, #000, transparent)',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      opacity: 0,
+      transition: 'opacity .3s ease'
     },
     prev: {
       left: 0,

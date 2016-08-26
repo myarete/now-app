@@ -21,7 +21,8 @@ const anchor = document.getElementById('anchor')
 
 const SliderArrows = React.createClass({
   propTypes: {
-    direction: React.PropTypes.string.isRequired
+    direction: React.PropTypes.string.isRequired,
+    className: React.PropTypes.string
   },
   render() {
     let styles = sliderStyles.arrow.all
@@ -29,6 +30,12 @@ const SliderArrows = React.createClass({
 
     if (direction) {
       styles = Object.assign({}, styles, sliderStyles.arrow[direction])
+    }
+
+    const isDisabled = this.props.className.split(' ').includes('slick-disabled')
+
+    if (!isDisabled) {
+      styles.opacity = 1
     }
 
     return (
