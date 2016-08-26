@@ -24,6 +24,50 @@
         height: inherit;
         width: inherit;
       }
+
+      .slick-dots {
+        margin: 0;
+        padding: 0;
+        position: fixed;
+        display: flex !important;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        justify-content: center;
+        align-items: center;
+        list-style: none;
+        z-index: 2000;
+      }
+
+      .slick-dots li {
+        display: block;
+        -webkit-app-region: no-drag;
+        margin: 0 4px;
+      }
+
+      .slick-dots li button {
+        display: block;
+        height: 10px;
+        width: 10px;
+        background: #fff;
+        border: 0;
+        text-indent: -999px;
+        border-radius: 100%;
+        padding: 0;
+        opacity: .7;
+        cursor: pointer;
+        transition: opacity .4s;
+      }
+
+      .slick-dots li button:focus {
+        outline: 0;
+      }
+
+      .slick-dots li button:hover,
+      .slick-dots li.slick-active button {
+        opacity: 1;
+      }
     </style>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css">
