@@ -23,7 +23,8 @@ const sliderSettings = {
   speed: 500,
   infinite: false,
   dots: true,
-  arrows: false
+  arrows: false,
+  draggable: false
 }
 
 const Sections = React.createClass({
