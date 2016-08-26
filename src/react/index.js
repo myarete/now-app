@@ -35,7 +35,7 @@ const sliderSettings = {
     const slideCount = slider.childElementCount
 
     // If it's the last slide, auto-focus on input
-    if (index === slideCount) {
+    if (index === slideCount - 1) {
       loginInput.focus()
     } else {
       loginInput.blur()
