@@ -6,19 +6,25 @@ import Slider from 'react-slick'
 // Ours
 import Title from './components/title'
 import introStyles from './styles/intro'
+import sliderStyles from './styles/slider'
 
 const anchor = document.getElementById('anchor')
 
 const sliderSettings = {
   speed: 500,
-  infinite: false
+  infinite: false,
+  arrows: false
+}
+
+const mainStyles = {
+  height: 'inherit'
 }
 
 const Sections = React.createClass({
   render() {
     return (
       <Slider {...sliderSettings}>
-        <section id="intro">
+        <section id="intro" style={sliderStyles.section}>
           <img src="../vectors/logo.svg" style={introStyles.image}/>
 
           <h1 style={introStyles.heading}>
@@ -26,12 +32,12 @@ const Sections = React.createClass({
           </h1>
         </section>
 
-        <section id="usage">
-        dd
+        <section id="usage" style={sliderStyles.section}>
+          dd
         </section>
 
-        <section id="login">
-        dsaads
+        <section id="login" style={sliderStyles.section}>
+          dsaads
         </section>
       </Slider>
     )
@@ -39,7 +45,7 @@ const Sections = React.createClass({
 })
 
 ReactDOM.render((
-  <main>
+  <main style={mainStyles}>
     <Title/>
     <Sections/>
   </main>

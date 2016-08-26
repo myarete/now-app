@@ -4,6 +4,12 @@
     <title>Welcome to now</title>
 
     <style>
+      html,
+      body {
+        height: 100vh;
+        width: 100vw;
+      }
+
       body {
         background: #000;
         font-family: 'SF UI Text';
@@ -14,22 +20,17 @@
         margin: 0;
       }
 
-      /*
-      #content section {
-        height: 100vh;
-        width: 100vw;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-      }*/
+      #anchor {
+        height: inherit;
+        width: inherit;
+      }
     </style>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css">
   </head>
 
   <body>
-    <main id="anchor"></main>
+    <div id="anchor"></div>
 
     <script src="../dist/react.js"></script>
     <script src="http://localhost:35729/livereload.js"></script>
