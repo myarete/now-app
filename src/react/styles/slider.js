@@ -21,6 +21,9 @@ export default {
       opacity: 0,
       transition: 'opacity .3s ease'
     },
+    hover: {
+      opacity: 1
+    },
     prev: {
       left: 0,
       transform: 'rotate(180deg)'

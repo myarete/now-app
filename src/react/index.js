@@ -24,6 +24,16 @@ const SliderArrows = React.createClass({
     direction: React.PropTypes.string.isRequired,
     className: React.PropTypes.string
   },
+  getInitialState() {
+    return {
+      hover: false
+    }
+  },
+  handleHover() {
+    this.setState({
+      hover: !this.state.hover
+    })
+  },
   render() {
     let styles = sliderStyles.arrow.all
     const direction = this.props.direction
@@ -35,11 +45,15 @@ const SliderArrows = React.createClass({
     const isDisabled = this.props.className.split(' ').includes('slick-disabled')
 
     if (!isDisabled) {
-      styles.opacity = 1
+      styles.opacity = 0.5
+
+      if (this.state.hover) {
+        styles.opacity = 1
+      }
     }
 
     return (
-      <div {...this.props} style={styles}>
+      <div {...this.props} style={styles} onMouseEnter={this.handleHover} onMouseLeave={this.handleHover}>
         <SVGinline svg={arrowSVG} width="20px"/>
       </div>
     )
