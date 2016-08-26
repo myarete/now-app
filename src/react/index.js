@@ -3,6 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Slider from 'react-slick'
 import SVGinline from 'react-svg-inline'
+import {remote} from 'electron'
 
 // Components
 import Title from './components/title'
@@ -45,9 +46,10 @@ const sliderSettings = {
 
 const Sections = React.createClass({
   render() {
+    console.log(remote.getCurrentWindow())
     return (
       <Slider {...sliderSettings}>
-        <section id="intro" style={sliderStyles.section}>
+        <section id="intro" style={Object.assign(sliderStyles.section, introStyles.main)}>
           <SVGinline svg={logoSVG} width="90px"/>
 
           <h1 style={introStyles.heading}>

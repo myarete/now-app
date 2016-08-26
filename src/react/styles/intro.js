@@ -4,5 +4,8 @@ export default {
     fontWeight: 400,
     margin: '25px 0 0 0',
     cursor: 'default'
+  },
+  main: {
+    animation: 'fadeIn 2s'
   }
 }

@@ -12,9 +12,19 @@ module.exports = [
   {
     name: 'react',
     entry: './src/react/index.js',
+    target: 'web',
     output: {
       path: outputPath,
       filename: 'react.js'
+    },
+    externals(context, request, callback) {
+      let isExternal = false
+
+      if (request === 'electron') {
+        isExternal = 'require("' + request + '")'
+      }
+
+      callback(null, isExternal)
     },
     module: {
       loaders: [
