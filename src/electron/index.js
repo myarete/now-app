@@ -37,6 +37,8 @@ const onboarding = () => {
     center: true,
     frame: false,
     show: false,
+    fullscreenable: false,
+    maximizable: false,
     titleBarStyle: 'hidden-inset'
   })
 
