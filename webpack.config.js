@@ -3,6 +3,7 @@ const path = require('path')
 
 // Packages
 const webpack = require('webpack')
+const LiveReloadPlugin = require('webpack-livereload-plugin')
 
 const outputPath = path.join(__dirname, 'app', 'dist')
 const nodeEnv = process.env.NODE_ENV || 'development'
@@ -42,7 +43,8 @@ module.exports = [
         'process.env': {
           NODE_ENV: JSON.stringify(nodeEnv)
         }
-      })
+      }),
+      new LiveReloadPlugin()
     ]
   },
   {

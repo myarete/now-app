@@ -62,6 +62,7 @@
     "react-dom": "^15.3.1",
     "react-slick": "^0.13.2",
     "webpack": "^1.13.2",
+    "webpack-livereload-plugin": "^0.8.2",
     "xo": "^0.16.0"
   }
 }
