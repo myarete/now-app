@@ -17,15 +17,37 @@ import loginStyles from './styles/login'
 
 // Vectors
 import logoSVG from './vectors/logo.svg'
+import arrowSVG from './vectors/arrow.svg'
 
 const anchor = document.getElementById('anchor')
+
+const SliderArrows = React.createClass({
+  propTypes: {
+    direction: React.PropTypes.string.isRequired
+  },
+  render() {
+    let styles = sliderStyles.arrow.all
+    const direction = this.props.direction
+
+    if (direction) {
+      styles = Object.assign({}, styles, sliderStyles.arrow[direction])
+    }
+
+    return (
+      <div {...this.props} style={styles}>
+        <SVGinline svg={arrowSVG} width="20px"/>
+      </div>
+    )
+  }
+})
 
 const sliderSettings = {
   speed: 500,
   infinite: false,
   dots: true,
-  arrows: false,
   draggable: false,
+  nextArrow: <SliderArrows direction="next"/>,
+  prevArrow: <SliderArrows direction="prev"/>,
   afterChange(index) {
     const loginInput = window.loginInput
 
@@ -68,7 +90,7 @@ const Sections = React.createClass({
 
     return (
       <Slider {...sliderSettings}>
-        <section id="intro" style={Object.assign(sliderStyles.section, {opacity: 0})} ref={this.setRef}>
+        <section id="intro" style={sliderStyles.section} ref={this.setRef}>
           <SVGinline svg={logoSVG} width="90px"/>
 
           <h1 style={introStyles.heading}>
