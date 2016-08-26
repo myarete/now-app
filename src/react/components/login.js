@@ -23,13 +23,15 @@ export default React.createClass({
       classes: []
     })
 
-    if (this.getInitialState().value === this.state.value) {
+    const isEnter = event.keyCode === 13
+
+    if (this.getInitialState().value === this.state.value && !isEnter) {
       this.setState({
         value: ''
       })
     }
 
-    if (event.keyCode !== 13 || this.state.value === '') {
+    if (!isEnter || this.state.value === '') {
       return
     }
 
