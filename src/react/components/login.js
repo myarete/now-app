@@ -1,4 +1,8 @@
+// Packages
 import React from 'react'
+import autoSizeInput from 'autosize-input'
+
+// Ours
 import styles from '../styles/login'
 
 export default React.createClass({
@@ -32,6 +36,13 @@ export default React.createClass({
       focus: !this.state.focus
     })
   },
+  componentDidMount() {
+    const input = this.refs.loginInput
+
+    autoSizeInput(input, {
+      minWidth: false
+    })
+  },
   render() {
     const inputStyles = styles.input
     const hoverStyle = Object.assign({}, inputStyles.normal, inputStyles.focus)
@@ -45,6 +56,7 @@ export default React.createClass({
       placeholder: 'you@youremail.com',
       onFocus: this.toggleFocus,
       onBlur: this.toggleFocus,
+      ref: 'loginInput',
       style
     }
 
