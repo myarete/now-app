@@ -4,12 +4,18 @@ import ReactDOM from 'react-dom'
 import Slider from 'react-slick'
 import SVGinline from 'react-svg-inline'
 
-// Ours
+// Components
 import Title from './components/title'
 import Login from './components/login'
+
+// Styles
 import sliderStyles from './styles/slider'
 import introStyles from './styles/intro'
+import loginStyles from './styles/login'
+
+// Vectors
 import logoSVG from './vectors/logo.svg'
+import waveSVG from './vectors/wave.svg'
 
 const anchor = document.getElementById('anchor')
 
@@ -33,6 +39,11 @@ const Sections = React.createClass({
         </section>
 
         <section id="login" style={sliderStyles.section}>
+          <aside style={loginStyles.aside}>
+            <SVGinline svg={waveSVG} width="60px"/>
+            <p style={loginStyles.text}>To start using the app, simply enter your email address below.</p>
+          </aside>
+
           <Login/>
         </section>
       </Slider>

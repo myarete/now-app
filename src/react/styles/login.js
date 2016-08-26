@@ -20,5 +20,19 @@ export default {
       color: '#fff',
       borderBottomColor: '#fff'
     }
+  },
+  text: {
+    textAlign: 'left',
+    margin: '6px 0 0 20px',
+    fontSize: '15px',
+    width: '260px',
+    lineHeight: '21px'
+  },
+  aside: {
+    flexDirection: 'row',
+    display: 'flex',
+    flexWrap: 'nowrap',
+    alignItems: 'flex-start',
+    marginBottom: '30px'
   }
 }
