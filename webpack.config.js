@@ -35,6 +35,10 @@ module.exports = [
         {
           test: /\.json/,
           loader: 'json'
+        },
+        {
+          test: /\.svg$/,
+          loader: 'raw-loader'
         }
       ]
     },
