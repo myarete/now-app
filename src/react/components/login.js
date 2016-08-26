@@ -8,7 +8,7 @@ import styles from '../styles/login'
 export default React.createClass({
   getInitialState() {
     return {
-      value: '',
+      value: 'you@youremail.com',
       focus: false,
       classes: []
     }
@@ -22,6 +22,12 @@ export default React.createClass({
     this.setState({
       classes: []
     })
+
+    if (this.getInitialState().value === this.state.value) {
+      this.setState({
+        value: ''
+      })
+    }
 
     if (event.keyCode !== 13 || this.state.value === '') {
       return
@@ -46,6 +52,13 @@ export default React.createClass({
     this.setState({
       focus: !this.state.focus
     })
+
+    // If input is empty, bring placeholder back
+    if (this.state.focus && this.state.value === '') {
+      this.setState({
+        value: this.getInitialState().value
+      })
+    }
   },
   componentDidMount() {
     const input = this.loginInput
@@ -70,7 +83,6 @@ export default React.createClass({
       value: this.state.value,
       onChange: this.handleChange,
       onKeyDown: this.handleKey,
-      placeholder: 'you@youremail.com',
       onFocus: this.toggleFocus,
       onBlur: this.toggleFocus,
       ref: c => {
