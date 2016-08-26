@@ -22,17 +22,11 @@ export default {
     }
   },
   text: {
-    textAlign: 'left',
-    margin: '6px 0 0 20px',
+    textAlign: 'center',
+    margin: '0',
     fontSize: '15px',
     width: '260px',
-    lineHeight: '21px'
-  },
-  aside: {
-    flexDirection: 'row',
-    display: 'flex',
-    flexWrap: 'nowrap',
-    alignItems: 'flex-start',
-    marginBottom: '30px'
+    lineHeight: '21px',
+    marginBottom: '40px'
   }
 }
