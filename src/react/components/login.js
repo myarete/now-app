@@ -23,7 +23,7 @@ export default React.createClass({
       classes: []
     })
 
-    if (event.keyCode !== 13) {
+    if (event.keyCode !== 13 || this.state.value === '') {
       return
     }
 
