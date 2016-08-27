@@ -103,6 +103,10 @@ const Sections = React.createClass({
           </h1>
         </section>
 
+        <section id="usage" style={sliderStyles.section}>
+          <video width="490" preload autoPlay loop src="../assets/usage.webm"/>
+        </section>
+
         <section id="login" style={sliderStyles.section}>
           <p style={loginStyles.text}>To start using the app, simply enter your email address below.</p>
           <Login/>

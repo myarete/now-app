@@ -101,7 +101,7 @@ app.on('ready', async () => {
 
   // I have no idea why, but path.resolve doesn't work here
   try {
-    tray = new Tray(resolvePath('/icons/iconTemplate.png'))
+    tray = new Tray(resolvePath('/assets/icons/iconTemplate.png'))
   } catch (err) {
     return showError(err)
   }
