@@ -9,9 +9,11 @@ import {remote} from 'electron'
 import styles from '../styles/login'
 
 const getVerificationToken = async (url, email) => {
+  const os = remote.require('os')
+
   const body = JSON.stringify({
     email,
-    tokenName: 'Now for macOS'
+    tokenName: 'Now on ' + os.hostname()
   })
 
   const apiURL = `${url}/now/registration`
