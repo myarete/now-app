@@ -26,7 +26,6 @@
     "moment": "^2.14.1",
     "ms": "^0.7.1",
     "now-api": "^0.3.0",
-    "os-tmpdir": "^1.0.1",
     "path-exists": "^3.0.0",
     "path-type": "^1.1.0",
     "tmp-promise": "^1.0.2"

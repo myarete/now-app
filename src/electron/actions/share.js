@@ -1,13 +1,13 @@
 // Native
 import path from 'path'
-import fs from 'fs-promise'
 
 // Packages
+import {tmpdir} from 'os'
 import md5 from 'md5'
 import dasherize from 'dasherize'
+import fs from 'fs-promise'
 import tmp from 'tmp-promise'
 import retry from 'async-retry'
-import osTmpDir from 'os-tmpdir'
 import chalk from 'chalk'
 
 // Ours
@@ -43,7 +43,7 @@ export default async item => {
   }), {
     retries: 5,
     onRetry: async () => {
-      const root = osTmpDir()
+      const root = tmpdir()
       const created = path.join(root, identifier)
 
       try {
