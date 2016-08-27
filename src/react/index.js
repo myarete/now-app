@@ -68,9 +68,10 @@ const sliderSettings = {
   nextArrow: <SliderArrows direction="next"/>,
   prevArrow: <SliderArrows direction="prev"/>,
   afterChange(index) {
-    const loginInput = window.loginInput
+    const input = window.loginInput
+    const video = window.usageVideo
 
-    if (!loginInput) {
+    if (!input || !video) {
       return
     }
 
@@ -79,9 +80,13 @@ const sliderSettings = {
 
     // If it's the last slide, auto-focus on input
     if (index === slideCount - 1) {
-      loginInput.focus()
+      input.focus()
     } else {
-      loginInput.blur()
+      input.blur()
+    }
+
+    if (index === 1) {
+      setTimeout(() => video.play(), 500)
     }
   }
 }
@@ -93,6 +98,16 @@ const Sections = React.createClass({
     }
   },
   render() {
+    const videoSettings = {
+      width: 490,
+      preload: true,
+      loop: true,
+      src: '../assets/usage.webm',
+      ref: c => {
+        window.usageVideo = c
+      }
+    }
+
     return (
       <Slider {...sliderSettings}>
         <section id="intro" style={sliderStyles.section}>
@@ -104,7 +119,7 @@ const Sections = React.createClass({
         </section>
 
         <section id="usage" style={sliderStyles.section}>
-          <video width="490" preload autoPlay loop src="../assets/usage.webm"/>
+          <video {...videoSettings}/>
         </section>
 
         <section id="login" style={sliderStyles.section}>
