@@ -3,6 +3,7 @@ import {stringify as stringifyQuery} from 'querystring'
 import React from 'react'
 import autoSizeInput from 'autosize-input'
 import Config from 'electron-config'
+import {remote} from 'electron'
 
 // Ours
 import styles from '../styles/login'
@@ -90,7 +91,11 @@ export default React.createClass({
     config.set('now.user.email', email)
     config.set('now.user.token', final)
 
-    console.log(config.store)
+    const app = remote.app
+
+    // Restart application
+    app.relaunch()
+    app.exit(0)
   },
   componentWillUnmount() {
     this.apiRequest.abort()

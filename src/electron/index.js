@@ -23,11 +23,6 @@ app.setName('Now')
 
 const config = new Config()
 
-/*
-config.set('now.user.token', 'FhPncJwhe2rskI7lPloAt6AX')
-config.set('now.user.email', 'mindrun@icloud.com')
-*/
-
 const onboarding = () => {
   const win = new BrowserWindow({
     width: 650,
@@ -105,8 +100,6 @@ app.on('ready', async () => {
   } catch (err) {
     return showError(err)
   }
-
-  loggedIn = false
 
   if (loggedIn) {
     tray.on('drop-files', fileDropped)
