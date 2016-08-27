@@ -20,7 +20,7 @@ module.exports = [
     externals(context, request, callback) {
       let isExternal = false
 
-      if (request === 'electron') {
+      if (request === 'electron' || request === 'electron-config') {
         isExternal = 'require("' + request + '")'
       }
 
@@ -38,7 +38,8 @@ module.exports = [
               'react'
             ],
             plugins: [
-              'transform-es2015-modules-commonjs'
+              'transform-es2015-modules-commonjs',
+              'transform-async-to-generator'
             ]
           }
         },

@@ -1,9 +1,54 @@
 // Packages
+import {stringify as stringifyQuery} from 'querystring'
 import React from 'react'
 import autoSizeInput from 'autosize-input'
+import Config from 'electron-config'
 
 // Ours
 import styles from '../styles/login'
+
+const getVerificationToken = async (url, email) => {
+  const body = JSON.stringify({
+    email,
+    tokenName: 'Now for macOS'
+  })
+
+  const apiURL = `${url}/now/registration`
+
+  const res = await fetch(apiURL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Length': JSON.stringify(body).length
+    },
+    body
+  })
+
+  if (res.status !== 200) {
+    console.error('Verification error')
+    return
+  }
+
+  const content = await res.json()
+  return content.token
+}
+
+const verify = async (url, email, token) => {
+  const query = {
+    email,
+    token
+  }
+
+  const apiURL = url + '/now/registration/verify?' + stringifyQuery(query)
+  const res = await fetch(apiURL)
+
+  const body = await res.json()
+  return body.token
+}
+
+const sleep = ms => new Promise(resolve => {
+  setTimeout(resolve, ms)
+})
 
 export default React.createClass({
   getInitialState() {
@@ -18,7 +63,34 @@ export default React.createClass({
       value: event.target.value
     })
   },
-  handleKey(event) {
+  async tryLogin(email) {
+    const apiURL = 'https://api.zeit.co'
+    const verificationToken = await getVerificationToken(apiURL, email)
+
+    if (!verificationToken) {
+      console.error('No first token received')
+      return
+    }
+
+    let final
+
+    do {
+      await sleep(2500)
+
+      try {
+        final = await verify(apiURL, email, verificationToken)
+      } catch (err) {}
+
+      console.log('Waiting for token...')
+    } while (!final)
+
+    const config = new Config()
+    console.log(config.store)
+  },
+  componentWillUnmount() {
+    this.apiRequest.abort()
+  },
+  async handleKey(event) {
     this.setState({
       classes: []
     })
@@ -49,11 +121,16 @@ export default React.createClass({
       return
     }
 
+    // Don't trigger login if placeholder defined as value
     if (value === initialValue) {
       return
     }
 
-    console.log(value)
+    try {
+      await this.tryLogin(value)
+    } catch (err) {
+      console.error(err)
+    }
   },
   toggleFocus() {
     this.setState({
