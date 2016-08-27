@@ -30,8 +30,8 @@ config.set('now.user.email', 'mindrun@icloud.com')
 
 const onboarding = () => {
   const win = new BrowserWindow({
-    width: 600,
-    height: 400,
+    width: 650,
+    height: 430,
     title: 'Welcome to now',
     resizable: false,
     center: true,

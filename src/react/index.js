@@ -104,7 +104,7 @@ const Sections = React.createClass({
   },
   render() {
     const videoSettings = {
-      width: 490,
+      width: 550,
       preload: true,
       loop: true,
       src: '../assets/usage.webm',
