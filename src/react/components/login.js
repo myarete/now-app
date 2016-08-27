@@ -24,8 +24,9 @@ export default React.createClass({
     })
 
     const isEnter = event.keyCode === 13
+    const initialValue = this.getInitialState().value
 
-    if (this.getInitialState().value === this.state.value && !isEnter) {
+    if (initialValue === this.state.value && !isEnter) {
       this.setState({
         value: ''
       })
@@ -45,6 +46,10 @@ export default React.createClass({
       })
 
       console.log('Not a valid email')
+      return
+    }
+
+    if (value === initialValue) {
       return
     }
 
