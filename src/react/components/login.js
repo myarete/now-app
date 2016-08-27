@@ -85,6 +85,11 @@ export default React.createClass({
     } while (!final)
 
     const config = new Config()
+
+    // Save user information to consistant configuration
+    config.set('now.user.email', email)
+    config.set('now.user.token', final)
+
     console.log(config.store)
   },
   componentWillUnmount() {

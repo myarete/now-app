@@ -20,7 +20,12 @@ module.exports = [
     externals(context, request, callback) {
       let isExternal = false
 
-      if (request === 'electron' || request === 'electron-config') {
+      const load = [
+        'electron',
+        'electron-config'
+      ]
+
+      if (load.includes(request)) {
         isExternal = 'require("' + request + '")'
       }
 
