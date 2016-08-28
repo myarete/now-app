@@ -7,6 +7,7 @@ import {remote} from 'electron'
 
 // Ours
 import styles from '../styles/login'
+import error from '../error'
 
 const getVerificationToken = async (url, email) => {
   const os = remote.require('os')
@@ -28,7 +29,7 @@ const getVerificationToken = async (url, email) => {
   })
 
   if (res.status !== 200) {
-    console.error('Verification error')
+    error('Verification error')
     return
   }
 
@@ -71,7 +72,7 @@ export default React.createClass({
     const verificationToken = await getVerificationToken(apiURL, email)
 
     if (!verificationToken) {
-      console.error('No first token received')
+      error('No first token received')
       return
     }
 
@@ -170,8 +171,10 @@ export default React.createClass({
     const hoverStyle = Object.assign({}, inputStyles.normal, inputStyles.focus)
     const style = this.state.focus ? hoverStyle : inputStyles.normal
 
-    if (classes.includes('error')) {
-      Object.assign(style, inputStyles.error)
+    if (classes.length > 0) {
+      for (const item of classes) {
+        Object.assign(style, inputStyles[item])
+      }
     }
 
     const inputProps = {
