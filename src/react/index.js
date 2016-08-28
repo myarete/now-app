@@ -86,7 +86,7 @@ const sliderSettings = {
     }
 
     if (index === 1) {
-      setTimeout(() => video.play(), 500)
+      video.play()
     } else {
       setTimeout(() => {
         video.pause()
