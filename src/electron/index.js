@@ -105,7 +105,7 @@ app.on('ready', async () => {
     tray.on('drop-files', fileDropped)
 
     // Regularly rebuild local cache every 10 seconds
-    setInterval(refreshCache, ms('10s'))
+    setInterval(() => refreshCache(null, app), ms('10s'))
 
     tray.on('click', async () => {
       const deployments = config.get('now.cache.deployments')

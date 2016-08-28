@@ -5,6 +5,7 @@ import notify from 'display-notification'
 
 // Ours
 import {deploy, share, error} from './dialogs'
+import logout from './actions/logout'
 import {connector, refreshCache} from './api'
 
 // Determine if an update is ready to be installed
@@ -150,18 +151,7 @@ export async function menuItems(app, tray, config, deployments) {
         },
         {
           label: 'Logout',
-          click() {
-            config.delete('now.user')
-            const existent = config.has('now.user')
-
-            if (existent) {
-              error('Couldn\'t log out')
-            }
-
-            // Restart the application
-            app.relaunch()
-            app.exit(0)
-          }
+          click: () => logout(app)
         }
       ]
     },

@@ -4,6 +4,7 @@ import Config from 'electron-config'
 
 // Ours
 import {error as showError} from './dialogs'
+import logout from './actions/logout'
 
 export function connector(userToken) {
   const config = new Config()
@@ -48,8 +49,12 @@ const refreshKind = async (name, session) => {
   config.set(configProperty, freshData)
 }
 
-export async function refreshCache(kind) {
+export async function refreshCache(kind, app) {
   const session = connector()
+
+  if (!session) {
+    return
+  }
 
   if (kind) {
     try {
@@ -75,7 +80,10 @@ export async function refreshCache(kind) {
   try {
     await Promise.all(sweepers)
   } catch (err) {
-    showError(err)
+    // If token has been revoked, the server will not respond with data
+    // In turn, we need to log out
+
+    logout(app)
     return
   }
 
