@@ -25,6 +25,11 @@ export default {
       color: '#ff286a',
       borderBottomColor: '#ff286a',
       animation: 'shake 1s both'
+    },
+    verifying: {
+      background: '#1aad57',
+      borderBottomColor: '#1aad57',
+      color: '#fff'
     }
   },
   text: {
