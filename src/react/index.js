@@ -69,6 +69,7 @@ const sliderSettings = {
   prevArrow: <SliderArrows direction="prev"/>,
   afterChange(index) {
     const input = window.loginInput
+    const inputElement = window.loginInputElement
     const video = window.usageVideo
 
     if (!input || !video) {
@@ -80,9 +81,10 @@ const sliderSettings = {
 
     // If it's the last slide, auto-focus on input
     if (index === slideCount - 1) {
-      input.focus()
+      inputElement.focus()
     } else {
-      input.blur()
+      // Reset value of login input
+      input.setState(input.getInitialState())
     }
 
     if (index === 1) {
