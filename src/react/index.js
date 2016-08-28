@@ -115,6 +115,10 @@ const Sections = React.createClass({
       }
     }
 
+    const loginTextRef = element => {
+      window.loginText = element
+    }
+
     return (
       <Slider {...sliderSettings}>
         <section id="intro" style={sliderStyles.section}>
@@ -130,7 +134,7 @@ const Sections = React.createClass({
         </section>
 
         <section id="login" style={sliderStyles.section}>
-          <p style={loginStyles.text}>To start using the app, simply enter your email address below.</p>
+          <p style={loginStyles.text} ref={loginTextRef}>To start using the app, simply enter your email address below.</p>
           <Login/>
         </section>
       </Slider>

@@ -142,6 +142,9 @@ export default React.createClass({
     const input = this
     const verificationMessage = 'Requesting verification'
 
+    window.loginText.innerHTML = `We\'ve just sent a verification email to your address.
+    Please click the link within it!`
+
     this.setState({
       classes: [
         'verifying'
