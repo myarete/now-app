@@ -7,7 +7,7 @@ import {remote} from 'electron'
 
 // Ours
 import styles from '../styles/login'
-import error from '../error'
+import error from '../utils/error'
 
 const getVerificationToken = async (url, email) => {
   const os = remote.require('os')
