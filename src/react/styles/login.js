@@ -14,7 +14,7 @@ export default {
       lineHeight: 32,
       textAlign: 'center',
       fontFamily: 'Menlo, Monaco, Lucida Console, Liberation Mono, serif',
-      transition: 'border-bottom-color .1s ease-in, color .1s ease-in',
+      transition: 'all .1s ease-in',
       maxWidth: 380
     },
     focus: {
