@@ -3,11 +3,13 @@ import {app, Tray, Menu, BrowserWindow} from 'electron'
 import ms from 'ms'
 import Config from 'electron-config'
 import isDev from 'electron-is-dev'
+import {dir as isDirectory} from 'path-type'
 
 // Ours
 import {resolve as resolvePath} from 'app-root-path'
 import {menuItems, deploymentOptions} from './menu'
 import {error as showError} from './dialogs'
+import deploy from './actions/deploy'
 import share from './actions/share'
 import autoUpdater from './updates'
 import {connector, refreshCache} from './api'
@@ -43,10 +45,16 @@ const onboarding = () => {
 
 const fileDropped = async (event, files) => {
   if (files.length > 1) {
-    return showError('It\'s not yet possible to share multiple files/directories at once.')
+    showError('It\'s not yet possible to share multiple files/directories at once.')
+    return
   }
 
-  await share(files[0])
+  if (isDirectory(files[0])) {
+    await deploy(files[0])
+  } else {
+    await share(files[0])
+  }
+
   event.preventDefault()
 }
 

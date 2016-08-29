@@ -39,7 +39,8 @@ export default async (folder, sharing) => {
   try {
     details.package = await fs.readJSON(pkgFile)
   } catch (err) {
-    return showError(err)
+    showError(err)
+    return
   }
 
   const logStatus = message => console.log(chalk.yellow(`[${details.package.name}]`) + ' ' + message)
@@ -105,12 +106,14 @@ export default async (folder, sharing) => {
   try {
     deployment = await apiSession.createDeployment(details)
   } catch (err) {
-    return showError(err)
+    showError(err)
+    return
   }
 
   if (!deployment) {
     // Trigger an error if the deployment didn't work
     showError('Not able to deploy')
+    return
   }
 
   const url = 'https://' + deployment.host
