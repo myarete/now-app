@@ -83,7 +83,7 @@ export async function refreshCache(kind, app) {
     // If token has been revoked, the server will not respond with data
     // In turn, we need to log out
 
-    logout(app)
+    await logout(app)
     return
   }
 

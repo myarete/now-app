@@ -72,7 +72,6 @@ export default React.createClass({
     const verificationToken = await getVerificationToken(apiURL, email)
 
     if (!verificationToken) {
-      error('No first token received')
       return
     }
 

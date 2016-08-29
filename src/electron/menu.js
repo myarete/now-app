@@ -151,7 +151,7 @@ export async function menuItems(app, tray, config, deployments) {
         },
         {
           label: 'Logout',
-          click: () => logout(app)
+          click: async () => await logout(app)
         }
       ]
     },
