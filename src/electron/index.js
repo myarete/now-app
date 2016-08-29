@@ -120,7 +120,10 @@ app.on('ready', async () => {
 
         if (aliases) {
           const aliasInfo = aliases.find(a => deployment.uid === a.deploymentId)
-          info.url = aliasInfo.alias
+
+          if (aliasInfo) {
+            info.url = aliasInfo.alias
+          }
         }
 
         deploymentList[index] = deploymentOptions(info)
