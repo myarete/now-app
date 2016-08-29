@@ -98,7 +98,8 @@ app.on('ready', async () => {
   try {
     tray = new Tray(resolvePath('/assets/icons/iconTemplate.png'))
   } catch (err) {
-    return showError(err)
+    showError(err)
+    return
   }
 
   if (loggedIn) {
@@ -109,15 +110,23 @@ app.on('ready', async () => {
 
     tray.on('click', async () => {
       const deployments = config.get('now.cache.deployments')
+      const aliases = config.get('now.cache.aliases')
+
+      const deploymentList = []
 
       for (const deployment of deployments) {
         const info = deployment
         const index = deployments.indexOf(deployment)
 
-        deployments[index] = deploymentOptions(info)
+        if (aliases) {
+          const aliasInfo = aliases.find(a => deployment.uid === a.deploymentId)
+          info.url = aliasInfo.alias
+        }
+
+        deploymentList[index] = deploymentOptions(info)
       }
 
-      const generatedMenu = await menuItems(app, tray, config, deployments)
+      const generatedMenu = await menuItems(app, tray, config, deploymentList)
       const menu = Menu.buildFromTemplate(generatedMenu)
 
       tray.popUpContextMenu(menu)

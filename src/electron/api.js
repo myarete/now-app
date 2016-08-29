@@ -25,6 +25,9 @@ const refreshKind = async (name, session) => {
     case 'deployments':
       method = 'getDeployments'
       break
+    case 'aliases':
+      method = 'getAliases'
+      break
     default:
       method = false
   }
@@ -69,7 +72,8 @@ export async function refreshCache(kind, app) {
   const sweepers = []
 
   const kinds = [
-    'deployments'
+    'deployments',
+    'aliases'
   ]
 
   for (const kind of kinds) {
