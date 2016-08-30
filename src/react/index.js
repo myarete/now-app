@@ -104,6 +104,7 @@ const sliderSettings = {
 const Sections = React.createClass({
   getInitialState() {
     return {
+      buttonHover: false,
       fading: false,
       loginShown: true
     }
@@ -141,6 +142,11 @@ const Sections = React.createClass({
     app.relaunch()
     app.exit(0)
   },
+  handleHover() {
+    this.setState({
+      buttonHover: !this.state.buttonHover
+    })
+  },
   render() {
     const videoSettings = {
       width: 560,
@@ -164,6 +170,12 @@ const Sections = React.createClass({
       loginText = `You've already signed in once in the now CLI.\nBecause of this, you've now been logged in automatically.`
     }
 
+    let buttonStyles = loginStyles.button.normal
+
+    if (this.state.buttonHover) {
+      buttonStyles = Object.assign({}, buttonStyles, loginStyles.button.hover)
+    }
+
     return (
       <Slider {...sliderSettings}>
         <section id="intro" style={sliderStyles.section}>
@@ -180,7 +192,7 @@ const Sections = React.createClass({
 
         <section id="login" style={sliderStyles.section}>
           <p style={loginStyles.text} ref={loginTextRef}>{loginText}</p>
-          {this.state.loginShown ? <Login/> : <a href="#" onClick={this.handleRestart} style={loginStyles.button}>Get Started</a>}
+          {this.state.loginShown ? <Login/> : <a href="#" onClick={this.handleRestart} onMouseEnter={this.handleHover} onMouseLeave={this.handleHover} style={buttonStyles}>Get Started</a>}
         </section>
       </Slider>
     )

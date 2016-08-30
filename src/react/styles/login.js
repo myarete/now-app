@@ -39,12 +39,20 @@ export default {
     whiteSpace: 'pre'
   },
   button: {
-    background: '#191919',
-    textAlign: 'center',
-    textDecoration: 'none',
-    color: '#fff',
-    fontSize: '15px',
-    padding: '10px 20px',
-    marginTop: '30px'
+    normal: {
+      background: '#191919',
+      textAlign: 'center',
+      textDecoration: 'none',
+      color: '#d0d0d0',
+      fontSize: '15px',
+      padding: '10px 20px',
+      marginTop: '30px',
+      transition: 'all 0.4s ease',
+      cursor: 'pointer'
+    },
+    hover: {
+      background: '#383838',
+      color: '#fff'
+    }
   }
 }
