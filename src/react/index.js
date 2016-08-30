@@ -133,6 +133,13 @@ const Sections = React.createClass({
 
     loader.catch(error)
   },
+  handleRestart() {
+    const app = remote.app
+
+    // Restart the application
+    app.relaunch()
+    app.exit(0)
+  },
   render() {
     const videoSettings = {
       width: 560,
@@ -172,7 +179,7 @@ const Sections = React.createClass({
 
         <section id="login" style={sliderStyles.section}>
           <p style={loginStyles.text} ref={loginTextRef}>{loginText}</p>
-          {this.state.loginShown ? <Login/> : <a href="#" style={loginStyles.button}>Get Started</a>}
+          {this.state.loginShown ? <Login/> : <a href="#" onClick={this.handleRestart} style={loginStyles.button}>Get Started</a>}
         </section>
       </Slider>
     )
