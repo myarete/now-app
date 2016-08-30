@@ -36,7 +36,8 @@ const onboarding = () => {
     show: false,
     fullscreenable: false,
     maximizable: false,
-    titleBarStyle: 'hidden-inset'
+    titleBarStyle: 'hidden-inset',
+    backgroundColor: '#000'
   })
 
   win.loadURL('file://' + resolvePath('../app/pages/welcome.html'))
