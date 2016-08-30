@@ -3,6 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Slider from 'react-slick'
 import SVGinline from 'react-svg-inline'
+import {remote} from 'electron'
 
 // Components
 import Title from './components/title'
@@ -16,6 +17,9 @@ import loginStyles from './styles/login'
 // Vectors
 import logoSVG from './vectors/logo.svg'
 import arrowSVG from './vectors/arrow.svg'
+
+// Other
+import error from './utils/error'
 
 const anchor = document.getElementById('anchor')
 
@@ -101,8 +105,33 @@ const sliderSettings = {
 const Sections = React.createClass({
   getInitialState() {
     return {
-      fading: false
+      fading: false,
+      loginShown: true
     }
+  },
+  tokenFromCLI() {
+    const path = remote.require('path')
+    const os = remote.require('os')
+    const fs = remote.require('fs-promise')
+    const Config = remote.require('electron-config')
+
+    const root = this
+
+    const filePath = path.join(os.homedir(), '.now.json')
+    const loader = fs.readJSON(filePath)
+
+    loader.then(content => {
+      const config = new Config()
+
+      config.set('now.user.token', content.token)
+      config.set('now.user.email', content.email)
+
+      root.setState({
+        loginShown: false
+      })
+    })
+
+    loader.catch(error)
   },
   render() {
     const videoSettings = {
@@ -117,6 +146,14 @@ const Sections = React.createClass({
 
     const loginTextRef = element => {
       window.loginText = element
+    }
+
+    let loginText = 'To start using the app, simply enter\nyour email address below.'
+
+    if (this.state.loginShown) {
+      this.tokenFromCLI()
+    } else {
+      loginText = `You've already signed in once in the now CLI.\nBecause of this, you've now been logged in automatically.`
     }
 
     return (
@@ -134,8 +171,8 @@ const Sections = React.createClass({
         </section>
 
         <section id="login" style={sliderStyles.section}>
-          <p style={loginStyles.text} ref={loginTextRef}>To start using the app, simply enter<br/>your email address below.</p>
-          <Login/>
+          <p style={loginStyles.text} ref={loginTextRef}>{loginText}</p>
+          {this.state.loginShown ? <Login/> : <a href="#" style={loginStyles.button}>Get Started</a>}
         </section>
       </Slider>
     )

@@ -35,6 +35,16 @@ export default {
     textAlign: 'center',
     margin: '0',
     fontSize: '15px',
-    lineHeight: '21px'
+    lineHeight: '24px',
+    whiteSpace: 'pre'
+  },
+  button: {
+    background: '#191919',
+    textAlign: 'center',
+    textDecoration: 'none',
+    color: '#fff',
+    fontSize: '15px',
+    padding: '10px 20px',
+    marginTop: '30px'
   }
 }
