@@ -154,11 +154,37 @@ app.on('ready', async () => {
 
     const tutorial = onboarding()
 
+    const toggleTutorial = event => {
+      // If window open and not focused, bring it to focus
+      if (tutorial.isVisible() && !tutorial.isFocused()) {
+        tutorial.focus()
+        return
+      }
+
+      // Show or hide onboarding window
+      if (isHighlighted) {
+        tutorial.hide()
+      } else {
+        tutorial.show()
+        isHighlighted = false
+      }
+
+      // Toggle highlight mode
+      toggleHighlight()
+
+      // Don't open the menu
+      event.preventDefault()
+    }
+
     const events = [
       'closed',
       'minimize',
       'restore'
     ]
+
+    // Show the tutorial as soon as the content has finished rendering
+    // This avoids a visual flash
+    tutorial.on('ready-to-show', toggleTutorial)
 
     // Hide window instead of closing it
     tutorial.on('close', event => {
@@ -182,28 +208,7 @@ app.on('ready', async () => {
       tutorial.forceClose = true
     })
 
-    tray.on('click', event => {
-      // If window open and not focused, bring it to focus
-      if (tutorial.isVisible() && !tutorial.isFocused()) {
-        tutorial.focus()
-        return
-      }
-
-      // Show or hide onboarding window
-      if (isHighlighted) {
-        tutorial.hide()
-      } else {
-        tutorial.show()
-        isHighlighted = false
-      }
-
-      // Toggle highlight mode
-      toggleHighlight()
-
-      // Don't open the menu
-      event.preventDefault()
-    })
-
+    tray.on('click', toggleTutorial)
     let submenuShown = false
 
     // Ability to close the app when logged out
