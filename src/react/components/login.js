@@ -57,7 +57,7 @@ const sleep = ms => new Promise(resolve => {
 export default React.createClass({
   getInitialState() {
     return {
-      value: 'you@youremail.com',
+      value: '',
       focus: false,
       classes: []
     }
@@ -222,6 +222,7 @@ export default React.createClass({
       type: 'email',
       value: this.state.value,
       disabled,
+      placeholder: 'you@youremail.com',
       onChange: this.handleChange,
       onKeyDown: this.handleKey,
       onFocus: this.toggleFocus,
