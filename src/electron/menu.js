@@ -1,12 +1,12 @@
 // Packages
 import {shell, autoUpdater, clipboard, dialog} from 'electron'
 import moment from 'moment'
-import notify from 'display-notification'
 
 // Ours
 import {deploy, share, error} from './dialogs'
 import logout from './actions/logout'
 import {connector, refreshCache} from './api'
+import notify from './notify'
 
 // Determine if an update is ready to be installed
 // Based on an environment variable
@@ -31,7 +31,7 @@ export function deploymentOptions(info) {
           // Let the user know
           notify({
             title: 'Copied to clipboard',
-            text: 'Your clipboard now contains the URL of your deployment.'
+            body: 'Your clipboard now contains the URL of your deployment.'
           })
         }
       },
@@ -60,7 +60,7 @@ export function deploymentOptions(info) {
 
           notify({
             title: `Deleting ${info.name}...`,
-            text: 'The deployment is being deleted from our infrastructure. We\'ll let you know once it\'s gone!'
+            body: 'The deployment is being deleted from our infrastructure. We\'ll let you know once it\'s gone!'
           })
 
           // Otherwise, delete the deployment
@@ -77,7 +77,7 @@ export function deploymentOptions(info) {
 
           notify({
             title: 'Deleted ' + info.name,
-            text: 'The deployment has successfully been deleted.'
+            body: 'The deployment has successfully been deleted.'
           })
 
           try {

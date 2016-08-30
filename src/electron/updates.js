@@ -1,11 +1,11 @@
 // Packages
 import {autoUpdater} from 'electron'
 import ms from 'ms'
-import notify from 'display-notification'
 
 // Ours
 import {version} from '../../package'
 import {error as showError} from './dialogs'
+import notify from './notify'
 
 const platform = process.platform ? 'osx' : process.platform === 'darwin'
 const feedURL = 'https://now-updates.now.sh/update/' + platform
@@ -24,6 +24,6 @@ export default () => {
 
   autoUpdater.on('update-downloaded', () => notify({
     title: 'Update downloaded',
-    text: 'Sheesh'
+    body: 'Sheesh'
   }))
 }

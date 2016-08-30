@@ -8,12 +8,12 @@ import glob from 'glob-promise'
 import {dir as isDirectory} from 'path-type'
 import {isTextSync as isText} from 'istextorbinary'
 import {clipboard, shell} from 'electron'
-import notify from 'display-notification'
 import chalk from 'chalk'
 
 // Ours
 import {connector} from '../api'
 import {error as showError} from '../dialogs'
+import notify from '../notify'
 
 const ignoredFiles = [
   '.DS_Store'
@@ -140,7 +140,7 @@ export default async (folder, sharing) => {
 
         notify({
           title: 'Done ' + (sharing ? 'sharing' : 'deploying') + '!',
-          text: 'Opening the URL in your browser...'
+          body: 'Opening the URL in your browser...'
         })
 
         // Open the URL in the default browser
@@ -166,7 +166,7 @@ export default async (folder, sharing) => {
   // Let the user now
   notify({
     title: genTitle(),
-    text: 'Your clipboard already contains the URL.'
+    body: 'Your clipboard already contains the URL.'
   })
 
   // Delete the local deployed directory if required
