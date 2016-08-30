@@ -100,6 +100,10 @@ export default React.createClass({
     app.exit(0)
   },
   componentWillUnmount() {
+    if (!this.apiRequest) {
+      return
+    }
+
     this.apiRequest.abort()
   },
   async handleKey(event) {

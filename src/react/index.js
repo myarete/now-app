@@ -18,9 +18,6 @@ import loginStyles from './styles/login'
 import logoSVG from './vectors/logo.svg'
 import arrowSVG from './vectors/arrow.svg'
 
-// Other
-import error from './utils/error'
-
 const anchor = document.getElementById('anchor')
 
 const SliderArrows = React.createClass({
@@ -84,11 +81,13 @@ const sliderSettings = {
     const slideCount = slider.childElementCount
 
     // If it's the last slide, auto-focus on input
-    if (index === slideCount - 1) {
-      inputElement.focus()
-    } else {
-      // Reset value of login input
-      input.setState(input.getInitialState())
+    if (inputElement && input) {
+      if (index === slideCount - 1) {
+        inputElement.focus()
+      } else {
+        // Reset value of login input
+        input.setState(input.getInitialState())
+      }
     }
 
     if (index === 1) {
