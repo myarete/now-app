@@ -131,7 +131,9 @@ const Sections = React.createClass({
       })
     })
 
-    loader.catch(error)
+    loader.catch(() => {
+      console.log('.now.json does not exist. Fine!')
+    })
   },
   handleRestart() {
     const app = remote.app
