@@ -134,7 +134,7 @@ const Sections = React.createClass({
         </section>
 
         <section id="login" style={sliderStyles.section}>
-          <p style={loginStyles.text} ref={loginTextRef}>To start using the app, simply enter your email address below.</p>
+          <p style={loginStyles.text} ref={loginTextRef}>To start using the app, simply enter<br/>your email address below.</p>
           <Login/>
         </section>
       </Slider>

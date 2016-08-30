@@ -15,7 +15,8 @@ export default {
       textAlign: 'center',
       fontFamily: 'Menlo, Monaco, Lucida Console, Liberation Mono, serif',
       transition: 'all .1s ease-in',
-      maxWidth: 380
+      maxWidth: 380,
+      marginTop: '40px'
     },
     focus: {
       color: '#fff',
@@ -27,17 +28,13 @@ export default {
       animation: 'shake 1s both'
     },
     verifying: {
-      background: '#1aad57',
-      borderBottomColor: '#1aad57',
-      color: '#fff'
+      display: 'none'
     }
   },
   text: {
     textAlign: 'center',
     margin: '0',
     fontSize: '15px',
-    width: '260px',
-    lineHeight: '21px',
-    marginBottom: '40px'
+    lineHeight: '21px'
   }
 }

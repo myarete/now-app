@@ -138,38 +138,13 @@ export default React.createClass({
       return
     }
 
-    const input = this
-    const verificationMessage = 'Requesting verification'
-
-    window.loginText.innerHTML = `We\'ve just sent a verification email to your address.
-    Please click the link within it!`
+    window.loginText.innerHTML = `We sent an email to <strong>${value}</strong>.<br>Please follow the link within it.`
 
     this.setState({
       classes: [
         'verifying'
-      ],
-      value: verificationMessage
+      ]
     })
-
-    let dots = 1
-
-    setInterval(() => {
-      let dotText = ''
-
-      for (let i = 0; i < dots; i++) {
-        dotText += '.'
-      }
-
-      input.setState({
-        value: verificationMessage + dotText
-      })
-
-      dots++
-
-      if (dots === 4) {
-        dots = 0
-      }
-    }, 1000)
 
     try {
       await this.tryLogin(value)
@@ -204,24 +179,16 @@ export default React.createClass({
     const hoverStyle = Object.assign({}, inputStyles.normal, inputStyles.focus)
     const style = this.state.focus ? hoverStyle : inputStyles.normal
 
-    let disabled = false
-
     if (classes.length > 0) {
       for (const item of classes) {
         // Apply styles based on class names
         Object.assign(style, inputStyles[item])
-
-        // Make the input non-editable while checking verification
-        if (item === 'verifying') {
-          disabled = true
-        }
       }
     }
 
     const inputProps = {
       type: 'email',
       value: this.state.value,
-      disabled,
       placeholder: 'you@youremail.com',
       onChange: this.handleChange,
       onKeyDown: this.handleKey,
