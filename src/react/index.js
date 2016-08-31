@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Slider from 'react-slick'
 import SVGinline from 'react-svg-inline'
-import {remote} from 'electron'
+import {remote, shell} from 'electron'
 
 // Components
 import Title from './components/title'
@@ -216,13 +216,15 @@ if (anchorWelcome) {
   ), anchorWelcome)
 }
 
+const openChangelog = () => shell.openExternal('https://github.com/zeit/now-app/issues')
+
 if (anchorAbout) {
   ReactDOM.render((
     <section id="about">
       <img src="../dist/app.ico"/>
       <h1>Now</h1>
 
-      <h2>{'Version 0.7.1'} (<a href="#">latest</a>)</h2>
+      <h2>{'Version 0.7.1'} (<span onClick={openChangelog}>latest</span>)</h2>
       <h2>{'Copyright ' + String.fromCharCode(169) + ' 2016 Zeit, Inc.'}</h2>
     </section>
   ), anchorAbout)
