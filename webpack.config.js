@@ -4,6 +4,7 @@ const path = require('path')
 // Packages
 const webpack = require('webpack')
 const LiveReloadPlugin = require('webpack-livereload-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const outputPath = path.join(__dirname, 'app', 'dist')
 const nodeEnv = process.env.NODE_ENV || 'development'
@@ -98,5 +99,20 @@ module.exports = [
         }
       ]
     }
+  },
+  {
+    name: 'icons',
+    output: {
+      path: outputPath,
+      filename: 'app.ico'
+    },
+    plugins: [
+      new CopyWebpackPlugin([
+        {
+          from: 'build/icon.ico',
+          to: 'app.ico'
+        }
+      ])
+    ]
   }
 ]

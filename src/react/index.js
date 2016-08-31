@@ -18,7 +18,11 @@ import loginStyles from './styles/login'
 import logoSVG from './vectors/logo.svg'
 import arrowSVG from './vectors/arrow.svg'
 
-const anchor = document.getElementById('anchor')
+// Other
+import exists from './utils/exists'
+
+const anchorWelcome = document.getElementById('mount-welcome')
+const anchorAbout = document.getElementById('mount-about')
 
 const SliderArrows = React.createClass({
   propTypes: {
@@ -203,9 +207,23 @@ const mainStyles = {
   height: 'inherit'
 }
 
-ReactDOM.render((
-  <main style={mainStyles}>
-    <Title/>
-    <Sections/>
-  </main>
-), anchor)
+if (anchorWelcome) {
+  ReactDOM.render((
+    <main style={mainStyles}>
+      <Title/>
+      <Sections/>
+    </main>
+  ), anchorWelcome)
+}
+
+if (anchorAbout) {
+  ReactDOM.render((
+    <section id="about">
+      <img src="../dist/app.ico"/>
+      <h1>Now</h1>
+
+      <h2>{'Version 0.7.1'} (<a href="#">latest</a>)</h2>
+      <h2>{'Copyright ' + String.fromCharCode(169) + ' 2016 Zeit, Inc.'}</h2>
+    </section>
+  ), anchorAbout)
+}

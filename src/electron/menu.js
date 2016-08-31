@@ -1,6 +1,7 @@
 // Packages
-import {shell, autoUpdater, clipboard, dialog} from 'electron'
+import {shell, autoUpdater, clipboard, dialog, BrowserWindow} from 'electron'
 import moment from 'moment'
+import {resolve as resolvePath} from 'app-root-path'
 
 // Ours
 import {deploy, share, error} from './dialogs'
@@ -11,6 +12,24 @@ import notify from './notify'
 // Determine if an update is ready to be installed
 // Based on an environment variable
 const updateAvailable = process.env.UPDATE_AVAILABLE || false
+
+const about = () => {
+  const win = new BrowserWindow({
+    width: 285,
+    height: 185,
+    title: '',
+    resizable: false,
+    center: true,
+    show: false,
+    fullscreenable: false,
+    maximizable: false,
+    minimizable: false,
+    backgroundColor: '#ECECEC'
+  })
+
+  win.loadURL('file://' + resolvePath('../app/pages/about.html'))
+  return win
+}
 
 export function deploymentOptions(info) {
   const created = moment(new Date(parseInt(info.created, 10)))
@@ -108,7 +127,10 @@ export async function menuItems(app, tray, config, deployments) {
   return [
     {
       label: process.platform === 'darwin' ? `About ${app.getName()}` : 'About',
-      role: 'about'
+      click() {
+        const aboutWindow = about()
+        aboutWindow.show()
+      }
     },
     {
       type: 'separator'
