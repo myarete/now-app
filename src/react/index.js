@@ -18,9 +18,6 @@ import loginStyles from './styles/login'
 import logoSVG from './vectors/logo.svg'
 import arrowSVG from './vectors/arrow.svg'
 
-// Other
-import exists from './utils/exists'
-
 const anchorWelcome = document.getElementById('mount-welcome')
 const anchorAbout = document.getElementById('mount-about')
 
@@ -216,16 +213,27 @@ if (anchorWelcome) {
   ), anchorWelcome)
 }
 
-const openChangelog = () => shell.openExternal('https://github.com/zeit/now-app/issues')
+const AboutContent = React.createClass({
+  render() {
+    const statusProperties = {
+      onClick() {
+        const issueURL = 'https://github.com/zeit/now-app/issues'
+        shell.openExternal(issueURL)
+      }
+    }
+
+    return (
+      <section id="about">
+        <img src="../dist/app.ico"/>
+        <h1>Now</h1>
+
+        <h2>{'Version 0.7.1'} (<span {...statusProperties}>latest</span>)</h2>
+        <h2>{'Copyright ' + String.fromCharCode(169) + ' 2016 Zeit, Inc.'}</h2>
+      </section>
+    )
+  }
+})
 
 if (anchorAbout) {
-  ReactDOM.render((
-    <section id="about">
-      <img src="../dist/app.ico"/>
-      <h1>Now</h1>
-
-      <h2>{'Version 0.7.1'} (<span onClick={openChangelog}>latest</span>)</h2>
-      <h2>{'Copyright ' + String.fromCharCode(169) + ' 2016 Zeit, Inc.'}</h2>
-    </section>
-  ), anchorAbout)
+  ReactDOM.render(<AboutContent/>, anchorAbout)
 }
