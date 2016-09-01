@@ -92,11 +92,11 @@ export default React.createClass({
     config.set('now.user.email', email)
     config.set('now.user.token', final)
 
-    const app = remote.app
+    const currentWindow = remote.getCurrentWindow()
 
-    // Restart application
-    app.relaunch()
-    app.exit(0)
+    if (currentWindow) {
+      currentWindow.focus()
+    }
   },
   componentWillUnmount() {
     if (!this.apiRequest) {
