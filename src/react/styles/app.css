@@ -1,3 +1,5 @@
+@import "slick-carousel/slick/slick.css";
+
 #window-title {
   height: 37px;
   display: flex;
@@ -28,6 +30,105 @@
 #anchor {
   height: inherit;
   width: inherit;
+}
+
+#login input {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #626262;
+  font-size: 12px;
+  color: #666;
+  min-width: 250px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, serif;
+  transition: all .1s ease-in;
+  max-width: 380px;
+  margin-top: 40px;
+}
+
+#login input:focus {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+#login input.error {
+  color: #ff286a;
+  border-bottom-color: #ff286a;
+  animation: shake 1s both;
+}
+
+#login input.verifying {
+  display: none;
+}
+
+#login p {
+  text-align: center;
+  margin: 0;
+  font-size: 15px;
+  line-height: 24px;
+  white-space: pre;
+}
+
+#login a {
+  background: #191919;
+  text-align: center;
+  text-decoration: none;
+  color: #d0d0d0;
+  font-size: 15px;
+  padding: 10px 20px;
+  margin-top: 30px;
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+#login a:hover {
+  background: #383838;
+  color: #fff;
+}
+
+.slick-initialized .slick-slide {
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.slick-arrow {
+  height: 100vh !important;
+  z-index: 4000;
+  top: 0;
+  position: fixed;
+  width: 50px !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to left, #000, transparent);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+
+.slick-arrow:not(.slick-disabled) {
+  opacity: .5 !important;
+}
+
+.slick-arrow:not(.slick-disabled):hover {
+  opacity: 1 !important;
+}
+
+.slick-arrow.slick-prev {
+  left: 0;
+  transform: rotate(180deg);
+}
+
+.slick-arrow.slick-next {
+  right: 0;
 }
 
 .slick-dots {

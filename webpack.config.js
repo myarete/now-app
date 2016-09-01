@@ -5,7 +5,9 @@ const path = require('path')
 const webpack = require('webpack')
 const LiveReloadPlugin = require('webpack-livereload-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const cssnano = require('cssnano')
+
+const cssNano = require('cssnano')
+const cssImport = require('postcss-import')
 
 const outputPath = path.join(__dirname, 'app', 'dist')
 const nodeEnv = process.env.NODE_ENV || 'development'
@@ -132,7 +134,10 @@ module.exports = [
       ]
     },
     postcss() {
-      return [cssnano]
+      return [
+        cssImport,
+        cssNano
+      ]
     },
     plugins: [
       new LiveReloadPlugin()

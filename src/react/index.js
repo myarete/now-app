@@ -9,10 +9,6 @@ import {remote, shell} from 'electron'
 import Title from './components/title'
 import Login from './components/login'
 
-// Styles
-import sliderStyles from './styles/slider'
-import loginStyles from './styles/login'
-
 // Vectors
 import logoSVG from './vectors/logo.svg'
 import arrowSVG from './vectors/arrow.svg'
@@ -25,36 +21,9 @@ const SliderArrows = React.createClass({
     direction: React.PropTypes.string.isRequired,
     className: React.PropTypes.string
   },
-  getInitialState() {
-    return {
-      hover: false
-    }
-  },
-  handleHover() {
-    this.setState({
-      hover: !this.state.hover
-    })
-  },
   render() {
-    let styles = sliderStyles.arrow.all
-    const direction = this.props.direction
-
-    if (direction) {
-      styles = Object.assign({}, styles, sliderStyles.arrow[direction])
-    }
-
-    const isDisabled = this.props.className.split(' ').includes('slick-disabled')
-
-    if (!isDisabled) {
-      styles.opacity = 0.5
-
-      if (this.state.hover) {
-        styles.opacity = 1
-      }
-    }
-
     return (
-      <div {...this.props} style={styles} onMouseEnter={this.handleHover} onMouseLeave={this.handleHover}>
+      <div {...this.props}>
         <SVGinline svg={arrowSVG} width="20px"/>
       </div>
     )
@@ -104,7 +73,6 @@ const sliderSettings = {
 const Sections = React.createClass({
   getInitialState() {
     return {
-      buttonHover: false,
       fading: false,
       loginShown: true
     }
@@ -142,11 +110,6 @@ const Sections = React.createClass({
     app.relaunch()
     app.exit(0)
   },
-  handleHover() {
-    this.setState({
-      buttonHover: !this.state.buttonHover
-    })
-  },
   render() {
     const videoSettings = {
       width: 560,
@@ -170,15 +133,9 @@ const Sections = React.createClass({
       loginText = `You've already signed in once in the now CLI.\nBecause of this, you've now been logged in automatically.`
     }
 
-    let buttonStyles = loginStyles.button.normal
-
-    if (this.state.buttonHover) {
-      buttonStyles = Object.assign({}, buttonStyles, loginStyles.button.hover)
-    }
-
     return (
       <Slider {...sliderSettings}>
-        <section id="intro" style={sliderStyles.section}>
+        <section id="intro">
           <SVGinline svg={logoSVG} width="90px"/>
 
           <h1>
@@ -186,13 +143,13 @@ const Sections = React.createClass({
           </h1>
         </section>
 
-        <section id="usage" style={sliderStyles.section}>
+        <section id="usage">
           <video {...videoSettings}/>
         </section>
 
-        <section id="login" style={sliderStyles.section}>
-          <p style={loginStyles.text} ref={loginTextRef}>{loginText}</p>
-          {this.state.loginShown ? <Login/> : <a href="#" onClick={this.handleRestart} onMouseEnter={this.handleHover} onMouseLeave={this.handleHover} style={buttonStyles}>Get Started</a>}
+        <section id="login">
+          <p ref={loginTextRef}>{loginText}</p>
+          {this.state.loginShown ? <Login/> : <a href="#" onClick={this.handleRestart}>Get Started</a>}
         </section>
       </Slider>
     )

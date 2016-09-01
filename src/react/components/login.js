@@ -6,7 +6,6 @@ import Config from 'electron-config'
 import {remote} from 'electron'
 
 // Ours
-import styles from '../styles/login'
 import error from '../utils/error'
 
 const getVerificationToken = async (url, email) => {
@@ -178,17 +177,6 @@ export default React.createClass({
   },
   render() {
     const classes = this.state.classes
-    const inputStyles = styles.input
-
-    const hoverStyle = Object.assign({}, inputStyles.normal, inputStyles.focus)
-    const style = this.state.focus ? hoverStyle : inputStyles.normal
-
-    if (classes.length > 0) {
-      for (const item of classes) {
-        // Apply styles based on class names
-        Object.assign(style, inputStyles[item])
-      }
-    }
 
     const inputProps = {
       type: 'email',
@@ -204,8 +192,7 @@ export default React.createClass({
 
         this.loginInput = c
       },
-      className: classes.join(' '),
-      style
+      className: classes.join(' ')
     }
 
     return <input {...inputProps}/>
