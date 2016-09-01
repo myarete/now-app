@@ -53,8 +53,8 @@ const sliderSettings = {
     if (inputElement && input) {
       if (index === slideCount - 1) {
         inputElement.focus()
-      } else {
-        // Reset value of login input
+      } else if (!input.state.classes.includes('verifying')) {
+        // Reset value of login form if not verifying
         input.setState(input.getInitialState())
       }
     }
