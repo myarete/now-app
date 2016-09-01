@@ -158,9 +158,12 @@ export default React.createClass({
 
       if (sug) {
         const receiver = value.trim().split('@')[0]
+        const suggestion = receiver + '@' + sug
+
+        const suffix = suggestion.replace(value, '')
 
         this.setState({
-          suggestion: receiver + '@' + sug
+          suggestion: '<i>' + value + '</i>' + suffix
         })
 
         return
@@ -265,7 +268,7 @@ export default React.createClass({
       <aside className="auto-complete">
         <div>
           <input {...inputProps}/>
-          <span>{this.state.suggestion}</span>
+          <span dangerouslySetInnerHTML={{__html: this.state.suggestion}}/>
         </div>
       </aside>
     )

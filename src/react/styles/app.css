@@ -134,10 +134,15 @@ body {
   bottom: 0;
   z-index: 100;
   color: #999;
-  line-height: 34px;
+  line-height: 35px;
   font-size: 12px;
   text-align: left;
   text-indent: 1px;
+}
+
+#login .auto-complete i {
+  font-style: normal;
+  visibility: hidden;
 }
 
 .slick-initialized .slick-slide {
