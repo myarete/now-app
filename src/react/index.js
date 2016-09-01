@@ -97,11 +97,7 @@ const Sections = React.createClass({
       root.setState({
         loginShown: false
       })
-    })
-
-    loader.catch(() => {
-      console.log('.now.json does not exist. Fine!')
-    })
+    }).catch(() => {})
   },
   handleRestart() {
     const app = remote.app
