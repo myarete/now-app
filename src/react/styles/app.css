@@ -60,7 +60,7 @@ body {
   height: 32px;
   line-height: 32px;
   text-align: left;
-  transition: border, background .1s ease-in;
+  transition: border, background, color .1s ease-in;
   max-width: 380px;
   z-index: 300;
   position: relative;
@@ -74,12 +74,6 @@ body {
 #login input:focus {
   color: #fff;
   border-bottom-color: #fff;
-}
-
-#login input.error {
-  color: #ff286a;
-  border-bottom-color: #ff286a;
-  animation: shake 1s both;
 }
 
 #login input.verifying {
@@ -118,6 +112,16 @@ body {
   min-width: 250px;
   text-align: center;
   margin-top: 40px;
+  transition: all 0.4s ease;
+}
+
+#login .auto-complete.error {
+  border-bottom-color: #ff286a;
+  animation: shake 1s both;
+}
+
+#login .auto-complete.error input {
+  color: #ff286a;
 }
 
 #login .auto-complete div {

@@ -255,17 +255,25 @@ export default React.createClass({
       onKeyDown: this.handleKey,
       onFocus: this.toggleFocus,
       onBlur: this.toggleFocus,
-      ref: c => {
-        window.loginInputElement = c
-        window.loginInput = this
+      ref: item => {
+        window.loginInputElement = item
+        this.loginInput = item
+      }
+    }
 
-        this.loginInput = c
+    if (classes.indexOf('auto-complete') === -1) {
+      classes.push('auto-complete')
+    }
+
+    const autoCompleteProps = {
+      ref: () => {
+        window.loginInput = this
       },
       className: classes.join(' ')
     }
 
     return (
-      <aside className="auto-complete">
+      <aside {...autoCompleteProps}>
         <div>
           <input {...inputProps}/>
           <span dangerouslySetInnerHTML={{__html: this.state.suggestion}}/>
