@@ -73,7 +73,6 @@ body {
 
 #login input:focus {
   color: #fff;
-  border-bottom-color: #fff;
 }
 
 #login p {
@@ -109,6 +108,11 @@ body {
   text-align: center;
   margin-top: 40px;
   transition: all 0.4s ease;
+  cursor: text;
+}
+
+#login .auto-complete.focus {
+  border-bottom-color: #fff;
 }
 
 #login .auto-complete.verifying {

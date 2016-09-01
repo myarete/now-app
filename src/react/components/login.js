@@ -284,6 +284,16 @@ export default React.createClass({
       classes.push('auto-complete')
     }
 
+    const focusPosition = classes.indexOf('focus')
+
+    if (focusPosition > -1) {
+      classes.splice(focusPosition, 1)
+    }
+
+    if (this.state.focus) {
+      classes.push('focus')
+    }
+
     const autoCompleteProps = {
       ref: () => {
         window.loginInput = this
