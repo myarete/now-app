@@ -1,6 +1,7 @@
 // Packages
 import Now from 'now-api'
 import Config from 'electron-config'
+import chalk from 'chalk'
 
 // Ours
 import {error as showError} from './dialogs'
@@ -91,5 +92,6 @@ export async function refreshCache(kind, app) {
     return
   }
 
-  console.log('Refreshed entire cache')
+  const currentTime = new Date().toLocaleTimeString()
+  console.log(chalk.green(`[${currentTime}]`) + ' Refreshed entire cache')
 }
