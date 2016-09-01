@@ -5,6 +5,7 @@ const path = require('path')
 const webpack = require('webpack')
 const LiveReloadPlugin = require('webpack-livereload-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const cssnano = require('cssnano')
 
 const outputPath = path.join(__dirname, 'app', 'dist')
 const nodeEnv = process.env.NODE_ENV || 'development'
@@ -114,5 +115,24 @@ module.exports = [
         }
       ])
     ]
+  },
+  {
+    name: 'styles',
+    entry: './src/react/styles/app.css',
+    output: {
+      path: outputPath,
+      filename: 'styles.js'
+    },
+    module: {
+      loaders: [
+        {
+          test: /\.css$/,
+          loader: 'style-loader!css-loader!postcss-loader'
+        }
+      ]
+    },
+    postcss() {
+      return [cssnano]
+    }
   }
 ]
