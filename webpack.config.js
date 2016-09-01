@@ -133,6 +133,9 @@ module.exports = [
     },
     postcss() {
       return [cssnano]
-    }
+    },
+    plugins: [
+      new LiveReloadPlugin()
+    ]
   }
 ]
