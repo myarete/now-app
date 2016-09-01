@@ -11,7 +11,6 @@ import Login from './components/login'
 
 // Styles
 import sliderStyles from './styles/slider'
-import introStyles from './styles/intro'
 import loginStyles from './styles/login'
 
 // Vectors
@@ -182,7 +181,7 @@ const Sections = React.createClass({
         <section id="intro" style={sliderStyles.section}>
           <SVGinline svg={logoSVG} width="90px"/>
 
-          <h1 style={introStyles.heading}>
+          <h1>
             <b>now:</b> realtime deployments made easy
           </h1>
         </section>

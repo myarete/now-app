@@ -1,14 +1,11 @@
 // Packages
 import React from 'react'
 
-// Ours
-import styling from '../styles/title'
-
 export default React.createClass({
   render() {
     return (
-      <aside id="window-title" style={styling.title}>
-        <h1 style={styling.heading}>Welcome to now</h1>
+      <aside id="window-title">
+        <h1>Welcome to now</h1>
       </aside>
     )
   }

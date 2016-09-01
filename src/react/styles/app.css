@@ -1,3 +1,30 @@
+#window-title {
+  height: 37px;
+  display: flex;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #000;
+}
+
+#window-title h1 {
+  margin: 0;
+  color: #9B9B9B;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  font-weight: 400
+}
+
+#intro h1 {
+  font-size: 15px;
+  font-weight: 400;
+  margin: 25px 0 0 0;
+  cursor: default;
+}
+
 #anchor {
   height: inherit;
   width: inherit;
