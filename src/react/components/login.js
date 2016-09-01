@@ -93,10 +93,20 @@ export default React.createClass({
     config.set('now.user.token', final)
 
     const currentWindow = remote.getCurrentWindow()
+    const loginInput = window.loginInput
 
     if (currentWindow) {
       currentWindow.focus()
     }
+
+    window.sliderElement.setState({
+      loginShown: false,
+      loginText: 'Congratulations! You\'re now signed in.\nAre you ready to rock? Then click the button:'
+    })
+
+    loginInput.setState({
+      classes: loginInput.getInitialState().classes
+    })
   },
   componentWillUnmount() {
     if (!this.apiRequest) {

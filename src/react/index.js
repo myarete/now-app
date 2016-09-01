@@ -74,7 +74,8 @@ const Sections = React.createClass({
   getInitialState() {
     return {
       fading: false,
-      loginShown: true
+      loginShown: true,
+      loginText: 'To start using the app, simply enter\nyour email address below.'
     }
   },
   tokenFromCLI() {
@@ -84,6 +85,7 @@ const Sections = React.createClass({
     const Config = remote.require('electron-config')
 
     const root = this
+    window.sliderElement = this
 
     const filePath = path.join(os.homedir(), '.now.json')
     const loader = fs.readJSON(filePath)
@@ -95,7 +97,8 @@ const Sections = React.createClass({
       config.set('now.user.email', content.email)
 
       root.setState({
-        loginShown: false
+        loginShown: false,
+        loginText: `You've already signed in once in the now CLI.\nBecause of this, you've now been logged in automatically.`
       })
     }).catch(() => {})
   },
@@ -121,12 +124,8 @@ const Sections = React.createClass({
       window.loginText = element
     }
 
-    let loginText = 'To start using the app, simply enter\nyour email address below.'
-
     if (this.state.loginShown) {
       this.tokenFromCLI()
-    } else {
-      loginText = `You've already signed in once in the now CLI.\nBecause of this, you've now been logged in automatically.`
     }
 
     return (
@@ -144,7 +143,7 @@ const Sections = React.createClass({
         </section>
 
         <section id="login">
-          <p ref={loginTextRef}>{loginText}</p>
+          <p ref={loginTextRef}>{this.state.loginText}</p>
           {this.state.loginShown ? <Login/> : <a href="#" onClick={this.handleRestart}>Get Started</a>}
         </section>
       </Slider>
