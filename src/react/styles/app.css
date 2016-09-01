@@ -76,10 +76,6 @@ body {
   border-bottom-color: #fff;
 }
 
-#login input.verifying {
-  display: none;
-}
-
 #login p {
   text-align: center;
   margin: 0;
@@ -113,6 +109,10 @@ body {
   text-align: center;
   margin-top: 40px;
   transition: all 0.4s ease;
+}
+
+#login .auto-complete.verifying {
+  display: none;
 }
 
 #login .auto-complete.error {
