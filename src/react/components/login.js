@@ -192,6 +192,18 @@ export default React.createClass({
       return
     }
 
+    const suggestion = this.state.suggestion
+
+    if (isEnter && suggestion) {
+      // Strip HTML tags and set value
+      this.setState({
+        value: suggestion.replace(/(<([^>]+)>)/ig, ''),
+        suggestion: ''
+      })
+
+      return
+    }
+
     const value = this.state.value
 
     if (!/^.+@.+\..+$/.test(value)) {
@@ -237,12 +249,18 @@ export default React.createClass({
       })
     }
   },
-  componentDidMount() {
+  initializeAutoSize() {
     const input = this.loginInput
 
     autoSizeInput(input, {
       minWidth: false
     })
+  },
+  componentDidMount() {
+    this.initializeAutoSize()
+  },
+  componentDidUpdate() {
+    this.initializeAutoSize()
   },
   render() {
     const classes = this.state.classes
