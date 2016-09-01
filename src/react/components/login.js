@@ -258,7 +258,8 @@ export default React.createClass({
       ref: item => {
         window.loginInputElement = item
         this.loginInput = item
-      }
+      },
+      onClick: event => event.stopPropagation()
     }
 
     if (classes.indexOf('auto-complete') === -1) {
@@ -269,14 +270,17 @@ export default React.createClass({
       ref: () => {
         window.loginInput = this
       },
+      onClick: () => this.loginInput.focus(),
       className: classes.join(' ')
     }
+
+    const suggestionClass = this.state.focus ? '' : 'hidden'
 
     return (
       <aside {...autoCompleteProps}>
         <div>
           <input {...inputProps}/>
-          <span dangerouslySetInnerHTML={{__html: this.state.suggestion}}/>
+          <span className={suggestionClass} dangerouslySetInnerHTML={{__html: this.state.suggestion}}/>
         </div>
       </aside>
     )

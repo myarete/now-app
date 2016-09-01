@@ -144,6 +144,10 @@ body {
   text-indent: 1px;
 }
 
+#login .auto-complete span.hidden {
+  opacity: 0;
+}
+
 #login .auto-complete i {
   font-style: normal;
   visibility: hidden;
