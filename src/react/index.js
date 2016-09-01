@@ -13,8 +13,8 @@ import Login from './components/login'
 import logoSVG from './vectors/logo.svg'
 import arrowSVG from './vectors/arrow.svg'
 
-const anchorWelcome = document.getElementById('mount-welcome')
-const anchorAbout = document.getElementById('mount-about')
+const anchorWelcome = document.querySelector('#mount-welcome > div')
+const anchorAbout = document.querySelector('#mount-about > div')
 
 const SliderArrows = React.createClass({
   propTypes: {
