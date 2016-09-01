@@ -1,7 +1,6 @@
 # build output
 app/dist
 dist
-app/assets/icons/*.ico
 
 # dependencies
 node_modules
