@@ -8,6 +8,21 @@ import {remote} from 'electron'
 // Ours
 import error from '../utils/error'
 
+const domains = [
+  'aol.com',
+  'gmail.com',
+  'google.com',
+  'yahoo.com',
+  'ymail.com',
+  'hotmail.com',
+  'live.com',
+  'outlook.com',
+  'inbox.com',
+  'mail.com',
+  'gmx.com',
+  'icloud.com'
+]
+
 const getVerificationToken = async (url, email) => {
   const os = remote.require('os')
 
@@ -58,13 +73,18 @@ export default React.createClass({
     return {
       value: '',
       focus: false,
-      classes: []
+      classes: [],
+      suggestion: ''
     }
   },
   handleChange(event) {
+    const value = event.target.value
+
     this.setState({
-      value: event.target.value
+      value
     })
+
+    this.prepareSuggestion(value)
   },
   async tryLogin(email) {
     const apiURL = 'https://api.zeit.co'
@@ -114,6 +134,42 @@ export default React.createClass({
     }
 
     this.apiRequest.abort()
+  },
+  prepareSuggestion(value) {
+    if (value === '') {
+      return
+    }
+
+    const domain = value.match(/@(.*)/)
+
+    if (domain && domain[1].length) {
+      const match = domain[1]
+      let sug
+
+      domains.some(dm => {
+        // don't suggest if complete match
+        if (match.toLowerCase() === dm.substr(0, match.length) && match !== dm) {
+          sug = dm
+          return true
+        }
+
+        return false
+      })
+
+      if (sug) {
+        const receiver = value.trim().split('@')[0]
+
+        this.setState({
+          suggestion: receiver + '@' + sug
+        })
+
+        return
+      }
+    }
+
+    this.setState({
+      suggestion: ''
+    })
   },
   async handleKey(event) {
     this.setState({
@@ -205,6 +261,13 @@ export default React.createClass({
       className: classes.join(' ')
     }
 
-    return <input {...inputProps}/>
+    return (
+      <aside className="auto-complete">
+        <div>
+          <input {...inputProps}/>
+          <span>{this.state.suggestion}</span>
+        </div>
+      </aside>
+    )
   }
 })
