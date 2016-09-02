@@ -17,7 +17,6 @@ import {connector, refreshCache} from './api'
 // Prevent garbage collection
 // Otherwise the tray icon would randomly hide after some time
 let tray = null
-let loggedIn = false
 
 // Hide dock icon and set app name
 app.dock.hide()
@@ -44,21 +43,6 @@ const onboarding = () => {
   return win
 }
 
-const fileDropped = async (event, files) => {
-  if (files.length > 1) {
-    showError('It\'s not yet possible to share multiple files/directories at once.')
-    return
-  }
-
-  if (isDirectory(files[0])) {
-    await deploy(files[0])
-  } else {
-    await share(files[0])
-  }
-
-  event.preventDefault()
-}
-
 const loadDeployments = async user => {
   const now = connector(user.token)
   let list
@@ -81,7 +65,60 @@ app.on('window-all-closed', () => {
   }
 })
 
+const toggleContextMenu = async () => {
+  const deployments = config.get('now.cache.deployments')
+  const aliases = config.get('now.cache.aliases')
+
+  const deploymentList = []
+
+  for (const deployment of deployments) {
+    const info = deployment
+    const index = deployments.indexOf(deployment)
+
+    if (aliases) {
+      const aliasInfo = aliases.find(a => deployment.uid === a.deploymentId)
+
+      if (aliasInfo) {
+        info.url = aliasInfo.alias
+      }
+    }
+
+    deploymentList[index] = deploymentOptions(info)
+  }
+
+  const generatedMenu = await menuItems(app, tray, config, deploymentList)
+  const menu = Menu.buildFromTemplate(generatedMenu)
+
+  tray.popUpContextMenu(menu)
+}
+
+const isLoggedIn = () => {
+  return true
+}
+
+const fileDropped = async (event, files) => {
+  const loggedIn = isLoggedIn()
+
+  if (!loggedIn) {
+    return
+  }
+
+  if (files.length > 1) {
+    showError('It\'s not yet possible to share multiple files/directories at once.')
+    return
+  }
+
+  if (isDirectory(files[0])) {
+    await deploy(files[0])
+  } else {
+    await share(files[0])
+  }
+
+  event.preventDefault()
+}
+
 app.on('ready', async () => {
+  /*
   let user
 
   // Automatically check for updates regularly
@@ -97,7 +134,7 @@ app.on('ready', async () => {
     if (user.token && await loadDeployments(user.token)) {
       loggedIn = true
     }
-  }
+  }*/
 
   // DO NOT create the tray icon BEFORE the login status has been checked!
   // Otherwise, the user will start clicking...
@@ -111,76 +148,50 @@ app.on('ready', async () => {
     return
   }
 
-  if (loggedIn) {
-    tray.on('drop-files', fileDropped)
-
+  if (isLoggedIn()) {
     // Regularly rebuild local cache every 10 seconds
-    setInterval(() => refreshCache(null, app), ms('10s'))
+    // setInterval(() => refreshCache(null, app), ms('10s'))
+  }
 
-    tray.on('click', async () => {
-      const deployments = config.get('now.cache.deployments')
-      const aliases = config.get('now.cache.aliases')
+  let isHighlighted = false
 
-      const deploymentList = []
+  const toggleHighlight = () => {
+    tray.setHighlightMode(isHighlighted ? 'never' : 'always')
+    isHighlighted = !isHighlighted
+  }
 
-      for (const deployment of deployments) {
-        const info = deployment
-        const index = deployments.indexOf(deployment)
+  const tutorial = onboarding()
 
-        if (aliases) {
-          const aliasInfo = aliases.find(a => deployment.uid === a.deploymentId)
+  const toggleTutorial = event => {
+    // If window open and not focused, bring it to focus
+    if (tutorial.isVisible() && !tutorial.isFocused()) {
+      tutorial.focus()
+      return
+    }
 
-          if (aliasInfo) {
-            info.url = aliasInfo.alias
-          }
-        }
+    // Show or hide onboarding window
+    if (isHighlighted) {
+      tutorial.hide()
+    } else {
+      tutorial.show()
+      isHighlighted = false
+    }
 
-        deploymentList[index] = deploymentOptions(info)
-      }
+    // Toggle highlight mode
+    toggleHighlight()
 
-      const generatedMenu = await menuItems(app, tray, config, deploymentList)
-      const menu = Menu.buildFromTemplate(generatedMenu)
+    // Don't open the menu
+    event.preventDefault()
+  }
 
-      tray.popUpContextMenu(menu)
-    })
-  } else {
+  const events = [
+    'closed',
+    'minimize',
+    'restore'
+  ]
+
+  if (!isLoggedIn()) {
     tray.setHighlightMode('never')
-    let isHighlighted = false
-
-    const toggleHighlight = () => {
-      tray.setHighlightMode(isHighlighted ? 'never' : 'always')
-      isHighlighted = !isHighlighted
-    }
-
-    const tutorial = onboarding()
-
-    const toggleTutorial = event => {
-      // If window open and not focused, bring it to focus
-      if (tutorial.isVisible() && !tutorial.isFocused()) {
-        tutorial.focus()
-        return
-      }
-
-      // Show or hide onboarding window
-      if (isHighlighted) {
-        tutorial.hide()
-      } else {
-        tutorial.show()
-        isHighlighted = false
-      }
-
-      // Toggle highlight mode
-      toggleHighlight()
-
-      // Don't open the menu
-      event.preventDefault()
-    }
-
-    const events = [
-      'closed',
-      'minimize',
-      'restore'
-    ]
 
     // Show the tutorial as soon as the content has finished rendering
     // This avoids a visual flash
@@ -207,30 +218,43 @@ app.on('ready', async () => {
     app.on('before-quit', () => {
       tutorial.forceClose = true
     })
-
-    tray.on('click', toggleTutorial)
-    let submenuShown = false
-
-    // Ability to close the app when logged out
-    tray.on('right-click', async event => {
-      const menu = Menu.buildFromTemplate([
-        {
-          label: process.platform === 'darwin' ? `Quit ${app.getName()}` : 'Quit',
-          click: app.quit,
-          role: 'quit'
-        }
-      ])
-
-      // Toggle highlight mode if tutorial isn't visible
-      if (!tutorial.isVisible()) {
-        toggleHighlight()
-      }
-
-      // Toggle submenu
-      tray.popUpContextMenu(submenuShown ? null : menu)
-      submenuShown = !submenuShown
-
-      event.preventDefault()
-    })
   }
+
+  let submenuShown = false
+  tray.on('drop-files', fileDropped)
+
+  tray.on('click', async () => {
+    const loggedIn = isLoggedIn()
+
+    if (loggedIn) {
+      toggleContextMenu()
+    } else {
+      toggleTutorial()
+    }
+  })
+
+  tray.on('right-click', async event => {
+    if (isLoggedIn()) {
+      return
+    }
+
+    const menu = Menu.buildFromTemplate([
+      {
+        label: process.platform === 'darwin' ? `Quit ${app.getName()}` : 'Quit',
+        click: app.quit,
+        role: 'quit'
+      }
+    ])
+
+    // Toggle highlight mode if tutorial isn't visible
+    if (!tutorial.isVisible()) {
+      toggleHighlight()
+    }
+
+    // Toggle submenu
+    tray.popUpContextMenu(submenuShown ? null : menu)
+    submenuShown = !submenuShown
+
+    event.preventDefault()
+  })
 })
