@@ -187,6 +187,14 @@ const AboutContent = React.createClass({
           <h1>{'3rd party software'}</h1>
           <p>v8 (c) Google, Inc.</p>
         </article>
+
+        <span className="copyright">Made by <b>ZEIT</b></span>
+
+        <nav>
+          <a href="https://zeit.co/now">Docs</a>
+          <a href="https://github.com/zeit/now-app">Source</a>
+          <a href="https://github.com/zeit/now-app/issues">Issue tracker</a>
+        </nav>
       </section>
     )
   }

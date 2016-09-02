@@ -249,7 +249,7 @@ body {
 
 #about {
   text-align: center;
-  padding-top: 50px;
+  padding-top: 40px;
   color: #434343;
 }
 
@@ -259,17 +259,19 @@ body {
 
 #about h1,
 #about h2 {
-  margin: 10px 0;
+  margin: 0;
 }
 
 #about h1 {
   font-size: 15px;
   font-weight: 700;
+  margin: 5px 0 15px 0;
 }
 
 #about h2 {
   font-size: 13px;
   font-weight: 400;
+  cursor: default;
 }
 
 #about h2 span {
@@ -279,6 +281,7 @@ body {
 
 #about .update {
   font-size: 11px;
+  margin-top: 5px;
 }
 
 #about .update.latest {
@@ -308,6 +311,7 @@ body {
   overflow: scroll;
   -webkit-app-region: no-drag;
   -webkit-user-select: text;
+  margin-top: 20px;
 }
 
 #about article h1,
@@ -318,7 +322,7 @@ body {
 
 #about article h1 {
   text-transform: uppercase;
-  margin-top: 25px;
+  margin-top: 15px;
 }
 
 #about article h1:first-child {
@@ -332,6 +336,42 @@ body {
 #about article a {
   color: #707070;
   text-decoration: none;
+}
+
+#about .copyright {
+  font-size: 11px;
+  margin-top: 11px;
+  display: block;
+}
+
+#about .copyright b:before {
+  content: '\25B2'
+}
+
+#about nav a {
+  font-size: 11px;
+  color: #434343;
+  text-decoration: none;
+  padding: 0 10px;
+  position: relative;
+}
+
+#about nav a:after {
+  content: '';
+  position: absolute;
+  right: 0;
+  width: 1px;
+  height: 10px;
+  background: #434343;
+  top: 2px;
+}
+
+#about nav a:hover {
+  color: #000;
+}
+
+#about nav a:last-child:after {
+  display: none;
 }
 
 @keyframes shake {
