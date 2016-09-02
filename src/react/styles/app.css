@@ -374,6 +374,27 @@ body {
   display: none;
 }
 
+#cli article {
+  width: 415px;
+  font-size: 14px;
+  text-align: center;
+  line-height: 20px;
+}
+
+#cli article .install {
+  background: #fff;
+  color: #000;
+  padding: 7px 25px;
+  margin-top: 20px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+#cli article code {
+  font-family: inherit;
+  font-weight: bold;
+}
+
 @keyframes shake {
   0%, 100% {
     transform: translate3d(0, 0, 0);
