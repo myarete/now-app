@@ -83,6 +83,9 @@ export default async (app, tutorial) => {
     showError('Couldn\'t log out')
   }
 
-  // Show the tutorial
-  tutorial.show()
+  // Prepare the tutorial by reloading its contents
+  tutorial.reload()
+
+  // Once the content has loaded again, show it
+  tutorial.once('ready-to-show', () => tutorial.show())
 }
