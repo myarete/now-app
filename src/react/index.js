@@ -144,8 +144,8 @@ const Sections = React.createClass({
 
         <section id="cli">
           <article>
-            <p>Over time, our team will add more and more features to this application. Until then, you can use <code>now</code> from the command line for more advanced features.</p>
-            <p>Press the button below to place <code>now</code> in <code>/usr/local/bin</code>. In the future, we&#39;ll keep it updated for you.</p>
+            <p>Bye the way: You can use <code>now</code> from the command line for more advanced features.</p>
+            <p>Press the button below to place <code>now</code> in <code>/usr/local/bin</code>. In the future, we&#39;ll keep it updated for you automatically.</p>
 
             <span className="install">Install now</span>
           </article>
