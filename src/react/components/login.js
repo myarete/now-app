@@ -121,7 +121,7 @@ export default React.createClass({
 
     window.sliderElement.setState({
       loginShown: false,
-      loginText: 'Congratulations! You\'re now signed in.\nAre you ready to rock? Then click the button:'
+      loginText: 'Congratulations! <strong>You\'re now signed in.</strong>\nAre you ready for deploying something? Then click the button:'
     })
 
     loginInput.setState({

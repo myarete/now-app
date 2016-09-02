@@ -143,7 +143,7 @@ const Sections = React.createClass({
         </section>
 
         <section id="login">
-          <p ref={loginTextRef}>{this.state.loginText}</p>
+          <p ref={loginTextRef} dangerouslySetInnerHTML={{__html: this.state.loginText}}/>
           {this.state.loginShown ? <Login/> : <a href="#" onClick={this.handleRestart}>Get Started</a>}
         </section>
       </Slider>
