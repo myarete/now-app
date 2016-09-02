@@ -388,6 +388,12 @@ body {
   margin-top: 20px;
   display: inline-block;
   cursor: pointer;
+  transition: opacity .2s ease;
+  border-radius: 3px;
+}
+
+#cli article .install:hover {
+  opacity: .8;
 }
 
 #cli article code {
