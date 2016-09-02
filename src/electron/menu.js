@@ -15,15 +15,17 @@ const updateAvailable = process.env.UPDATE_AVAILABLE || false
 
 const about = () => {
   const win = new BrowserWindow({
-    width: 285,
-    height: 185,
-    title: '',
+    width: 360,
+    height: 425,
+    title: 'About',
     resizable: false,
     center: true,
     show: false,
     fullscreenable: false,
     maximizable: false,
     minimizable: false,
+    titleBarStyle: 'hidden-inset',
+    frame: false,
     backgroundColor: '#ECECEC'
   })
 

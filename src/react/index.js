@@ -166,20 +166,27 @@ if (anchorWelcome) {
 
 const AboutContent = React.createClass({
   render() {
-    const statusProperties = {
-      onClick() {
-        const issueURL = 'https://github.com/zeit/now-app/issues'
-        shell.openExternal(issueURL)
-      }
-    }
-
     return (
       <section id="about">
-        <img src="../dist/app.ico"/>
-        <h1>Now</h1>
+        <span className="window-title">About</span>
 
-        <h2>{'Version 0.7.1'} (<span {...statusProperties}>latest</span>)</h2>
-        <h2>{'Copyright ' + String.fromCharCode(169) + ' 2016 Zeit, Inc.'}</h2>
+        <img src="../dist/app.ico"/>
+        <h1>Now.app</h1>
+
+        <h2>Version <b>{'1.0.0'}</b> {'(1w ago)'}</h2>
+        <h2 className="update latest">{'You\'re running the latest version!'}</h2>
+
+        <article>
+          <h1>Authors</h1>
+          <p>
+            Leo Lamprecht (<a href="https://twitter.com/notquiteleo">@notquiteleo</a>)<br/>
+            Evil Rabbit (<a href="https://twitter.com/evilrabbit_">@evilrabbit_</a>)<br/>
+            Guillermo Rauch (<a href="https://twitter.com/rauchg">@rauchg</a>)
+          </p>
+
+          <h1>{'3rd party software'}</h1>
+          <p>v8 (c) Google, Inc.</p>
+        </article>
       </section>
     )
   }

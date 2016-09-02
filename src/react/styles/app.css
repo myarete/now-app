@@ -5,6 +5,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -webkit-app-region: drag;
   -webkit-user-select: none;
+  margin: 0;
 }
 
 #mount-welcome {
@@ -12,7 +13,6 @@ body {
   background: #000;
   height: 100vh;
   width: 100vw;
-  margin: 0;
 }
 
 #mount-about {
@@ -249,10 +249,12 @@ body {
 
 #about {
   text-align: center;
+  padding-top: 50px;
+  color: #434343;
 }
 
 #about img {
-  width: 62px;
+  width: 100px;
 }
 
 #about h1,
@@ -266,13 +268,70 @@ body {
 }
 
 #about h2 {
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 400;
 }
 
 #about h2 span {
   color: #5319e7;
   cursor: pointer;
+}
+
+#about .update {
+  font-size: 11px;
+}
+
+#about .update.latest {
+  color: #00A819;
+}
+
+#about .window-title {
+  font-size: 12px;
+  color: #434343;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 37px;
+  line-height: 37px;
+}
+
+#about article {
+  background: #fff;
+  border-top: 1px solid #BFBFBF;
+  border-bottom: 1px solid #BFBFBF;
+  height: 135px;
+  text-align: left;
+  padding: 15px;
+  box-sizing: border-box;
+  overflow: scroll;
+  -webkit-app-region: no-drag;
+  -webkit-user-select: text;
+}
+
+#about article h1,
+#about article p {
+  color: #707070;
+  font-size: 11px;
+}
+
+#about article h1 {
+  text-transform: uppercase;
+  margin-top: 25px;
+}
+
+#about article h1:first-child {
+  margin-top: 0;
+}
+
+#about article p {
+  line-height: 19px;
+}
+
+#about article a {
+  color: #707070;
+  text-decoration: none;
 }
 
 @keyframes shake {
