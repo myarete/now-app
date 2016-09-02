@@ -40,6 +40,15 @@ const onboarding = () => {
   })
 
   win.loadURL('file://' + resolvePath('../app/pages/welcome.html'))
+
+  win.on('hide', () => {
+    if (!tray) {
+      return
+    }
+
+    tray.setHighlightMode('selection')
+  })
+
   return win
 }
 
@@ -216,7 +225,6 @@ app.on('ready', async () => {
     const loggedIn = isLoggedIn()
 
     if (loggedIn) {
-      tray.setHighlightMode('selection')
       toggleContextMenu(tutorial)
     } else {
       toggleTutorial()
