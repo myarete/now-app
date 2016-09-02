@@ -12,7 +12,7 @@ export function connector(userToken) {
   const token = userToken || config.get('now.user.token')
 
   if (!token) {
-    showError('No token defined. Not able to load data!')
+    console.error('No token defined. Not able to load data!')
     return false
   }
 
