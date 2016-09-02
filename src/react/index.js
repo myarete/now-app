@@ -165,6 +165,20 @@ if (anchorWelcome) {
 }
 
 const AboutContent = React.createClass({
+  componentDidMount() {
+    const links = document.querySelectorAll('a')
+
+    for (const link of links) {
+      const url = link.href
+
+      if (url) {
+        link.addEventListener('click', event => {
+          shell.openExternal(url)
+          event.preventDefault()
+        })
+      }
+    }
+  },
   render() {
     return (
       <section id="about">
