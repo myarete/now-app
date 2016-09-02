@@ -134,7 +134,7 @@ const Sections = React.createClass({
           <SVGinline svg={logoSVG} width="90px"/>
 
           <h1>
-            <b>now:</b> realtime deployments made easy
+            <b>now:</b> realtime global deployments
           </h1>
         </section>
 
