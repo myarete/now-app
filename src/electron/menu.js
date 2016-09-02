@@ -126,13 +126,12 @@ export async function menuItems(app, tray, config, deployments) {
     hasDeployments = true
   }
 
+  const aboutWindow = about()
+
   return [
     {
       label: process.platform === 'darwin' ? `About ${app.getName()}` : 'About',
-      click() {
-        const aboutWindow = about()
-        aboutWindow.show()
-      }
+      click: () => aboutWindow.show()
     },
     {
       type: 'separator'
