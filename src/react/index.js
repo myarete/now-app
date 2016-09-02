@@ -102,12 +102,11 @@ const Sections = React.createClass({
       })
     }).catch(() => {})
   },
-  handleRestart() {
-    const app = remote.app
+  handleReady() {
+    const currentWindow = remote.getCurrentWindow()
 
-    // Restart the application
-    app.relaunch()
-    app.exit(0)
+    // Close the tutorial
+    currentWindow.hide()
   },
   render() {
     const videoSettings = {
@@ -153,7 +152,7 @@ const Sections = React.createClass({
 
         <section id="login">
           <p ref={loginTextRef} dangerouslySetInnerHTML={{__html: this.state.loginText}}/>
-          {this.state.loginShown ? <Login/> : <a href="#" onClick={this.handleRestart}>Get Started</a>}
+          {this.state.loginShown ? <Login/> : <a href="#" onClick={this.handleReady}>Get Started</a>}
         </section>
       </Slider>
     )

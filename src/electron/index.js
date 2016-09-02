@@ -65,7 +65,7 @@ app.on('window-all-closed', () => {
   }
 })
 
-const toggleContextMenu = async () => {
+const toggleContextMenu = async tutorial => {
   const deployments = config.get('now.cache.deployments')
   const aliases = config.get('now.cache.aliases')
 
@@ -86,7 +86,7 @@ const toggleContextMenu = async () => {
     deploymentList[index] = deploymentOptions(info)
   }
 
-  const generatedMenu = await menuItems(app, tray, config, deploymentList)
+  const generatedMenu = await menuItems(app, tray, deploymentList, tutorial)
   const menu = Menu.buildFromTemplate(generatedMenu)
 
   tray.popUpContextMenu(menu)
@@ -217,7 +217,7 @@ app.on('ready', async () => {
 
     if (loggedIn) {
       tray.setHighlightMode('selection')
-      toggleContextMenu()
+      toggleContextMenu(tutorial)
     } else {
       toggleTutorial()
     }

@@ -56,7 +56,7 @@ const revokeToken = async (token, tokenId) => {
   }
 }
 
-export default async app => {
+export default async (app, tutorial) => {
   const config = new Config()
   const userDetails = config.get('now.user')
 
@@ -83,7 +83,6 @@ export default async app => {
     showError('Couldn\'t log out')
   }
 
-  // Restart the application
-  app.relaunch()
-  app.exit(0)
+  // Show the tutorial
+  tutorial.show()
 }

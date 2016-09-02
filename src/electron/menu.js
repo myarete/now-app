@@ -2,6 +2,7 @@
 import {shell, autoUpdater, clipboard, dialog, BrowserWindow} from 'electron'
 import moment from 'moment'
 import {resolve as resolvePath} from 'app-root-path'
+import Config from 'electron-config'
 
 // Ours
 import {deploy, share, error} from './dialogs'
@@ -119,7 +120,7 @@ export function deploymentOptions(info) {
   }
 }
 
-export async function menuItems(app, tray, config, deployments) {
+export async function menuItems(app, tray, deployments, tutorial) {
   let hasDeployments = false
 
   if (Array.isArray(deployments) && deployments.length > 0) {
@@ -127,6 +128,7 @@ export async function menuItems(app, tray, config, deployments) {
   }
 
   const aboutWindow = about()
+  const config = new Config()
 
   return [
     {
@@ -174,7 +176,7 @@ export async function menuItems(app, tray, config, deployments) {
         },
         {
           label: 'Logout',
-          click: async () => await logout(app)
+          click: async () => await logout(app, tutorial)
         }
       ]
     },
