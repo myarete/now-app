@@ -179,7 +179,9 @@ export default React.createClass({
       classes: []
     })
 
-    const isEnter = event.keyCode === 13
+    const keyCode = event.keyCode
+
+    const isEnter = keyCode === 13
     const initialValue = this.getInitialState().value
 
     if (initialValue === this.state.value && !isEnter) {
@@ -188,19 +190,24 @@ export default React.createClass({
       })
     }
 
-    if (!isEnter || this.state.value === '') {
-      return
-    }
-
     const suggestion = this.state.suggestion
 
-    if (isEnter && suggestion) {
+    if (suggestion && (
+      keyCode === 39 /* right */ ||
+      keyCode === 9 /* tab */ ||
+      isEnter /* enter */
+    )) {
       // Strip HTML tags and set value
       this.setState({
         value: suggestion.replace(/(<([^>]+)>)/ig, ''),
         suggestion: ''
       })
 
+      event.preventDefault()
+      return
+    }
+
+    if (!isEnter || this.state.value === '') {
       return
     }
 
