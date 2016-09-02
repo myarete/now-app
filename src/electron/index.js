@@ -43,8 +43,8 @@ const onboarding = () => {
   return win
 }
 
-const loadDeployments = async user => {
-  const now = connector(user.token)
+const loadDeployments = async () => {
+  const now = connector()
   let list
 
   try {
@@ -93,7 +93,8 @@ const toggleContextMenu = async () => {
 }
 
 const isLoggedIn = () => {
-  return true
+  const userProperty = config.has('now.user')
+  return userProperty
 }
 
 const fileDropped = async (event, files) => {
@@ -118,23 +119,9 @@ const fileDropped = async (event, files) => {
 }
 
 app.on('ready', async () => {
-  /*
-  let user
-
-  // Automatically check for updates regularly
   if (!isDev && process.platform !== 'linux') {
     autoUpdater()
   }
-
-  // Check if now's configuration file exists
-  if (config.has('now.user')) {
-    user = config.get('now.user')
-
-    // If yes, get the token and see if it's valid
-    if (user.token && await loadDeployments(user.token)) {
-      loggedIn = true
-    }
-  }*/
 
   // DO NOT create the tray icon BEFORE the login status has been checked!
   // Otherwise, the user will start clicking...
@@ -149,8 +136,10 @@ app.on('ready', async () => {
   }
 
   if (isLoggedIn()) {
+    await loadDeployments()
+
     // Regularly rebuild local cache every 10 seconds
-    // setInterval(() => refreshCache(null, app), ms('10s'))
+    setInterval(() => refreshCache(null, app), ms('10s'))
   }
 
   let isHighlighted = false
@@ -225,6 +214,8 @@ app.on('ready', async () => {
 
   tray.on('click', async () => {
     const loggedIn = isLoggedIn()
+
+    console.log(loggedIn)
 
     if (loggedIn) {
       toggleContextMenu()
