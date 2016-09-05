@@ -7,7 +7,7 @@ import {dir as isDirectory} from 'path-type'
 
 // Ours
 import {resolve as resolvePath} from 'app-root-path'
-import {menuItems, deploymentOptions} from './menu'
+import {innerMenu, outerMenu, deploymentOptions} from './menu'
 import {error as showError} from './dialogs'
 import deploy from './actions/deploy'
 import share from './actions/share'
@@ -126,7 +126,7 @@ const toggleContextMenu = async tutorial => {
     deploymentList[index] = deploymentOptions(info)
   }
 
-  const generatedMenu = await menuItems(app, tray, deploymentList, tutorial)
+  const generatedMenu = await innerMenu(app, tray, deploymentList, tutorial)
   const menu = Menu.buildFromTemplate(generatedMenu)
 
   tray.popUpContextMenu(menu)
@@ -238,13 +238,7 @@ app.on('ready', async () => {
       return
     }
 
-    const menu = Menu.buildFromTemplate([
-      {
-        label: process.platform === 'darwin' ? `Quit ${app.getName()}` : 'Quit',
-        click: app.quit,
-        role: 'quit'
-      }
-    ])
+    const menu = Menu.buildFromTemplate(outerMenu(app))
 
     if (!tutorial.isVisible()) {
       isHighlighted = !isHighlighted

@@ -120,7 +120,7 @@ export function deploymentOptions(info) {
   }
 }
 
-export async function menuItems(app, tray, deployments, tutorial) {
+export async function innerMenu(app, tray, deployments, tutorial) {
   let hasDeployments = false
 
   if (Array.isArray(deployments) && deployments.length > 0) {
@@ -192,6 +192,25 @@ export async function menuItems(app, tray, deployments, tutorial) {
       label: 'Install',
       click: () => autoUpdater.quitAndInstall(),
       visible: updateAvailable
+    },
+    {
+      type: 'separator'
+    },
+    {
+      label: process.platform === 'darwin' ? `Quit ${app.getName()}` : 'Quit',
+      click: app.quit,
+      role: 'quit'
+    }
+  ]
+}
+
+export function outerMenu(app) {
+  const aboutWindow = about()
+
+  return [
+    {
+      label: process.platform === 'darwin' ? `About ${app.getName()}` : 'About',
+      click: () => aboutWindow.show()
     },
     {
       type: 'separator'
