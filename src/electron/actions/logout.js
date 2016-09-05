@@ -26,6 +26,11 @@ const getTokenId = async token => {
   }
 
   const tokenList = await result.json()
+
+  if (!tokenList.tokens) {
+    return
+  }
+
   const tokenInfo = tokenList.tokens.find(t => token === t.token)
 
   if (!tokenInfo) {
