@@ -5,16 +5,13 @@ import Slider from 'react-slick'
 import SVGinline from 'react-svg-inline'
 import {remote, shell} from 'electron'
 
-// Components
+// Ours
+import pkg from '../../package.json'
+import showError from './utils/error'
 import Title from './components/title'
 import Login from './components/login'
-
-// Vectors
 import logoSVG from './vectors/logo.svg'
 import arrowSVG from './vectors/arrow.svg'
-
-// Other
-import showError from './utils/error'
 
 const anchorWelcome = document.querySelector('#mount-welcome > div')
 const anchorAbout = document.querySelector('#mount-about > div')
@@ -211,7 +208,7 @@ const AboutContent = React.createClass({
         <img src="../dist/app.ico"/>
         <h1>Now.app</h1>
 
-        <h2>Version <b>{'1.0.0'}</b> {'(1w ago)'}</h2>
+        <h2>Version <b>{pkg.version}</b> {'(1w ago)'}</h2>
         <h2 className="update latest">{'You\'re running the latest version!'}</h2>
 
         <article>
