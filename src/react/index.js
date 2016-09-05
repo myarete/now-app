@@ -176,6 +176,11 @@ if (anchorWelcome) {
 }
 
 const AboutContent = React.createClass({
+  getInitialState() {
+    return {
+      licenses: []
+    }
+  },
   componentDidMount() {
     const links = document.querySelectorAll('a')
 
@@ -193,7 +198,9 @@ const AboutContent = React.createClass({
     const getLicenses = remote.require('load-licenses')
     const mainModule = remote.process.mainModule
 
-    console.log(getLicenses(mainModule))
+    this.setState({
+      licenses: getLicenses(mainModule)
+    })
   },
   handleTutorial() {
     const tutorial = remote.getGlobal('tutorial')
@@ -204,6 +211,30 @@ const AboutContent = React.createClass({
     }
 
     tutorial.show()
+  },
+  prepareLicense(info) {
+    let element = '<details>'
+
+    element += `<summary>${info.name}</summary>`
+    element += `<p>${info.license}</p>`
+    element += '</details>'
+
+    return element
+  },
+  readLicenses() {
+    const licenses = this.state.licenses
+
+    if (licenses.length === 0) {
+      return ''
+    }
+
+    let elements = ''
+
+    for (const license of licenses) {
+      elements += this.prepareLicense(license)
+    }
+
+    return elements
   },
   render() {
     return (
@@ -226,6 +257,8 @@ const AboutContent = React.createClass({
 
           <h1>{'3rd party software'}</h1>
           <p>v8 (c) Google, Inc.</p>
+
+          <section dangerouslySetInnerHTML={{__html: this.readLicenses()}}/>
         </article>
 
         <span className="copyright">Made by <b>ZEIT</b></span>
