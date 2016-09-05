@@ -181,10 +181,6 @@ export async function menuItems(app, tray, deployments, tutorial) {
       ]
     },
     {
-      label: 'Documentation...',
-      click: () => shell.openExternal('https://zeit.co/now')
-    },
-    {
       type: 'separator'
     },
     {
