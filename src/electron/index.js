@@ -223,7 +223,8 @@ app.on('ready', async () => {
   tray.on('click', async () => {
     const loggedIn = isLoggedIn()
 
-    if (loggedIn) {
+    if (loggedIn && !tutorial.isVisible()) {
+      tray.setHighlightMode('selection')
       toggleContextMenu(tutorial)
     } else {
       toggleTutorial()
@@ -233,7 +234,7 @@ app.on('ready', async () => {
   let isHighlighted = false
 
   tray.on('right-click', async event => {
-    if (isLoggedIn()) {
+    if (isLoggedIn() && !tutorial.isVisible()) {
       return
     }
 
