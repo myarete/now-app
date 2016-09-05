@@ -363,6 +363,7 @@ body {
   text-decoration: none;
   padding: 0 10px;
   position: relative;
+  cursor: pointer;
 }
 
 #about nav a:after {

@@ -13,6 +13,9 @@ import Login from './components/login'
 import logoSVG from './vectors/logo.svg'
 import arrowSVG from './vectors/arrow.svg'
 
+// Other
+import showError from './utils/error'
+
 const anchorWelcome = document.querySelector('#mount-welcome > div')
 const anchorAbout = document.querySelector('#mount-about > div')
 
@@ -190,6 +193,16 @@ const AboutContent = React.createClass({
       }
     }
   },
+  handleTutorial() {
+    const tutorial = remote.getGlobal('tutorial')
+
+    if (!tutorial) {
+      showError('Not able to open tutorial window')
+      return
+    }
+
+    tutorial.show()
+  },
   render() {
     return (
       <section id="about">
@@ -218,7 +231,7 @@ const AboutContent = React.createClass({
         <nav>
           <a href="https://zeit.co/now">Docs</a>
           <a href="https://github.com/zeit/now-app">Source</a>
-          <a href="https://github.com/zeit/now-app/issues">Issue tracker</a>
+          <a onClick={this.handleTutorial}>Tutorial</a>
         </nav>
       </section>
     )

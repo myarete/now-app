@@ -41,6 +41,8 @@ const onboarding = () => {
 
   win.loadURL('file://' + resolvePath('../app/pages/welcome.html'))
 
+  // After the tutorial window is gone, let the tray handle
+  // its highlight mode by itself
   win.on('hide', () => {
     if (!tray) {
       return
@@ -49,6 +51,20 @@ const onboarding = () => {
     tray.setHighlightMode('selection')
   })
 
+  win.on('close', event => {
+    if (win.forceClose) {
+      return
+    }
+
+    win.hide()
+    event.preventDefault()
+  })
+
+  // We need to access it from the "About" window
+  // To be able to open it from there
+  global.tutorial = win
+
+  // Just hand it back
   return win
 }
 
@@ -195,17 +211,8 @@ app.on('ready', async () => {
     // This avoids a visual flash
     tutorial.on('ready-to-show', toggleTutorial)
 
-    // Hide window instead of closing it
-    tutorial.on('close', event => {
-      if (tutorial.forceClose) {
-        return
-      }
-
-      toggleHighlight()
-      tutorial.hide()
-
-      event.preventDefault()
-    })
+    // Toggle highlighting
+    tutorial.on('close', toggleHighlight)
 
     // Register window event listeners
     for (const event of events) {
