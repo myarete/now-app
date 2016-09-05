@@ -49,7 +49,15 @@ const onboarding = () => {
       return
     }
 
-    tray.setHighlightMode('selection')
+    tray.setHighlightMode('never')
+  })
+
+  win.on('show', () => {
+    if (!tray) {
+      return
+    }
+
+    tray.setHighlightMode('always')
   })
 
   win.on('close', event => {
@@ -172,30 +180,21 @@ app.on('ready', async () => {
     }, ms('10s'))
   }
 
-  let isHighlighted = false
-
-  const toggleHighlight = () => {
-    tray.setHighlightMode(isHighlighted ? 'never' : 'always')
-    isHighlighted = !isHighlighted
-  }
-
   const toggleTutorial = event => {
+    const visible = tutorial.isVisible()
+
     // If window open and not focused, bring it to focus
-    if (tutorial.isVisible() && !tutorial.isFocused()) {
+    if (visible && !tutorial.isFocused()) {
       tutorial.focus()
       return
     }
 
     // Show or hide onboarding window
-    if (isHighlighted) {
+    if (visible) {
       tutorial.hide()
     } else {
       tutorial.show()
-      isHighlighted = false
     }
-
-    // Toggle highlight mode
-    toggleHighlight()
 
     // Don't open the menu
     event.preventDefault()
@@ -208,19 +207,16 @@ app.on('ready', async () => {
   ]
 
   if (!isLoggedIn()) {
-    tray.setHighlightMode('never')
-
     // Show the tutorial as soon as the content has finished rendering
     // This avoids a visual flash
     tutorial.on('ready-to-show', toggleTutorial)
 
-    // Toggle highlighting
-    tutorial.on('close', toggleHighlight)
-
     // Register window event listeners
+    /*
     for (const event of events) {
       tutorial.on(event, toggleHighlight)
     }
+    */
   }
 
   // When quitting the app, force close the tutorial
@@ -241,6 +237,8 @@ app.on('ready', async () => {
     }
   })
 
+  let isHighlighted = false
+
   tray.on('right-click', async event => {
     if (isLoggedIn()) {
       return
@@ -254,9 +252,9 @@ app.on('ready', async () => {
       }
     ])
 
-    // Toggle highlight mode if tutorial isn't visible
     if (!tutorial.isVisible()) {
-      toggleHighlight()
+      isHighlighted = !isHighlighted
+      tray.setHighlightMode(isHighlighted ? 'always' : 'never')
     }
 
     // Toggle submenu

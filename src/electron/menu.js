@@ -176,10 +176,7 @@ export async function menuItems(app, tray, deployments, tutorial) {
         },
         {
           label: 'Logout',
-          click: async () => {
-            tray.setHighlightMode('always')
-            await logout(app, tutorial)
-          }
+          click: async () => await logout(app, tutorial)
         }
       ]
     },
