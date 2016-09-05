@@ -4,6 +4,7 @@ import ms from 'ms'
 import Config from 'electron-config'
 import isDev from 'electron-is-dev'
 import {dir as isDirectory} from 'path-type'
+import getLicenses from 'load-licenses'
 
 // Ours
 import {resolve as resolvePath} from 'app-root-path'
@@ -13,7 +14,6 @@ import deploy from './actions/deploy'
 import share from './actions/share'
 import autoUpdater from './updates'
 import {connector, refreshCache} from './api'
-import getLicenses from './utils/licenses'
 
 // Prevent garbage collection
 // Otherwise the tray icon would randomly hide after some time
@@ -160,8 +160,7 @@ const fileDropped = async (event, files) => {
 }
 
 app.on('ready', async () => {
-  const licenses = await getLicenses(process.mainModule.children)
-
+  const licenses = getLicenses(process.mainModule)
   console.log(licenses)
 
   if (!isDev && process.platform !== 'linux') {
