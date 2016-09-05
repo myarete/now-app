@@ -63,7 +63,23 @@ const revokeToken = async (token, tokenId) => {
 
 export default async (app, tutorial) => {
   const config = new Config()
+
+  // Cache user information
   const userDetails = config.get('now.user')
+
+  // Remove configuration information
+  config.delete('now.user')
+  const existent = config.has('now.user')
+
+  if (existent) {
+    showError('Couldn\'t log out')
+  }
+
+  // Prepare the tutorial by reloading its contents
+  tutorial.reload()
+
+  // Once the content has loaded again, show it
+  tutorial.once('ready-to-show', () => tutorial.show())
 
   let tokenId
 
@@ -80,17 +96,4 @@ export default async (app, tutorial) => {
     showError(err)
     return
   }
-
-  config.delete('now.user')
-  const existent = config.has('now.user')
-
-  if (existent) {
-    showError('Couldn\'t log out')
-  }
-
-  // Prepare the tutorial by reloading its contents
-  tutorial.reload()
-
-  // Once the content has loaded again, show it
-  tutorial.once('ready-to-show', () => tutorial.show())
 }

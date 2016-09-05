@@ -17,6 +17,7 @@ import {connector, refreshCache} from './api'
 // Prevent garbage collection
 // Otherwise the tray icon would randomly hide after some time
 let tray = null
+let forceClose = false
 
 // Hide dock icon and set app name
 app.dock.hide()
@@ -52,7 +53,7 @@ const onboarding = () => {
   })
 
   win.on('close', event => {
-    if (win.forceClose) {
+    if (forceClose) {
       return
     }
 
@@ -220,12 +221,12 @@ app.on('ready', async () => {
     for (const event of events) {
       tutorial.on(event, toggleHighlight)
     }
-
-    // When quitting the app, force close the tutorial
-    app.on('before-quit', () => {
-      tutorial.forceClose = true
-    })
   }
+
+  // When quitting the app, force close the tutorial
+  app.on('before-quit', () => {
+    forceClose = true
+  })
 
   let submenuShown = false
   tray.on('drop-files', fileDropped)
