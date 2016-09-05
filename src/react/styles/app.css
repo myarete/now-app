@@ -384,6 +384,30 @@ body {
   display: none;
 }
 
+#about article details {
+  margin-bottom: 10px;
+}
+
+#about article details summary {
+  color: #707070;
+  font-size: 12px;
+  cursor: pointer;
+  transition: color .2s ease;
+  display: inline-block;
+}
+
+#about article details summary:focus {
+  outline: none;
+}
+
+#about article details[open] summary {
+  color: #000;
+}
+
+#about article details summary:hover {
+  color: #000;
+}
+
 #cli article {
   width: 415px;
   font-size: 14px;

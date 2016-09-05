@@ -256,8 +256,6 @@ const AboutContent = React.createClass({
           </p>
 
           <h1>{'3rd party software'}</h1>
-          <p>v8 (c) Google, Inc.</p>
-
           <section dangerouslySetInnerHTML={{__html: this.readLicenses()}}/>
         </article>
 
