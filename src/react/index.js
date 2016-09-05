@@ -189,6 +189,11 @@ const AboutContent = React.createClass({
         })
       }
     }
+
+    const getLicenses = remote.require('load-licenses')
+    const mainModule = remote.process.mainModule
+
+    console.log(getLicenses(mainModule))
   },
   handleTutorial() {
     const tutorial = remote.getGlobal('tutorial')

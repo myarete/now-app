@@ -4,7 +4,6 @@ import ms from 'ms'
 import Config from 'electron-config'
 import isDev from 'electron-is-dev'
 import {dir as isDirectory} from 'path-type'
-import getLicenses from 'load-licenses'
 
 // Ours
 import {resolve as resolvePath} from 'app-root-path'
@@ -160,9 +159,6 @@ const fileDropped = async (event, files) => {
 }
 
 app.on('ready', async () => {
-  const licenses = getLicenses(process.mainModule)
-  console.log(licenses)
-
   if (!isDev && process.platform !== 'linux') {
     autoUpdater()
   }
