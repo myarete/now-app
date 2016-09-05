@@ -25,6 +25,14 @@ app.setName('Now')
 
 const config = new Config()
 
+const setHighlight = isHighlighted => {
+  if (!tray) {
+    return
+  }
+
+  tray.setHighlightMode(isHighlighted ? 'always' : 'never')
+}
+
 const onboarding = () => {
   const win = new BrowserWindow({
     width: 650,
@@ -42,23 +50,21 @@ const onboarding = () => {
 
   win.loadURL('file://' + resolvePath('../app/pages/welcome.html'))
 
-  // After the tutorial window is gone, let the tray handle
-  // its highlight mode by itself
-  win.on('hide', () => {
-    if (!tray) {
+  const states = {
+    hide: false,
+    show: true,
+    minimize: false,
+    restore: true
+  }
+
+  for (const state in states) {
+    if (!{}.hasOwnProperty.call(states, state)) {
       return
     }
 
-    tray.setHighlightMode('never')
-  })
-
-  win.on('show', () => {
-    if (!tray) {
-      return
-    }
-
-    tray.setHighlightMode('always')
-  })
+    const highlighted = states[state]
+    win.on(state, () => setHighlight(highlighted))
+  }
 
   win.on('close', event => {
     if (forceClose) {
@@ -200,23 +206,10 @@ app.on('ready', async () => {
     event.preventDefault()
   }
 
-  const events = [
-    'closed',
-    'minimize',
-    'restore'
-  ]
-
   if (!isLoggedIn()) {
     // Show the tutorial as soon as the content has finished rendering
     // This avoids a visual flash
     tutorial.on('ready-to-show', toggleTutorial)
-
-    // Register window event listeners
-    /*
-    for (const event of events) {
-      tutorial.on(event, toggleHighlight)
-    }
-    */
   }
 
   // When quitting the app, force close the tutorial
