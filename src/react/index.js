@@ -8,10 +8,13 @@ import {remote, shell} from 'electron'
 // Ours
 import pkg from '../../package.json'
 import showError from './utils/error'
+
 import Title from './components/title'
 import Login from './components/login'
+
 import logoSVG from './vectors/logo.svg'
 import arrowSVG from './vectors/arrow.svg'
+import updatedSVG from './vectors/updated.svg'
 
 const anchorWelcome = document.querySelector('#mount-welcome > div')
 const anchorAbout = document.querySelector('#mount-about > div')
@@ -245,7 +248,11 @@ const AboutContent = React.createClass({
         <h1>Now.app</h1>
 
         <h2>Version <b>{pkg.version}</b> {'(1w ago)'}</h2>
-        <h2 className="update latest">{'You\'re running the latest version!'}</h2>
+
+        <h2 className="update latest">
+          <SVGinline svg={updatedSVG} width="13px"/>
+          {'You\'re running the latest version!'}
+        </h2>
 
         <article>
           <h1>Authors</h1>

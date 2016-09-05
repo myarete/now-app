@@ -297,6 +297,11 @@ body {
   color: #00A819;
 }
 
+#about .update.latest svg {
+  margin-bottom: -3px;
+  margin-right: 5px;
+}
+
 #about .window-title {
   font-size: 12px;
   color: #434343;
