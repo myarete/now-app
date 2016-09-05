@@ -1,8 +1,10 @@
 // Native
 import path from 'path'
 
-const modulePaths = async () => {
-  const modules = process.mainModule.children
+// Packages
+import fs from 'fs-promise'
+
+const modulePaths = async modules => {
   const modulePaths = []
 
   for (const moduleInfo of modules) {
@@ -29,8 +31,49 @@ const modulePaths = async () => {
   return modulePaths
 }
 
-export default async () => {
-  const paths = await modulePaths()
+export default async modules => {
+  const paths = await modulePaths(modules)
 
-  console.log(paths)
+  const licenseNames = [
+    'LICENSE.md',
+    'LICENSE',
+    'license.md',
+    'license',
+    'License'
+  ]
+
+  const licenses = {}
+
+  for (const modulePath of paths) {
+    const licensePaths = []
+
+    for (const licenseName of licenseNames) {
+      const position = path.join(modulePath, licenseName)
+      licensePaths.push(position)
+    }
+
+    for (const licensePath of licensePaths) {
+      let content
+
+      try {
+        content = await fs.readFile(licensePath, 'utf8')
+      } catch (err) {
+        continue
+      }
+
+      if (content) {
+        const licenseDir = (path.parse(licensePath).dir)
+        const moduleName = path.parse(licenseDir).name
+
+        licenses[moduleName] = content
+        break
+      }
+    }
+  }
+
+  if (!licenses) {
+    return
+  }
+
+  return licenses
 }

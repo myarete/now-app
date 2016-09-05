@@ -160,7 +160,9 @@ const fileDropped = async (event, files) => {
 }
 
 app.on('ready', async () => {
-  await getLicenses()
+  const licenses = await getLicenses(process.mainModule.children)
+
+  console.log(licenses)
 
   if (!isDev && process.platform !== 'linux') {
     autoUpdater()
