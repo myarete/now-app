@@ -13,6 +13,7 @@ import deploy from './actions/deploy'
 import share from './actions/share'
 import autoUpdater from './updates'
 import {connector, refreshCache} from './api'
+import getLicenses from './utils/licenses'
 
 // Prevent garbage collection
 // Otherwise the tray icon would randomly hide after some time
@@ -159,6 +160,8 @@ const fileDropped = async (event, files) => {
 }
 
 app.on('ready', async () => {
+  await getLicenses()
+
   if (!isDev && process.platform !== 'linux') {
     autoUpdater()
   }
