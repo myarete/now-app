@@ -53,7 +53,7 @@ const refreshKind = async (name, session) => {
   config.set(configProperty, freshData)
 }
 
-export async function refreshCache(kind, app, tutorial) {
+export async function refreshCache(kind, app, tutorial, interval) {
   const session = connector()
 
   if (!session) {
@@ -85,10 +85,16 @@ export async function refreshCache(kind, app, tutorial) {
   try {
     await Promise.all(sweepers)
   } catch (err) {
+    // Stop trying to load data
+    if (interval) {
+      clearInterval(interval)
+    }
+
     // If token has been revoked, the server will not respond with data
     // In turn, we need to log out
-
     await logout(app, tutorial)
+
+    // Stop executing the function
     return
   }
 

@@ -160,11 +160,15 @@ app.on('ready', async () => {
     return
   }
 
+  const tutorial = onboarding()
+
   if (isLoggedIn()) {
     await loadDeployments()
 
     // Regularly rebuild local cache every 10 seconds
-    setInterval(() => refreshCache(null, app), ms('10s'))
+    const interval = setInterval(() => {
+      refreshCache(null, app, tutorial, interval)
+    }, ms('10s'))
   }
 
   let isHighlighted = false
@@ -173,8 +177,6 @@ app.on('ready', async () => {
     tray.setHighlightMode(isHighlighted ? 'never' : 'always')
     isHighlighted = !isHighlighted
   }
-
-  const tutorial = onboarding()
 
   const toggleTutorial = event => {
     // If window open and not focused, bring it to focus
