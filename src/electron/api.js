@@ -58,6 +58,7 @@ export async function refreshCache(kind, app, tutorial, interval) {
 
   if (!session) {
     if (interval) {
+      console.log('Stopping the refreshing process...')
       clearInterval(interval)
     }
 
@@ -91,6 +92,7 @@ export async function refreshCache(kind, app, tutorial, interval) {
   } catch (err) {
     // Stop trying to load data
     if (interval) {
+      console.log('Stopping the refreshing process...')
       clearInterval(interval)
     }
 

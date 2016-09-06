@@ -69,6 +69,10 @@ export default async (app, tutorial) => {
 
   // Remove configuration information
   config.delete('now.user')
+
+  // And clear the cache
+  config.delete('now.cache')
+
   const existent = config.has('now.user')
 
   if (existent) {

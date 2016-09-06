@@ -98,7 +98,6 @@ const loadDeployments = async () => {
 
   // Save deployments to cache
   config.set('now.cache.deployments', list)
-  return true
 }
 
 app.on('window-all-closed', () => {
