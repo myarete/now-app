@@ -239,6 +239,24 @@ const AboutContent = React.createClass({
 
     return elements
   },
+  updateStatus() {
+    const isDev = remote.require('electron-is-dev')
+
+    if (isDev) {
+      return (
+        <h2 className="update development">
+          {'You\'re in development mode. No updates!'}
+        </h2>
+      )
+    }
+
+    return (
+      <h2 className="update latest">
+        <SVGinline svg={updatedSVG} width="13px"/>
+        {'You\'re running the latest version!'}
+      </h2>
+    )
+  },
   render() {
     return (
       <section id="about">
@@ -249,10 +267,7 @@ const AboutContent = React.createClass({
 
         <h2>Version <b>{pkg.version}</b> {'(1w ago)'}</h2>
 
-        <h2 className="update latest">
-          <SVGinline svg={updatedSVG} width="13px"/>
-          {'You\'re running the latest version!'}
-        </h2>
+        {this.updateStatus()}
 
         <article>
           <h1>Authors</h1>

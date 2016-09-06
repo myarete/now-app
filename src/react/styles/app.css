@@ -306,6 +306,10 @@ body {
   margin-right: 5px;
 }
 
+#about .update.development {
+  color: #0080c1;
+}
+
 #about .window-title {
   font-size: 12px;
   color: #434343;
