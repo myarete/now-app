@@ -20,8 +20,10 @@ import toggleWindow from './utils/toggle-window'
 // Otherwise the tray icon would randomly hide after some time
 let tray = null
 
-// Hide dock icon and set app name
+// Hide dock icon before the app starts
 app.dock.hide()
+
+// Define the application name
 app.setName('Now')
 
 const config = new Config()
@@ -170,6 +172,21 @@ app.on('ready', async () => {
     about: aboutWindow()
   }
 
+  const toggleActivity = event => {
+    const loggedIn = isLoggedIn()
+
+    if (loggedIn && !windows.tutorial.isVisible()) {
+      tray.setHighlightMode('selection')
+      toggleContextMenu(windows)
+    } else {
+      toggleWindow(event || null, windows.tutorial)
+    }
+  }
+
+  // Only allow one intance of Now running
+  // at the same time
+  app.makeSingleInstance(toggleActivity)
+
   if (isLoggedIn()) {
     await loadDeployments()
 
@@ -191,18 +208,9 @@ app.on('ready', async () => {
   })
 
   let submenuShown = false
+
   tray.on('drop-files', fileDropped)
-
-  tray.on('click', async event => {
-    const loggedIn = isLoggedIn()
-
-    if (loggedIn && !windows.tutorial.isVisible()) {
-      tray.setHighlightMode('selection')
-      toggleContextMenu(windows)
-    } else {
-      toggleWindow(event, windows.tutorial)
-    }
-  })
+  tray.on('click', toggleActivity)
 
   let isHighlighted = false
 
