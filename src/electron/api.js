@@ -57,6 +57,10 @@ export async function refreshCache(kind, app, tutorial, interval) {
   const session = connector()
 
   if (!session) {
+    if (interval) {
+      clearInterval(interval)
+    }
+
     return
   }
 

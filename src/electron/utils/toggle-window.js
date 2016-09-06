@@ -14,6 +14,8 @@ export default (event, window) => {
     window.show()
   }
 
-  // Don't open the menu
-  event.preventDefault()
+  if (event) {
+    // Don't open the menu
+    event.preventDefault()
+  }
 }
