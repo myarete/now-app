@@ -87,12 +87,17 @@ export function error(detail, trace) {
     trace = trace.stack.toString()
   }
 
+  // Just log it as well to be sure
   console.error(detail)
   console.error(trace)
 
   if (!goAway) {
+    // Set the issue content
     url += '?body=' + encodeURIComponent(trace)
     url += '&title=' + encodeURIComponent(detail)
+
+    // Add label "patch"
+    url += '&labels=patch'
 
     shell.openExternal(url)
   }

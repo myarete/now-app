@@ -27,7 +27,10 @@ app.dock.hide()
 app.setName('Now')
 
 // Make sure that unhandled errors get handled
-process.on('uncaughtException', err => showError('Unhandled error appeared', err))
+process.on('uncaughtException', err => {
+  console.error(err)
+  showError('Unhandled error appeared', err)
+})
 
 const config = new Config()
 
