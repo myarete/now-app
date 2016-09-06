@@ -23,6 +23,8 @@ const domains = [
   'icloud.com'
 ]
 
+const refreshCache = remote.getGlobal('refreshCache')
+
 const getVerificationToken = async (url, email) => {
   const os = remote.require('os')
 
@@ -114,6 +116,9 @@ export default React.createClass({
 
     const currentWindow = remote.getCurrentWindow()
     const loginInput = window.loginInput
+
+    // Prepare data
+    await refreshCache(null, remote.app, currentWindow)
 
     if (currentWindow) {
       currentWindow.focus()

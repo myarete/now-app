@@ -16,7 +16,7 @@ import {error as showError} from './dialogs'
 import deploy from './actions/deploy'
 import share from './actions/share'
 import autoUpdater from './updates'
-import {connector, refreshCache} from './api'
+import {refreshCache} from './api'
 import attachTrayState from './utils/highlight'
 import toggleWindow from './utils/toggle-window'
 
@@ -29,6 +29,11 @@ app.dock.hide()
 
 // Define the application name
 app.setName('Now')
+
+// We need this method in the renderer process
+// So that we can load all data after the user has logged in
+// And before he opens the context menu
+global.refreshCache = refreshCache
 
 // Make sure that unhandled errors get handled
 process.on('uncaughtException', err => {
@@ -83,21 +88,6 @@ const aboutWindow = () => {
   attachTrayState(win, tray)
 
   return win
-}
-
-const loadDeployments = async () => {
-  const now = connector()
-  let list
-
-  try {
-    list = await now.getDeployments()
-  } catch (err) {
-    console.error(err)
-    return false
-  }
-
-  // Save deployments to cache
-  config.set('now.cache.deployments', list)
 }
 
 app.on('window-all-closed', () => {
@@ -223,11 +213,9 @@ app.on('ready', async () => {
   app.makeSingleInstance(toggleActivity)
 
   if (isLoggedIn()) {
-    await loadDeployments()
-
     // Regularly rebuild local cache every 10 seconds
-    const interval = setInterval(() => {
-      refreshCache(null, app, windows.tutorial, interval)
+    const interval = setInterval(async () => {
+      await refreshCache(null, app, windows.tutorial, interval)
     }, ms('10s'))
   }
 
