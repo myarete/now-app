@@ -14,6 +14,7 @@ import share from './actions/share'
 import autoUpdater from './updates'
 import {connector, refreshCache} from './api'
 import attachTrayState from './utils/highlight'
+import toggleWindow from './utils/toggle-window'
 
 // Prevent garbage collection
 // Otherwise the tray icon would randomly hide after some time
@@ -178,30 +179,10 @@ app.on('ready', async () => {
     }, ms('10s'))
   }
 
-  const toggleTutorial = event => {
-    const visible = windows.tutorial.isVisible()
-
-    // If window open and not focused, bring it to focus
-    if (visible && !windows.tutorial.isFocused()) {
-      windows.tutorial.focus()
-      return
-    }
-
-    // Show or hide onboarding window
-    if (visible) {
-      windows.tutorial.hide()
-    } else {
-      windows.tutorial.show()
-    }
-
-    // Don't open the menu
-    event.preventDefault()
-  }
-
   if (!isLoggedIn()) {
     // Show the tutorial as soon as the content has finished rendering
     // This avoids a visual flash
-    windows.tutorial.on('ready-to-show', toggleTutorial)
+    windows.tutorial.on('ready-to-show', () => toggleWindow(null, windows.tutorial))
   }
 
   // When quitting the app, force close the tutorial and about windows
@@ -212,14 +193,14 @@ app.on('ready', async () => {
   let submenuShown = false
   tray.on('drop-files', fileDropped)
 
-  tray.on('click', async () => {
+  tray.on('click', async event => {
     const loggedIn = isLoggedIn()
 
     if (loggedIn && !windows.tutorial.isVisible()) {
       tray.setHighlightMode('selection')
       toggleContextMenu(windows)
     } else {
-      toggleTutorial()
+      toggleWindow(event, windows.tutorial)
     }
   })
 

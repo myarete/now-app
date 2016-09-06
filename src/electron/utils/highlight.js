@@ -2,7 +2,8 @@ const states = {
   hide: false,
   show: true,
   minimize: false,
-  restore: true
+  restore: true,
+  focus: true
 }
 
 export default (win, tray) => {

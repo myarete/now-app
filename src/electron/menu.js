@@ -8,6 +8,7 @@ import {deploy, share, error} from './dialogs'
 import logout from './actions/logout'
 import {connector, refreshCache} from './api'
 import notify from './notify'
+import toggleWindow from './utils/toggle-window'
 
 // Determine if an update is ready to be installed
 // Based on an environment variable
@@ -186,7 +187,7 @@ export function outerMenu(app, windows) {
   return [
     {
       label: process.platform === 'darwin' ? `About ${app.getName()}` : 'About',
-      click: () => windows.about.show()
+      click: () => toggleWindow(null, windows.about)
     },
     {
       type: 'separator'
