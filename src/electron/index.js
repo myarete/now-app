@@ -43,6 +43,16 @@ process.on('uncaughtException', err => {
 
 const config = new Config()
 
+// For starting the refreshment right after login
+global.startRefresh = tutorialWindow => {
+  const timeSpan = ms('10s')
+
+  // Periodically rebuild local cache every 10 seconds
+  const interval = setInterval(async () => {
+    await refreshCache(null, app, tutorialWindow, interval)
+  }, timeSpan)
+}
+
 const onboarding = () => {
   const win = new BrowserWindow({
     width: 650,
@@ -213,10 +223,8 @@ app.on('ready', async () => {
   app.makeSingleInstance(toggleActivity)
 
   if (isLoggedIn()) {
-    // Regularly rebuild local cache every 10 seconds
-    const interval = setInterval(async () => {
-      await refreshCache(null, app, windows.tutorial, interval)
-    }, ms('10s'))
+    // Periodically rebuild local cache every 10 seconds
+    global.startRefresh()
   }
 
   if (!isLoggedIn()) {

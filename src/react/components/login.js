@@ -120,6 +120,9 @@ export default React.createClass({
     // Prepare data
     await refreshCache(null, remote.app, currentWindow)
 
+    // Start periodically refreshing data after login
+    remote.getGlobal('startRefresh')(currentWindow)
+
     if (currentWindow) {
       currentWindow.focus()
     }
