@@ -14,13 +14,13 @@ export default async (content, tmp, defaults) => {
   const copiers = []
 
   try {
-    items = await glob(path.join(content, '**/*'), {
+    items = await glob(path.join(content, '**'), {
       dot: true,
       strict: true,
       mark: true,
       ignore: [
-        'node_modules',
-        '.git'
+        '**/node_modules/**',
+        '**/.git/**'
       ]
     })
   } catch (err) {
@@ -35,7 +35,8 @@ export default async (content, tmp, defaults) => {
   try {
     await Promise.all(copiers)
   } catch (err) {
-    return showError(err)
+    console.error(err)
+    return
   }
 
   await injectPackage(tmp, defaults)

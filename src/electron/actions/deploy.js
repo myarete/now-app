@@ -53,8 +53,8 @@ export default async (folder, sharing) => {
       recursive: true,
       mark: true,
       ignore: [
-        'node_modules',
-        '.git'
+        '**/node_modules/**',
+        '**/.git/**'
       ]
     })
   } catch (err) {
