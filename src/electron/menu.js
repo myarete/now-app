@@ -1,7 +1,6 @@
 // Packages
-import {shell, autoUpdater, clipboard, dialog, BrowserWindow} from 'electron'
+import {shell, autoUpdater, clipboard, dialog} from 'electron'
 import moment from 'moment'
-import {resolve as resolvePath} from 'app-root-path'
 import Config from 'electron-config'
 
 // Ours
@@ -9,32 +8,10 @@ import {deploy, share, error} from './dialogs'
 import logout from './actions/logout'
 import {connector, refreshCache} from './api'
 import notify from './notify'
-import attachTrayState from './utils/highlight'
 
 // Determine if an update is ready to be installed
 // Based on an environment variable
 const updateAvailable = process.env.UPDATE_AVAILABLE || false
-
-const about = tray => {
-  const win = new BrowserWindow({
-    width: 360,
-    height: 425,
-    title: 'About',
-    resizable: false,
-    center: true,
-    show: false,
-    fullscreenable: false,
-    maximizable: false,
-    titleBarStyle: 'hidden-inset',
-    frame: false,
-    backgroundColor: '#ECECEC'
-  })
-
-  attachTrayState(win, tray)
-
-  win.loadURL('file://' + resolvePath('../app/pages/about.html'))
-  return win
-}
 
 export function deploymentOptions(info) {
   const created = moment(new Date(parseInt(info.created, 10)))
@@ -122,20 +99,19 @@ export function deploymentOptions(info) {
   }
 }
 
-export async function innerMenu(app, tray, deployments, tutorial) {
+export async function innerMenu(app, tray, deployments, windows) {
   let hasDeployments = false
 
   if (Array.isArray(deployments) && deployments.length > 0) {
     hasDeployments = true
   }
 
-  const aboutWindow = about(tray)
   const config = new Config()
 
   return [
     {
       label: process.platform === 'darwin' ? `About ${app.getName()}` : 'About',
-      click: () => aboutWindow.show()
+      click: () => windows.about.show()
     },
     {
       type: 'separator'
@@ -178,7 +154,7 @@ export async function innerMenu(app, tray, deployments, tutorial) {
         },
         {
           label: 'Logout',
-          click: async () => await logout(app, tutorial)
+          click: async () => await logout(app, windows.tutorial)
         }
       ]
     },
@@ -206,13 +182,11 @@ export async function innerMenu(app, tray, deployments, tutorial) {
   ]
 }
 
-export function outerMenu(app, tray) {
-  const aboutWindow = about(tray)
-
+export function outerMenu(app, windows) {
   return [
     {
       label: process.platform === 'darwin' ? `About ${app.getName()}` : 'About',
-      click: () => aboutWindow.show()
+      click: () => windows.about.show()
     },
     {
       type: 'separator'

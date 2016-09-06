@@ -51,6 +51,27 @@ const onboarding = () => {
   return win
 }
 
+const aboutWindow = () => {
+  const win = new BrowserWindow({
+    width: 360,
+    height: 425,
+    title: 'About',
+    resizable: false,
+    center: true,
+    show: false,
+    fullscreenable: false,
+    maximizable: false,
+    titleBarStyle: 'hidden-inset',
+    frame: false,
+    backgroundColor: '#ECECEC'
+  })
+
+  win.loadURL('file://' + resolvePath('../app/pages/about.html'))
+  attachTrayState(win, tray)
+
+  return win
+}
+
 const loadDeployments = async () => {
   const now = connector()
   let list
@@ -73,7 +94,7 @@ app.on('window-all-closed', () => {
   }
 })
 
-const toggleContextMenu = async tutorial => {
+const toggleContextMenu = async windows => {
   const deployments = config.get('now.cache.deployments')
   const aliases = config.get('now.cache.aliases')
 
@@ -94,7 +115,7 @@ const toggleContextMenu = async tutorial => {
     deploymentList[index] = deploymentOptions(info)
   }
 
-  const generatedMenu = await innerMenu(app, tray, deploymentList, tutorial)
+  const generatedMenu = await innerMenu(app, tray, deploymentList, windows)
   const menu = Menu.buildFromTemplate(generatedMenu)
 
   tray.popUpContextMenu(menu)
@@ -143,31 +164,34 @@ app.on('ready', async () => {
     return
   }
 
-  const tutorial = onboarding()
+  const windows = {
+    tutorial: onboarding(),
+    about: aboutWindow()
+  }
 
   if (isLoggedIn()) {
     await loadDeployments()
 
     // Regularly rebuild local cache every 10 seconds
     const interval = setInterval(() => {
-      refreshCache(null, app, tutorial, interval)
+      refreshCache(null, app, windows.tutorial, interval)
     }, ms('10s'))
   }
 
   const toggleTutorial = event => {
-    const visible = tutorial.isVisible()
+    const visible = windows.tutorial.isVisible()
 
     // If window open and not focused, bring it to focus
-    if (visible && !tutorial.isFocused()) {
-      tutorial.focus()
+    if (visible && !windows.tutorial.isFocused()) {
+      windows.tutorial.focus()
       return
     }
 
     // Show or hide onboarding window
     if (visible) {
-      tutorial.hide()
+      windows.tutorial.hide()
     } else {
-      tutorial.show()
+      windows.tutorial.show()
     }
 
     // Don't open the menu
@@ -177,7 +201,7 @@ app.on('ready', async () => {
   if (!isLoggedIn()) {
     // Show the tutorial as soon as the content has finished rendering
     // This avoids a visual flash
-    tutorial.on('ready-to-show', toggleTutorial)
+    windows.tutorial.on('ready-to-show', toggleTutorial)
   }
 
   // When quitting the app, force close the tutorial and about windows
@@ -191,9 +215,9 @@ app.on('ready', async () => {
   tray.on('click', async () => {
     const loggedIn = isLoggedIn()
 
-    if (loggedIn && !tutorial.isVisible()) {
+    if (loggedIn && !windows.tutorial.isVisible()) {
       tray.setHighlightMode('selection')
-      toggleContextMenu(tutorial)
+      toggleContextMenu(windows)
     } else {
       toggleTutorial()
     }
@@ -202,13 +226,13 @@ app.on('ready', async () => {
   let isHighlighted = false
 
   tray.on('right-click', async event => {
-    if (isLoggedIn() && !tutorial.isVisible()) {
+    if (isLoggedIn() && !windows.tutorial.isVisible()) {
       return
     }
 
-    const menu = Menu.buildFromTemplate(outerMenu(app, tray))
+    const menu = Menu.buildFromTemplate(outerMenu(app, windows))
 
-    if (!tutorial.isVisible()) {
+    if (!windows.tutorial.isVisible()) {
       isHighlighted = !isHighlighted
       tray.setHighlightMode(isHighlighted ? 'always' : 'never')
     }
