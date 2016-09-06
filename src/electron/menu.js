@@ -25,7 +25,6 @@ const about = tray => {
     show: false,
     fullscreenable: false,
     maximizable: false,
-    minimizable: false,
     titleBarStyle: 'hidden-inset',
     frame: false,
     backgroundColor: '#ECECEC'
