@@ -26,6 +26,9 @@ app.dock.hide()
 // Define the application name
 app.setName('Now')
 
+// Make sure that unhandled errors get handled
+process.on('uncaughtException', err => showError('Unhandled error appeared', err))
+
 const config = new Config()
 
 const onboarding = () => {
