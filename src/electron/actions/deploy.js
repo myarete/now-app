@@ -39,7 +39,7 @@ export default async (folder, sharing) => {
   try {
     details.package = await fs.readJSON(pkgFile)
   } catch (err) {
-    showError(err)
+    showError('Not able to load package file', err)
     return
   }
 
@@ -58,7 +58,8 @@ export default async (folder, sharing) => {
       ]
     })
   } catch (err) {
-    return showError(err)
+    showError('Could not read directory to deploy', err)
+    return
   }
 
   for (const itemPath of items) {
@@ -71,7 +72,8 @@ export default async (folder, sharing) => {
     try {
       isDir = await isDirectory(itemPath)
     } catch (err) {
-      return showError(err)
+      showError('Not able to test if deployment is a directory', err)
+      return
     }
 
     if (!isDir && !ignoredFiles.includes(fileName) && relativePath !== 'package.json') {
@@ -80,7 +82,7 @@ export default async (folder, sharing) => {
       try {
         fileContent = await fs.readFile(itemPath)
       } catch (err) {
-        showError(err)
+        showError('Could not read file for deployment', err)
         continue
       }
 
@@ -106,7 +108,7 @@ export default async (folder, sharing) => {
   try {
     deployment = await apiSession.createDeployment(details)
   } catch (err) {
-    showError(err)
+    showError('Could not create deployment', err)
     return
   }
 
@@ -132,7 +134,8 @@ export default async (folder, sharing) => {
       try {
         current = await apiSession.getDeployment(deployment.uid)
       } catch (err) {
-        return showError(err)
+        showError('Not able to get deployment', err)
+        return
       }
 
       if (current.state === 'READY') {
@@ -174,7 +177,8 @@ export default async (folder, sharing) => {
     try {
       await fs.remove(folder)
     } catch (err) {
-      return showError(err)
+      showError('Could not remove temporary directory', err)
+      return
     }
 
     logStatus('Removed temporary directory')

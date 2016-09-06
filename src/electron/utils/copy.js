@@ -24,7 +24,8 @@ export default async (content, tmp, defaults) => {
       ]
     })
   } catch (err) {
-    return showError(err)
+    showError('Not able to walk directory for copying it', err)
+    return
   }
 
   for (const item of items) {

@@ -43,7 +43,7 @@ const refreshKind = async (name, session) => {
   try {
     freshData = await session[method]()
   } catch (err) {
-    showError(err)
+    showError('Could not load fresh data for cache refresh', err)
     return
   }
 
@@ -68,7 +68,7 @@ export async function refreshCache(kind, app, tutorial, interval) {
     try {
       await refreshKind(kind, session)
     } catch (err) {
-      showError(err)
+      showError('Not able to refresh ' + kind, err)
     }
 
     return

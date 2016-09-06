@@ -49,7 +49,7 @@ export default async item => {
       try {
         await fs.remove(created)
       } catch (err) {
-        showError(err)
+        showError('Could not rm temporary directory for creating new one', err)
       }
     }
   })
@@ -69,7 +69,8 @@ export default async item => {
     try {
       await fs.copy(item, target)
     } catch (err) {
-      return showError(err)
+      showError('Not able to copy file to temporary directory', err)
+      return
     }
 
     await injectPackage(tmpDir.path, pkgDefaults)

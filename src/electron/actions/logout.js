@@ -21,7 +21,7 @@ const getTokenId = async token => {
   try {
     result = await fetch(endpoint, requestHeaders(token))
   } catch (err) {
-    showError(err)
+    showError('Could not fetch token id for revoking it on logout', err)
     return
   }
 
@@ -52,7 +52,7 @@ const revokeToken = async (token, tokenId) => {
   try {
     result = await fetch(endpoint + encodeURIComponent(tokenId), details)
   } catch (err) {
-    showError(err)
+    showError('Could not revoke token on logout', err)
     return
   }
 
@@ -86,14 +86,14 @@ export default async (app, tutorial) => {
   try {
     tokenId = await getTokenId(userDetails.token)
   } catch (err) {
-    showError(err)
+    showError('Not able to get token id on logout', err)
     return
   }
 
   try {
     await revokeToken(userDetails.token, tokenId)
   } catch (err) {
-    showError(err)
+    showError('Could not revoke token on logout', err)
     return
   }
 }

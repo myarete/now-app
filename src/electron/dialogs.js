@@ -62,13 +62,8 @@ export async function deploy(tray) {
   }
 }
 
-export function error(detail) {
-  if (detail instanceof Error) {
-    detail = detail.stack.toString()
-    console.error(detail)
-  }
-
-  const reportIt = dialog.showMessageBox({
+export function error(detail, trace) {
+  const goAway = dialog.showMessageBox({
     type: 'error',
     message: 'An error occured',
     detail,
@@ -78,7 +73,24 @@ export function error(detail) {
     ]
   })
 
-  if (!reportIt) {
-    shell.openExternal('https://github.com/zeit/now-app/issues/')
+  let url = 'https://github.com/zeit/now-app/issues/new'
+
+  if (!trace) {
+    shell.openExternal(url)
+    return
+  }
+
+  if (trace instanceof Error) {
+    trace = detail.stack.toString()
+
+    console.error(detail)
+    console.error(trace)
+  }
+
+  if (!goAway) {
+    url += '?body=' + encodeURIComponent(trace)
+    url += '&title=' + encodeURIComponent(detail)
+
+    shell.openExternal(url)
   }
 }

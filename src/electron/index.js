@@ -163,7 +163,7 @@ app.on('ready', async () => {
   try {
     tray = new Tray(resolvePath('/assets/icons/iconTemplate.png'))
   } catch (err) {
-    showError(err)
+    showError('Could not spawn tray item', err)
     return
   }
 
