@@ -1,9 +1,13 @@
+// Native
+import path from 'path'
+
 // Packages
 import {app, Tray, Menu, BrowserWindow} from 'electron'
 import ms from 'ms'
 import Config from 'electron-config'
 import isDev from 'electron-is-dev'
 import {dir as isDirectory} from 'path-type'
+import fs from 'fs-promise'
 
 // Ours
 import {resolve as resolvePath} from 'app-root-path'
@@ -135,7 +139,32 @@ const isLoggedIn = () => {
   return userProperty
 }
 
+const isDeployable = async directory => {
+  const indicators = [
+    'package.json',
+    'Dockerfile'
+  ]
+
+  for (const indicator of indicators) {
+    const pathTo = path.join(directory, indicator)
+    let stats
+
+    try {
+      stats = await fs.lstat(pathTo)
+    } catch (err) {
+      return false
+    }
+
+    if (stats) {
+      return true
+    }
+  }
+
+  return false
+}
+
 const fileDropped = async (event, files) => {
+  event.preventDefault()
   const loggedIn = isLoggedIn()
 
   if (!loggedIn) {
@@ -147,13 +176,14 @@ const fileDropped = async (event, files) => {
     return
   }
 
-  if (isDirectory(files[0])) {
-    await deploy(files[0])
-  } else {
-    await share(files[0])
+  const item = files[0]
+
+  if (!isDirectory(item) || !await isDeployable(item)) {
+    await share(item)
+    return
   }
 
-  event.preventDefault()
+  await deploy(item)
 }
 
 app.on('ready', async () => {
