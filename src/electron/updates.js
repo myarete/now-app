@@ -11,12 +11,14 @@ const platform = process.platform ? 'osx' : process.platform === 'darwin'
 const feedURL = 'https://now-updates.now.sh/update/' + platform
 
 export default () => {
-  autoUpdater.on('error', showError)
+  autoUpdater.on('error', err => {
+    showError('A problem with the auto updater appeared', err)
+  })
 
   try {
     autoUpdater.setFeedURL(feedURL + '/' + version)
   } catch (err) {
-    console.error(err)
+    showError('Auto updated could not set feed URL', err)
   }
 
   setTimeout(autoUpdater.checkForUpdates, ms('10s'))
@@ -24,6 +26,6 @@ export default () => {
 
   autoUpdater.on('update-downloaded', () => notify({
     title: 'Update downloaded',
-    body: 'Sheesh'
+    body: 'Restart the application to enjoy the changes!'
   }))
 }

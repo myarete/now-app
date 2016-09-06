@@ -76,16 +76,19 @@ export function error(detail, trace) {
   let url = 'https://github.com/zeit/now-app/issues/new'
 
   if (!trace) {
-    shell.openExternal(url)
+    if (!goAway) {
+      shell.openExternal(url)
+    }
+
     return
   }
 
   if (trace instanceof Error) {
-    trace = detail.stack.toString()
-
-    console.error(detail)
-    console.error(trace)
+    trace = trace.stack.toString()
   }
+
+  console.error(detail)
+  console.error(trace)
 
   if (!goAway) {
     url += '?body=' + encodeURIComponent(trace)
