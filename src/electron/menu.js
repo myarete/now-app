@@ -9,12 +9,13 @@ import {deploy, share, error} from './dialogs'
 import logout from './actions/logout'
 import {connector, refreshCache} from './api'
 import notify from './notify'
+import attachTrayState from './utils/highlight'
 
 // Determine if an update is ready to be installed
 // Based on an environment variable
 const updateAvailable = process.env.UPDATE_AVAILABLE || false
 
-const about = () => {
+const about = tray => {
   const win = new BrowserWindow({
     width: 360,
     height: 425,
@@ -29,6 +30,8 @@ const about = () => {
     frame: false,
     backgroundColor: '#ECECEC'
   })
+
+  attachTrayState(win, tray)
 
   win.loadURL('file://' + resolvePath('../app/pages/about.html'))
   return win
@@ -127,7 +130,7 @@ export async function innerMenu(app, tray, deployments, tutorial) {
     hasDeployments = true
   }
 
-  const aboutWindow = about()
+  const aboutWindow = about(tray)
   const config = new Config()
 
   return [
@@ -204,8 +207,8 @@ export async function innerMenu(app, tray, deployments, tutorial) {
   ]
 }
 
-export function outerMenu(app) {
-  const aboutWindow = about()
+export function outerMenu(app, tray) {
+  const aboutWindow = about(tray)
 
   return [
     {

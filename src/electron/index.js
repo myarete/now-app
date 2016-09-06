@@ -13,25 +13,17 @@ import deploy from './actions/deploy'
 import share from './actions/share'
 import autoUpdater from './updates'
 import {connector, refreshCache} from './api'
+import attachTrayState from './utils/highlight'
 
 // Prevent garbage collection
 // Otherwise the tray icon would randomly hide after some time
 let tray = null
-let forceClose = false
 
 // Hide dock icon and set app name
 app.dock.hide()
 app.setName('Now')
 
 const config = new Config()
-
-const setHighlight = isHighlighted => {
-  if (!tray) {
-    return
-  }
-
-  tray.setHighlightMode(isHighlighted ? 'always' : 'never')
-}
 
 const onboarding = () => {
   const win = new BrowserWindow({
@@ -49,31 +41,7 @@ const onboarding = () => {
   })
 
   win.loadURL('file://' + resolvePath('../app/pages/welcome.html'))
-
-  const states = {
-    hide: false,
-    show: true,
-    minimize: false,
-    restore: true
-  }
-
-  for (const state in states) {
-    if (!{}.hasOwnProperty.call(states, state)) {
-      return
-    }
-
-    const highlighted = states[state]
-    win.on(state, () => setHighlight(highlighted))
-  }
-
-  win.on('close', event => {
-    if (forceClose) {
-      return
-    }
-
-    win.hide()
-    event.preventDefault()
-  })
+  attachTrayState(win, tray)
 
   // We need to access it from the "About" window
   // To be able to open it from there
@@ -212,9 +180,9 @@ app.on('ready', async () => {
     tutorial.on('ready-to-show', toggleTutorial)
   }
 
-  // When quitting the app, force close the tutorial
+  // When quitting the app, force close the tutorial and about windows
   app.on('before-quit', () => {
-    forceClose = true
+    process.env.FORCE_CLOSE = true
   })
 
   let submenuShown = false
@@ -238,7 +206,7 @@ app.on('ready', async () => {
       return
     }
 
-    const menu = Menu.buildFromTemplate(outerMenu(app))
+    const menu = Menu.buildFromTemplate(outerMenu(app, tray))
 
     if (!tutorial.isVisible()) {
       isHighlighted = !isHighlighted
