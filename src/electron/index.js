@@ -207,12 +207,12 @@ app.on('ready', async () => {
     process.env.FORCE_CLOSE = true
   })
 
-  let submenuShown = false
-
+  // Define major event listeners for tray
   tray.on('drop-files', fileDropped)
   tray.on('click', toggleActivity)
 
   let isHighlighted = false
+  let submenuShown = false
 
   tray.on('right-click', async event => {
     if (isLoggedIn() && !windows.tutorial.isVisible()) {
