@@ -43,7 +43,7 @@ const getVerificationToken = async (url, email) => {
   })
 
   if (res.status !== 200) {
-    error('Verification error')
+    error('Verification error', res.json())
     return
   }
 

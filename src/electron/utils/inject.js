@@ -14,7 +14,8 @@ export default async (tmpDir, defaults) => {
   try {
     await fs.writeJSON(pkgPath, defaults)
   } catch (err) {
-    return showError(err)
+    showError('Could not inject package.json for sharing', err)
+    return
   }
 
   await deploy(tmpDir, true)

@@ -36,7 +36,7 @@ export async function share(tray) {
   try {
     await sharing(path)
   } catch (err) {
-    error(err)
+    error('Not able to share', err)
   }
 }
 
@@ -57,7 +57,7 @@ export async function deploy(tray) {
     try {
       await deployment(path)
     } catch (err) {
-      error(err)
+      error('Not able to deploy', err)
     }
   }
 }
