@@ -1,6 +1,6 @@
 import {remote} from 'electron'
 
-export default detail => {
+export default (detail, trace) => {
   const current = remote.getCurrentWindow()
 
   remote.dialog.showMessageBox(current, {
@@ -11,4 +11,6 @@ export default detail => {
     message: 'An error occured',
     detail
   })
+
+  console.error(trace)
 }
