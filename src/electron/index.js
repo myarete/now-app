@@ -35,6 +35,11 @@ app.setName('Now')
 // And before he opens the context menu
 global.refreshCache = refreshCache
 
+// Immediately after login, we'll start the auto updater
+// from the renderer process
+global.autoUpdater = autoUpdater
+global.isDev = isDev
+
 // Make sure that unhandled errors get handled
 process.on('uncaughtException', err => {
   console.error(err)
@@ -187,7 +192,7 @@ const fileDropped = async (event, files) => {
 
 app.on('ready', async () => {
   if (!isDev && process.platform !== 'linux') {
-    autoUpdater()
+    global.autoUpdater()
   }
 
   // DO NOT create the tray icon BEFORE the login status has been checked!
