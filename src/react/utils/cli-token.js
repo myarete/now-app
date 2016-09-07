@@ -1,6 +1,9 @@
 // Packages
 import {remote} from 'electron'
 
+// Ours
+import startRefreshment from './refresh'
+
 export default root => {
   const path = remote.require('path')
   const os = remote.require('os')
@@ -12,7 +15,7 @@ export default root => {
   const filePath = path.join(os.homedir(), '.now.json')
   const loader = fs.readJSON(filePath)
 
-  loader.then(content => {
+  loader.then(async content => {
     const config = new Config()
 
     config.set('now.user.token', content.token)
@@ -22,5 +25,7 @@ export default root => {
       loginShown: false,
       loginText: `You've already signed in once in the now CLI.\nBecause of this, you've now been logged in automatically.`
     })
+
+    await startRefreshment(remote.getCurrentWindow())
   }).catch(() => {})
 }

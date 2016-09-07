@@ -7,6 +7,7 @@ import {remote} from 'electron'
 
 // Ours
 import error from '../utils/error'
+import startRefreshment from '../utils/refresh'
 
 const domains = [
   'aol.com',
@@ -22,8 +23,6 @@ const domains = [
   'gmx.com',
   'icloud.com'
 ]
-
-const refreshCache = remote.getGlobal('refreshCache')
 
 const getVerificationToken = async (url, email) => {
   const os = remote.require('os')
@@ -88,21 +87,6 @@ export default React.createClass({
 
     this.prepareSuggestion(value)
   },
-  async startRefreshment(currentWindow) {
-    // Prepare data
-    await refreshCache(null, remote.app, currentWindow)
-
-    // Start periodically refreshing data after login
-    remote.getGlobal('startRefresh')(currentWindow)
-
-    const isDev = remote.getGlobal('isDev')
-
-    // Immediately after logging in, we start checking
-    // for updates
-    if (!isDev && remote.process.platform !== 'linux') {
-      remote.getGlobal('autoUpdater')()
-    }
-  },
   async tryLogin(email) {
     const apiURL = 'https://api.zeit.co'
     const verificationToken = await getVerificationToken(apiURL, email)
@@ -133,7 +117,7 @@ export default React.createClass({
     const loginInput = window.loginInput
 
     // Load fresh data and auto-update it
-    await this.startRefreshment()
+    await startRefreshment(currentWindow)
 
     if (currentWindow) {
       currentWindow.focus()
