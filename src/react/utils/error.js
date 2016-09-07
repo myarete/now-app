@@ -1,16 +1,13 @@
+// Packages
 import {remote} from 'electron'
 
 export default (detail, trace) => {
   const current = remote.getCurrentWindow()
+  const handler = remote.getGlobal('errorHandler')
 
-  remote.dialog.showMessageBox(current, {
-    type: 'error',
-    buttons: [
-      'Ok'
-    ],
-    message: 'An error occured',
-    detail
-  })
+  if (!trace) {
+    trace = null
+  }
 
-  console.error(trace)
+  handler(detail, trace, current)
 }

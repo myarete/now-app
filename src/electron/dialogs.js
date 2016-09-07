@@ -62,8 +62,8 @@ export async function deploy(tray) {
   }
 }
 
-export function error(detail, trace) {
-  const goAway = dialog.showMessageBox({
+export function error(detail, trace, win) {
+  const goAway = dialog.showMessageBox(win || null, {
     type: 'error',
     message: 'An error occured',
     detail,

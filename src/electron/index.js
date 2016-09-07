@@ -40,6 +40,9 @@ global.refreshCache = refreshCache
 global.autoUpdater = autoUpdater
 global.isDev = isDev
 
+// Share error handling between renderer process and the main one
+global.errorHandler = showError
+
 // Make sure that unhandled errors get handled
 process.on('uncaughtException', err => {
   console.error(err)
