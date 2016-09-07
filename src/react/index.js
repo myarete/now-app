@@ -7,7 +7,9 @@ import {remote, shell} from 'electron'
 
 // Ours
 import pkg from '../../package.json'
+import installBinary from './utils/load-binary'
 import showError from './utils/error'
+import tokenFromCLI from './utils/cli-token'
 
 import Title from './components/title'
 import Login from './components/login'
@@ -81,69 +83,11 @@ const Sections = React.createClass({
       loginText: 'To start using the app, simply enter\nyour email address below.'
     }
   },
-  tokenFromCLI() {
-    const path = remote.require('path')
-    const os = remote.require('os')
-    const fs = remote.require('fs-promise')
-    const Config = remote.require('electron-config')
-
-    const root = this
-    window.sliderElement = this
-
-    const filePath = path.join(os.homedir(), '.now.json')
-    const loader = fs.readJSON(filePath)
-
-    loader.then(content => {
-      const config = new Config()
-
-      config.set('now.user.token', content.token)
-      config.set('now.user.email', content.email)
-
-      root.setState({
-        loginShown: false,
-        loginText: `You've already signed in once in the now CLI.\nBecause of this, you've now been logged in automatically.`
-      })
-    }).catch(() => {})
-  },
   handleReady() {
     const currentWindow = remote.getCurrentWindow()
 
     // Close the tutorial
     currentWindow.hide()
-  },
-  async handleBinaryInstallation() {
-    const fetch = remote.require('node-fetch')
-    const url = 'https://api.github.com/repos/zeit/now-binaries/releases/latest'
-
-    let response
-
-    try {
-      response = await fetch(url)
-    } catch (err) {
-      showError('Not able to load latest binary release', err)
-      return
-    }
-
-    if (!response.ok) {
-      showError('Latest binary release could not be loaded')
-      return
-    }
-
-    try {
-      response = await response.json()
-    } catch (err) {
-      showError('Could not parse response as JSON', err)
-      return
-    }
-
-    const downloadURL = response.assets[0].browser_download_url
-
-    if (!downloadURL) {
-      showError('Latest release doesn\'t contain a binary')
-      return
-    }
-
-    console.log(downloadURL)
   },
   render() {
     const videoSettings = {
@@ -161,7 +105,7 @@ const Sections = React.createClass({
     }
 
     if (this.state.loginShown) {
-      this.tokenFromCLI()
+      tokenFromCLI(this)
     }
 
     return (
@@ -183,7 +127,7 @@ const Sections = React.createClass({
             <p>Bye the way: You can use <code>now</code> from the command line for more advanced features.</p>
             <p>Press the button below to place <code>now</code> in <code>/usr/local/bin</code>. In the future, we&#39;ll keep it updated for you automatically.</p>
 
-            <a className="button install" onClick={this.handleBinaryInstallation}>Install now</a>
+            <a className="button install" onClick={installBinary}>Install now</a>
           </article>
         </section>
 
