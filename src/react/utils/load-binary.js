@@ -11,7 +11,7 @@ import showError from './error'
 
 // Load from main process
 const fetch = remote.require('node-fetch')
-const Sudoer = remote.require('electron-sudo').default
+const sudo = remote.require('sudo-prompt')
 const managePath = remote.require('manage-path')
 
 const getBinaryURL = async () => {
@@ -75,16 +75,22 @@ export default async () => {
   const downloadURL = await getBinaryURL()
   const location = await downloadBinary(downloadURL)
 
-  const sudoer = new Sudoer({
+  const destination = '/usr/local/bin/now'
+  const command = 'mv ' + location.path + ' ' + destination
+
+  const sudoOptions = {
     name: 'Now'
-  })
+  }
 
-  const destination = '/usr/local/bin'
+  sudo.exec(command, sudoOptions, (error, stdout, stderr) => {
+    if (error) {
+      showError('Not able to move binary', error)
+      return
+    }
 
-  // Move the binary to the user's binary directory
-  const mv = await sudoer.spawn('mv', [location.path, destination])
+    console.log(stdout)
+    console.log(stderr)
 
-  mv.on('close', () => {
     // Add binary to PATH
     const alterPath = managePath(process.env)
     alterPath.push(destination)
