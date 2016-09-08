@@ -27,7 +27,8 @@ module.exports = [
       const load = [
         'electron',
         'electron-config',
-        'tmp-promise'
+        'tmp-promise',
+        'download'
       ]
 
       if (load.includes(request)) {

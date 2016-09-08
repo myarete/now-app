@@ -4,6 +4,7 @@ import path from 'path'
 // Packages
 import {remote} from 'electron'
 import tmp from 'tmp-promise'
+import download from 'download'
 
 // Ours
 import showError from './error'
@@ -11,7 +12,6 @@ import showError from './error'
 // Load from main process
 const fetch = remote.require('node-fetch')
 const Sudoer = remote.require('electron-sudo').default
-const fs = remote.require('fs-promise')
 
 const getBinaryURL = async () => {
   const url = 'https://api.github.com/repos/zeit/now-binaries/releases/latest'
@@ -48,20 +48,6 @@ const getBinaryURL = async () => {
 }
 
 const downloadBinary = async url => {
-  let response
-
-  try {
-    response = await fetch(url)
-  } catch (err) {
-    showError('Not able to download binary', err)
-    return
-  }
-
-  if (!response.ok) {
-    showError('Newest binary could not be downloaded')
-    return
-  }
-
   let tempDir
 
   try {
@@ -71,15 +57,15 @@ const downloadBinary = async url => {
     return
   }
 
-  console.log('Generated temp dir')
-
-  const destination = path.join(tempDir.path, 'now')
-
-  const writeStream = fs.createWriteStream(destination)
-  response.body.pipe(writeStream)
+  try {
+    await download(url, tempDir.path)
+  } catch (err) {
+    showError('Could not download binary', err)
+    return
+  }
 
   return {
-    path: destination,
+    path: path.join(tempDir.path, 'now'),
     cleanup: tempDir.cleanup
   }
 }
