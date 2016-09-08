@@ -12,7 +12,6 @@ import showError from './error'
 // Load from main process
 const fetch = remote.require('node-fetch')
 const sudo = remote.require('sudo-prompt')
-const managePath = remote.require('manage-path')
 
 const getBinaryURL = async () => {
   const url = 'https://api.github.com/repos/zeit/now-binaries/releases/latest'
@@ -90,10 +89,6 @@ export default async () => {
 
     console.log(stdout)
     console.log(stderr)
-
-    // Add binary to PATH
-    const alterPath = managePath(process.env)
-    alterPath.push(destination)
 
     // Let the user know where finished
     console.log('Done!')
