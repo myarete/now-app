@@ -12,7 +12,7 @@ import showError from './error'
 // Load from main process
 const fetch = remote.require('node-fetch')
 const Sudoer = remote.require('electron-sudo').default
-const alterPath = remote.require('manage-path')
+const managePath = remote.require('manage-path')
 
 const getBinaryURL = async () => {
   const url = 'https://api.github.com/repos/zeit/now-binaries/releases/latest'
@@ -66,7 +66,7 @@ const downloadBinary = async url => {
   }
 
   return {
-    path: path.join(tempDir.path, 'now'),
+    path: path.join(tempDir.path, 'now-macos'),
     cleanup: tempDir.cleanup
   }
 }
@@ -79,13 +79,14 @@ export default async () => {
     name: 'Now'
   })
 
-  const destination = '/usr/local/bin/now'
+  const destination = '/usr/local/bin'
 
   // Move the binary to the user's binary directory
   const mv = await sudoer.spawn('mv', [location.path, destination])
 
   mv.on('close', () => {
     // Add binary to PATH
+    const alterPath = managePath(process.env)
     alterPath.push(destination)
 
     // Let the user know where finished
