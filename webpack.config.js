@@ -27,7 +27,8 @@ module.exports = [
       const load = [
         'electron',
         'electron-config',
-        'fs-promise'
+        'fs-promise',
+        'tmp-promise'
       ]
 
       if (load.includes(request)) {

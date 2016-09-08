@@ -1,9 +1,10 @@
 // Native
-// import os from 'os'
+import path from 'path'
 
 // Packages
 import {remote} from 'electron'
 import fs from 'fs-promise'
+import tmp from 'tmp-promise'
 
 // Ours
 import showError from './error'
@@ -44,12 +45,11 @@ const getBinaryURL = async () => {
   return downloadURL
 }
 
-export default async () => {
-  const downloadURL = await getBinaryURL()
+const downloadBinary = async url => {
   let response
 
   try {
-    response = await fetch(downloadURL)
+    response = await fetch(url)
   } catch (err) {
     showError('Not able to download binary', err)
     return
@@ -61,6 +61,7 @@ export default async () => {
   }
 
   let buffer
+  let tempDir
 
   try {
     buffer = await response.buffer()
@@ -70,11 +71,31 @@ export default async () => {
   }
 
   try {
-    fs.writeFile('/Users/leo/Desktop/binary', buffer)
+    tempDir = await tmp.dir()
+  } catch (err) {
+    showError('Could not create temporary directory', err)
+    return
+  }
+
+  const destination = path.join(tempDir.path, 'now')
+
+  try {
+    fs.writeFile(destination, buffer)
   } catch (err) {
     showError('Not able to save binary', err)
     return
   }
 
+  return {
+    destination,
+    cleanup: tempDir.cleanup
+  }
+}
+
+export default async () => {
+  const downloadURL = await getBinaryURL()
+  const binaryPath = await downloadBinary(downloadURL)
+
+  console.log(binaryPath)
   console.log('Done!')
 }
