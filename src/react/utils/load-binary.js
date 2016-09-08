@@ -3,13 +3,15 @@ import path from 'path'
 
 // Packages
 import {remote} from 'electron'
-import fs from 'fs-promise'
 import tmp from 'tmp-promise'
 
 // Ours
 import showError from './error'
 
+// Load from main process
 const fetch = remote.require('node-fetch')
+const Sudoer = remote.require('electron-sudo').default
+const fs = remote.require('fs-promise')
 
 const getBinaryURL = async () => {
   const url = 'https://api.github.com/repos/zeit/now-binaries/releases/latest'
@@ -60,15 +62,7 @@ const downloadBinary = async url => {
     return
   }
 
-  let buffer
   let tempDir
-
-  try {
-    buffer = await response.buffer()
-  } catch (err) {
-    showError('Could not create buffer from binary', err)
-    return
-  }
 
   try {
     tempDir = await tmp.dir()
@@ -77,25 +71,32 @@ const downloadBinary = async url => {
     return
   }
 
+  console.log('Generated temp dir')
+
   const destination = path.join(tempDir.path, 'now')
 
-  try {
-    fs.writeFile(destination, buffer)
-  } catch (err) {
-    showError('Not able to save binary', err)
-    return
-  }
+  const writeStream = fs.createWriteStream(destination)
+  response.body.pipe(writeStream)
 
   return {
-    destination,
+    path: destination,
     cleanup: tempDir.cleanup
   }
 }
 
 export default async () => {
   const downloadURL = await getBinaryURL()
-  const binaryPath = await downloadBinary(downloadURL)
+  const location = await downloadBinary(downloadURL)
 
-  console.log(binaryPath)
-  console.log('Done!')
+  const sudoer = new Sudoer({
+    name: 'Now'
+  })
+
+  const destination = '/usr/local/bin/now'
+  const mv = await sudoer.spawn('mv', [location.path, destination])
+
+  mv.on('close', () => {
+    console.log('Done!')
+    location.cleanup()
+  })
 }

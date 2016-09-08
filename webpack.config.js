@@ -27,7 +27,6 @@ module.exports = [
       const load = [
         'electron',
         'electron-config',
-        'fs-promise',
         'tmp-promise'
       ]
 
@@ -80,6 +79,9 @@ module.exports = [
     output: {
       path: outputPath,
       filename: 'electron.js'
+    },
+    node: {
+      __dirname: true
     },
     externals(context, request, callback) {
       callback(null, request.charAt(0) === '.' ? false : 'require("' + request + '")')
