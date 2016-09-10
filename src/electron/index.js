@@ -135,9 +135,25 @@ const toggleContextMenu = async windows => {
     deploymentList[index] = deploymentOptions(info)
   }
 
-  const generatedMenu = await innerMenu(app, tray, deploymentList, windows)
-  const menu = Menu.buildFromTemplate(generatedMenu)
+  let generatedMenu = await innerMenu(app, tray, deploymentList, windows)
 
+  if (process.env.CONNECTION === 'offline') {
+    const last = generatedMenu.slice(-1)[0]
+
+    generatedMenu = [
+      {
+        label: 'You\'re offline!',
+        enabled: false
+      },
+      {
+        type: 'separator'
+      }
+    ]
+
+    generatedMenu.push(last)
+  }
+
+  const menu = Menu.buildFromTemplate(generatedMenu)
   tray.popUpContextMenu(menu)
 }
 
