@@ -11,7 +11,6 @@ body {
 .button {
   font-weight: 700;
   text-transform: uppercase;
-  color: #fff;
   background: #191919;
   text-align: center;
   text-decoration: none;
@@ -431,6 +430,16 @@ body {
 #cli article .install {
   margin-top: 20px;
   display: inline-block;
+}
+
+#cli article .install.off {
+  background: transparent;
+  font-size: 13px;
+  cursor: default;
+}
+
+#cli article .install.off:hover {
+  color: #d0d0d0;
 }
 
 #cli article code {
