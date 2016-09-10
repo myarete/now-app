@@ -27,11 +27,7 @@ module.exports = [
       const load = [
         'electron',
         'electron-config',
-        'tmp-promise',
-        'fs-promise',
-        'download',
-        'async-retry',
-        'which-promise'
+        'fs-promise'
       ]
 
       if (load.includes(request)) {

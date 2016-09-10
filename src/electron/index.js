@@ -19,6 +19,7 @@ import autoUpdater from './updates'
 import {refreshCache} from './api'
 import attachTrayState from './utils/highlight'
 import toggleWindow from './utils/toggle-window'
+import * as binaryUtils from './utils/binary'
 
 // Prevent garbage collection
 // Otherwise the tray icon would randomly hide after some time
@@ -40,8 +41,9 @@ global.refreshCache = refreshCache
 global.autoUpdater = autoUpdater
 global.isDev = isDev
 
-// Share error handling between renderer process and the main one
+// Share these  between renderer process and the main one
 global.errorHandler = showError
+global.binaryUtils = binaryUtils
 
 // Make sure that unhandled errors get handled
 process.on('uncaughtException', err => {
@@ -228,6 +230,7 @@ app.on('ready', async () => {
     process.env.CONNECTION = status
   })
 
+  // Start auto updater if not in development mode
   if (!isDev && process.platform !== 'linux') {
     global.autoUpdater()
   }

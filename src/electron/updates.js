@@ -10,10 +10,14 @@ import notify from './notify'
 const platform = process.platform ? 'osx' : process.platform === 'darwin'
 const feedURL = 'https://now-auto-updates.now.sh/update/' + platform
 
+const updateBinary = async () => {
+  console.log('Checking for binary updates...')
+}
+
 export default () => {
-  autoUpdater.on('error', err => {
-    showError('A problem with the auto updater appeared', err)
-  })
+  setInterval(updateBinary, ms('10s'))
+
+  autoUpdater.on('error', err => console.error(err))
 
   try {
     autoUpdater.setFeedURL(feedURL + '/' + version)
@@ -21,8 +25,7 @@ export default () => {
     showError('Auto updated could not set feed URL', err)
   }
 
-  setTimeout(autoUpdater.checkForUpdates, ms('10s'))
-  setInterval(autoUpdater.checkForUpdates, ms('5m'))
+  setInterval(autoUpdater.checkForUpdates, ms('30m'))
 
   autoUpdater.on('update-downloaded', () => notify({
     title: 'Update downloaded',
