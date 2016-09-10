@@ -1,5 +1,6 @@
 // Packages
 import React from 'react'
+import {remote} from 'electron'
 
 // Ours
 import installBinary from '../utils/load-binary'
@@ -10,17 +11,38 @@ export default React.createClass({
       binaryInstalled: false
     }
   },
-  render() {
-    const binaryButton = {
-      className: 'button install',
-      onClick: installBinary,
-      disabled: this.state.binaryInstalled
-    }
+  async componentDidMount() {
+    const binaryUtils = remote.getGlobal('binaryUtils')
+    const binaryPath = binaryUtils.getPath() + '/now'
 
+    const exists = remote.require('path-exists')
+
+    if (await exists(binaryPath)) {
+      this.setState({
+        binaryInstalled: true
+      })
+    }
+  },
+  render() {
+    const element = this
+
+    let classes = 'button install'
     let installText = 'Install now'
 
     if (this.state.binaryInstalled) {
+      classes += ' off'
       installText = 'Already installed'
+    }
+
+    const binaryButton = {
+      className: classes,
+      async onClick() {
+        if (element.state.binaryInstalled) {
+          return
+        }
+
+        await installBinary()
+      }
     }
 
     return (
