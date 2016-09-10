@@ -233,6 +233,13 @@ export default React.createClass({
       return
     }
 
+    try {
+      await this.tryLogin(value)
+    } catch (err) {
+      error('Not able to retrieve verification token')
+      return
+    }
+
     window.loginText.innerHTML = `We sent an email to <strong>${value}</strong>.<br>Please follow the link within it.`
 
     this.setState({
@@ -240,13 +247,6 @@ export default React.createClass({
         'verifying'
       ]
     })
-
-    try {
-      await this.tryLogin(value)
-    } catch (err) {
-      error('Not able to retrieve verification token')
-      console.error(err)
-    }
   },
   toggleFocus() {
     this.setState({
