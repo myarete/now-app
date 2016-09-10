@@ -2,7 +2,7 @@
 import path from 'path'
 
 // Packages
-import {app, Tray, Menu, BrowserWindow} from 'electron'
+import {app, Tray, Menu, BrowserWindow, ipcMain} from 'electron'
 import ms from 'ms'
 import Config from 'electron-config'
 import isDev from 'electron-is-dev'
@@ -194,6 +194,18 @@ const fileDropped = async (event, files) => {
 }
 
 app.on('ready', async () => {
+  const onlineStatusWindow = new BrowserWindow({
+    width: 0,
+    height: 0,
+    show: false
+  })
+
+  onlineStatusWindow.loadURL('file://' + resolvePath('../app/pages/status.html'))
+
+  ipcMain.on('online-status-changed', (event, status) => {
+    process.env.ONLINE = status === 'online'
+  })
+
   if (!isDev && process.platform !== 'linux') {
     global.autoUpdater()
   }
