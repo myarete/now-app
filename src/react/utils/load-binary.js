@@ -82,6 +82,16 @@ const getPath = () => {
   return '/usr/bin'
 }
 
+const exists = async location => {
+  try {
+    await fs.stat(location)
+  } catch (err) {
+    return false
+  }
+
+  return true
+}
+
 const handleExistingBinary = async () => {
   let existing
 
@@ -92,9 +102,22 @@ const handleExistingBinary = async () => {
   }
 
   const details = path.parse(existing)
-  details.name = details.base = 'now.old.1'
+  let index = 1
 
-  const newFile = path.format(details)
+  const newFile = await retry(async () => {
+    details.name = details.base = 'now.old.' + index.toString()
+    const newFile = path.format(details)
+
+    if (await exists(newFile)) {
+      throw new Error('Binary already exists')
+    }
+
+    return newFile
+  }, {
+    onRetry() {
+      ++index
+    }
+  })
 
   try {
     await fs.rename(existing, newFile)
@@ -110,7 +133,10 @@ export default async () => {
   const destination = getPath()
   const command = 'mv ' + location.path + ' ' + destination + '/now'
 
-  await handleExistingBinary()
+  // If there's an existing binary, rename it
+  try {
+    await handleExistingBinary()
+  } catch (err) {}
 
   const sudoOptions = {
     name: 'Now'
