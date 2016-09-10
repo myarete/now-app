@@ -10,7 +10,6 @@ const sudo = remote.require('sudo-prompt')
 
 export default async () => {
   const utils = remote.getGlobal('binaryUtils')
-  console.log(utils)
 
   const downloadURL = await utils.getURL()
   const location = await utils.download(downloadURL)
