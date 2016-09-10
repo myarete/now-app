@@ -63,33 +63,34 @@ export async function deploy(tray) {
 }
 
 export function error(detail, trace, win) {
+  const buttons = [
+    'Go away'
+  ]
+
+  if (trace) {
+    buttons.unshift('Report it')
+  }
+
   const goAway = dialog.showMessageBox(win || null, {
     type: 'error',
     message: 'An error occured',
     detail,
-    buttons: [
-      'Report it',
-      'Go away'
-    ]
+    buttons
   })
 
   let url = 'https://github.com/zeit/now-app/issues/new'
 
   if (!trace) {
-    if (!goAway) {
-      shell.openExternal(url)
-    }
-
     return
   }
 
   if (trace instanceof Error) {
     trace = trace.stack.toString()
+    console.error(trace)
   }
 
   // Just log it as well to be sure
   console.error(detail)
-  console.error(trace)
 
   if (!goAway) {
     // Set the issue content
