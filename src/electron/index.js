@@ -172,6 +172,12 @@ const isDeployable = async directory => {
 
 const fileDropped = async (event, files) => {
   event.preventDefault()
+
+  if (process.env.CONNECTION === 'offline') {
+    showError('You\'re offline')
+    return
+  }
+
   const loggedIn = isLoggedIn()
 
   if (!loggedIn) {
@@ -203,7 +209,7 @@ app.on('ready', async () => {
   onlineStatusWindow.loadURL('file://' + resolvePath('../app/pages/status.html'))
 
   ipcMain.on('online-status-changed', (event, status) => {
-    process.env.ONLINE = status === 'online'
+    process.env.CONNECTION = status
   })
 
   if (!isDev && process.platform !== 'linux') {
