@@ -6,6 +6,7 @@ import {remote} from 'electron'
 import tmp from 'tmp-promise'
 import download from 'download'
 import retry from 'async-retry'
+import fs from 'fs-promise'
 
 // Ours
 import showError from './error'
@@ -76,10 +77,10 @@ const getPath = () => {
   const first = '/usr/local/bin'
 
   if (path.includes(first)) {
-    return first + '/now'
+    return first
   }
 
-  return '/usr/bin/now'
+  return '/usr/bin'
 }
 
 export default async () => {
@@ -87,17 +88,21 @@ export default async () => {
   const location = await downloadBinary(downloadURL)
 
   const destination = getPath()
-  const command = 'mv ' + location.path + ' ' + destination
+  const command = 'mv ' + location.path + ' ' + destination + '/now'
 
   const sudoOptions = {
     name: 'Now'
   }
 
-  sudo.exec(command, sudoOptions, (error, stdout, stderr) => {
+  sudo.exec(command, sudoOptions, async (error, stdout, stderr) => {
     if (error) {
       showError('Not able to move binary', error)
       return
     }
+
+    // Copy permissions of node binary
+    const stats = await fs.stat(destination + '/node')
+    await fs.chmod(destination + '/now', stats.mode)
 
     console.log(stdout)
     console.log(stderr)

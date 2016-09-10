@@ -28,6 +28,7 @@ module.exports = [
         'electron',
         'electron-config',
         'tmp-promise',
+        'fs-promise',
         'download',
         'async-retry'
       ]
