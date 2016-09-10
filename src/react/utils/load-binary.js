@@ -101,8 +101,17 @@ export default async () => {
     }
 
     // Copy permissions of node binary
-    const stats = await fs.stat(destination + '/node')
-    await fs.chmod(destination + '/now', stats.mode)
+    let nodeStats
+
+    try {
+      nodeStats = await fs.stat(destination + '/node')
+    } catch (err) {
+      console.error(err)
+    }
+
+    if (nodeStats) {
+      await fs.chmod(destination + '/now', nodeStats.mode)
+    }
 
     console.log(stdout)
     console.log(stderr)
