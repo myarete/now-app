@@ -95,6 +95,14 @@ export default React.createClass({
       return
     }
 
+    window.loginText.innerHTML = `We sent an email to <strong>${email}</strong>.<br>Please follow the link within it.`
+
+    this.setState({
+      classes: [
+        'verifying'
+      ]
+    })
+
     let final
 
     do {
@@ -239,14 +247,6 @@ export default React.createClass({
       error('Not able to retrieve verification token')
       return
     }
-
-    window.loginText.innerHTML = `We sent an email to <strong>${value}</strong>.<br>Please follow the link within it.`
-
-    this.setState({
-      classes: [
-        'verifying'
-      ]
-    })
   },
   toggleFocus() {
     this.setState({
