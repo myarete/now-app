@@ -5,6 +5,7 @@ import path from 'path'
 import {remote} from 'electron'
 import tmp from 'tmp-promise'
 import download from 'download'
+import retry from 'async-retry'
 
 // Ours
 import showError from './error'
@@ -58,7 +59,7 @@ const downloadBinary = async url => {
   }
 
   try {
-    await download(url, tempDir.path)
+    await retry(async () => await download(url, tempDir.path))
   } catch (err) {
     showError('Could not download binary', err)
     return

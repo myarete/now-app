@@ -28,7 +28,8 @@ module.exports = [
         'electron',
         'electron-config',
         'tmp-promise',
-        'download'
+        'download',
+        'async-retry'
       ]
 
       if (load.includes(request)) {
