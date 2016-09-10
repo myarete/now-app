@@ -7,12 +7,12 @@ import {remote, shell} from 'electron'
 
 // Ours
 import pkg from '../../package.json'
-import installBinary from './utils/load-binary'
 import showError from './utils/error'
 import tokenFromCLI from './utils/cli-token'
 
 import Title from './components/title'
 import Login from './components/login'
+import Binary from './components/binary'
 
 import logoSVG from './vectors/logo.svg'
 import arrowSVG from './vectors/arrow.svg'
@@ -78,7 +78,6 @@ const sliderSettings = {
 const Sections = React.createClass({
   getInitialState() {
     return {
-      fading: false,
       loginShown: true,
       loginText: 'To start using the app, simply enter\nyour email address below.'
     }
@@ -123,12 +122,7 @@ const Sections = React.createClass({
         </section>
 
         <section id="cli">
-          <article>
-            <p>Bye the way: You can use <code>now</code> from the command line for more advanced features.</p>
-            <p>Press the button below to place <code>now</code> in <code>/usr/local/bin</code>. In the future, we&#39;ll keep it updated for you automatically.</p>
-
-            <a className="button install" onClick={installBinary}>Install now</a>
-          </article>
+          <Binary/>
         </section>
 
         <section id="login">
