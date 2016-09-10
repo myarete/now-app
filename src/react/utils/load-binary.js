@@ -71,11 +71,22 @@ const downloadBinary = async url => {
   }
 }
 
+const getPath = () => {
+  const path = remote.process.env.PATH.split(':')
+  const first = '/usr/local/bin'
+
+  if (path.includes(first)) {
+    return first + '/now'
+  }
+
+  return '/usr/bin/now'
+}
+
 export default async () => {
   const downloadURL = await getBinaryURL()
   const location = await downloadBinary(downloadURL)
 
-  const destination = '/usr/local/bin/now'
+  const destination = getPath()
   const command = 'mv ' + location.path + ' ' + destination
 
   const sudoOptions = {
