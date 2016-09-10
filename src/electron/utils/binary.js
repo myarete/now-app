@@ -8,19 +8,10 @@ import retry from 'async-retry'
 import load from 'download'
 import fs from 'fs-promise'
 import which from 'which-promise'
+import exists from 'path-exists'
 
 // Ours
 import {error as showError} from '../dialogs'
-
-const exists = async location => {
-  try {
-    await fs.stat(location)
-  } catch (err) {
-    return false
-  }
-
-  return true
-}
 
 export const getPath = () => {
   const path = process.env.PATH.split(':')
