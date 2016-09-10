@@ -31,6 +31,7 @@
     "path-exists": "^3.0.0",
     "path-type": "^1.1.0",
     "sudo-prompt": "^6.2.0",
-    "tmp-promise": "^1.0.2"
+    "tmp-promise": "^1.0.2",
+    "which-promise": "^1.0.0"
   }
 }

@@ -30,7 +30,8 @@ module.exports = [
         'tmp-promise',
         'fs-promise',
         'download',
-        'async-retry'
+        'async-retry',
+        'which-promise'
       ]
 
       if (load.includes(request)) {

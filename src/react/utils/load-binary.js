@@ -1,12 +1,10 @@
-// Native
-import path from 'path'
-
 // Packages
 import {remote} from 'electron'
 import tmp from 'tmp-promise'
 import download from 'download'
 import retry from 'async-retry'
 import fs from 'fs-promise'
+import which from 'which-promise'
 
 // Ours
 import showError from './error'
@@ -14,6 +12,7 @@ import showError from './error'
 // Load from main process
 const fetch = remote.require('node-fetch')
 const sudo = remote.require('sudo-prompt')
+const path = remote.require('path')
 
 const getBinaryURL = async () => {
   const url = 'https://api.github.com/repos/zeit/now-binaries/releases/latest'
@@ -83,12 +82,35 @@ const getPath = () => {
   return '/usr/bin'
 }
 
+const handleExistingBinary = async () => {
+  let existing
+
+  try {
+    existing = await which('now')
+  } catch (err) {
+    return
+  }
+
+  const details = path.parse(existing)
+  details.name = details.base = 'now.old.1'
+
+  const newFile = path.format(details)
+
+  try {
+    await fs.rename(existing, newFile)
+  } catch (err) {
+    showError('Could not rename existing binary', err)
+  }
+}
+
 export default async () => {
   const downloadURL = await getBinaryURL()
   const location = await downloadBinary(downloadURL)
 
   const destination = getPath()
   const command = 'mv ' + location.path + ' ' + destination + '/now'
+
+  await handleExistingBinary()
 
   const sudoOptions = {
     name: 'Now'
