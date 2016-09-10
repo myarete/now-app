@@ -8,7 +8,7 @@ import {error as showError} from './dialogs'
 import notify from './notify'
 
 const platform = process.platform ? 'osx' : process.platform === 'darwin'
-const feedURL = 'https://now-updates.now.sh/update/' + platform
+const feedURL = 'https://now-auto-updates.now.sh/update/' + platform
 
 export default () => {
   autoUpdater.on('error', err => {
