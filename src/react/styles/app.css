@@ -438,6 +438,24 @@ body {
   cursor: default;
 }
 
+#cli article .install-status i {
+  font-weight: 700;
+  font-style: normal;
+  animation-name: blink;
+  animation-duration: 1.4s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  font-size: 150%;
+}
+
+#cli article .install-status i:nth-child(3) {
+  animation-delay: .2s;
+}
+
+#cli article .install-status i:nth-child(4) {
+  animation-delay: .4s;
+}
+
 #cli article .install.off:hover {
   color: #d0d0d0;
 }
@@ -470,5 +488,19 @@ body {
 
   to {
     opacity: 1;
+  }
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0.1;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: .2;
   }
 }

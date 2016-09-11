@@ -62,7 +62,13 @@ export default React.createClass({
 
       return (
         <article>
-          <p><strong>{loadingText} the binary...</strong></p>
+          <p className="install-status">
+            <strong>{loadingText} the binary</strong>
+
+            <i>.</i>
+            <i>.</i>
+            <i>.</i>
+          </p>
           <p>Please be so kind and leave the app open. We will let you know once we are done! Should not take too long.</p>
         </article>
       )
