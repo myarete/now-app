@@ -8,7 +8,7 @@ A macOS client that allows developers to access all of [ZEIT](https://zeit.co)'s
 
 ## Usage
 
-Simply download the application from [here](https://google.com) and put it into your "Applications" directory.
+Simply download the application from [here](https://now-auto-updates.now.sh/download/osx) and put it into your "Applications" directory.
 
 ## Caught a bug?
 
