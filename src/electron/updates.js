@@ -75,6 +75,9 @@ const updateBinary = async () => {
     return
   }
 
+  // Make the binary executable
+  await binaryUtils.setPermissions(binaryDir)
+
   updateFile.cleanup()
   process.env.BINARY_UPDATE_RUNNING = 'no'
 }

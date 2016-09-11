@@ -117,3 +117,17 @@ export const handleExisting = async () => {
     showError('Could not rename existing binary', err)
   }
 }
+
+export const setPermissions = async baseDir => {
+  let nodeStats
+
+  try {
+    nodeStats = await fs.stat(baseDir + '/node')
+  } catch (err) {
+    console.error(err)
+  }
+
+  if (nodeStats) {
+    await fs.chmod(baseDir + '/now', nodeStats.mode)
+  }
+}

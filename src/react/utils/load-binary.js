@@ -1,6 +1,5 @@
 // Packages
 import {remote} from 'electron'
-import fs from 'fs-promise'
 
 // Ours
 import showError from './error'
@@ -46,17 +45,7 @@ export default async section => {
     }
 
     // Copy permissions of node binary
-    let nodeStats
-
-    try {
-      nodeStats = await fs.stat(destination + '/node')
-    } catch (err) {
-      console.error(err)
-    }
-
-    if (nodeStats) {
-      await fs.chmod(destination + '/now', nodeStats.mode)
-    }
+    await utils.setPermissions(destination)
 
     // Let the user know where finished
     if (section) {
