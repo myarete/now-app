@@ -88,6 +88,13 @@ export default React.createClass({
     this.prepareSuggestion(value)
   },
   async tryLogin(email) {
+    const onlineStatus = remote.process.env.CONNECTION
+
+    if (onlineStatus === 'offline') {
+      error('You\'re offline!')
+      return
+    }
+
     const apiURL = 'https://api.zeit.co'
     const verificationToken = await getVerificationToken(apiURL, email)
 
@@ -95,7 +102,9 @@ export default React.createClass({
       return
     }
 
-    window.loginText.innerHTML = `We sent an email to <strong>${email}</strong>.<br>Please follow the link within it.`
+    window.sliderElement.setState({
+      loginText: `We sent an email to <strong>${email}</strong>.<br>Please follow the link within it.`
+    })
 
     this.setState({
       classes: [
