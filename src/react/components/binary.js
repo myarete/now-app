@@ -1,6 +1,7 @@
 // Packages
 import React from 'react'
 import {remote} from 'electron'
+import fs from 'fs-promise'
 
 // Ours
 import installBinary from '../utils/load-binary'
@@ -12,8 +13,6 @@ export default React.createClass({
     }
   },
   async componentDidMount() {
-    const fs = remote.require('fs-promise')
-
     const binaryUtils = remote.getGlobal('binaryUtils')
     const binaryPath = binaryUtils.getPath() + '/now'
 
