@@ -11,7 +11,8 @@ export default React.createClass({
     return {
       binaryInstalled: false,
       installing: false,
-      done: false
+      done: false,
+      downloading: false
     }
   },
   async componentDidMount() {
@@ -57,9 +58,11 @@ export default React.createClass({
     }
 
     if (this.state.installing) {
+      const loadingText = this.state.downloading ? 'Downloading' : 'Installing'
+
       return (
         <article>
-          <p><strong>Installing the binary...</strong></p>
+          <p><strong>{loadingText} the binary...</strong></p>
           <p>Please be so kind and leave the app open. We will let you know once we are done! Should not take too long.</p>
         </article>
       )

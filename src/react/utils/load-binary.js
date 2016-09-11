@@ -13,12 +13,19 @@ export default async section => {
 
   if (section) {
     section.setState({
-      installing: true
+      installing: true,
+      downloading: true
     })
   }
 
   const downloadURL = await utils.getURL()
   const location = await utils.download(downloadURL)
+
+  if (section) {
+    section.setState({
+      downloading: false
+    })
+  }
 
   const destination = utils.getPath()
   const command = 'mv ' + location.path + ' ' + destination + '/now'
