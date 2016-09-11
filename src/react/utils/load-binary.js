@@ -19,7 +19,7 @@ export default async section => {
   }
 
   const downloadURL = await utils.getURL()
-  const location = await utils.download(downloadURL)
+  const location = await utils.download(downloadURL.url)
 
   if (section) {
     section.setState({
