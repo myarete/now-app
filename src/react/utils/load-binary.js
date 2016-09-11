@@ -8,8 +8,14 @@ import showError from './error'
 // Load from main process
 const sudo = remote.require('sudo-prompt')
 
-export default async () => {
+export default async section => {
   const utils = remote.getGlobal('binaryUtils')
+
+  if (section) {
+    section.setState({
+      installing: true
+    })
+  }
 
   const downloadURL = await utils.getURL()
   const location = await utils.download(downloadURL)
@@ -26,7 +32,7 @@ export default async () => {
     name: 'Now'
   }
 
-  sudo.exec(command, sudoOptions, async (error, stdout, stderr) => {
+  sudo.exec(command, sudoOptions, async error => {
     if (error) {
       showError('Not able to move binary', error)
       return
@@ -45,11 +51,13 @@ export default async () => {
       await fs.chmod(destination + '/now', nodeStats.mode)
     }
 
-    console.log(stdout)
-    console.log(stderr)
-
     // Let the user know where finished
-    console.log('Done!')
+    if (section) {
+      section.setState({
+        installing: false,
+        done: true
+      })
+    }
 
     // Remove temporary directory
     location.cleanup()

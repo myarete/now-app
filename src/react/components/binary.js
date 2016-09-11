@@ -52,7 +52,7 @@ export default React.createClass({
           return
         }
 
-        await installBinary()
+        await installBinary(element)
       }
     }
 
