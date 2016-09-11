@@ -32,16 +32,38 @@ const updateBinary = async () => {
     return
   }
 
+  if (process.env.BINARY_UPDATE_RUNNING === 'yes') {
+    return
+  }
+
+  process.env.BINARY_UPDATE_RUNNING = 'yes'
+  console.log('Checking for binary updates...')
+
   const currentRemote = await binaryUtils.getURL()
   const currentLocal = localBinaryVersion()
 
   const comparision = compareVersions(currentLocal, currentRemote.version)
 
   if (comparision !== -1) {
+    console.log('No updates found for binary')
     return
   }
 
-  console.log('haha')
+  console.log('Found update for binary! Downloading...')
+
+  let updateFile
+
+  try {
+    updateFile = await binaryUtils.download(currentRemote.url)
+  } catch (err) {
+    console.error('Could not download update for binary')
+    return
+  }
+
+  process.env.BINARY_UPDATE_RUNNING = 'no'
+
+  console.log(updateFile)
+  updateFile.cleanup()
 }
 
 export default () => {
