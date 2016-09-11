@@ -119,10 +119,18 @@ export const handleExisting = async () => {
 }
 
 export const setPermissions = async baseDir => {
+  let nodePath
+
+  try {
+    nodePath = await which('node')
+  } catch (err) {
+    return
+  }
+
   let nodeStats
 
   try {
-    nodeStats = await fs.stat(baseDir + '/node')
+    nodeStats = await fs.stat(nodePath)
   } catch (err) {
     console.error(err)
   }
