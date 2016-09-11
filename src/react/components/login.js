@@ -75,7 +75,8 @@ export default React.createClass({
       value: '',
       focus: false,
       classes: [],
-      suggestion: ''
+      suggestion: '',
+      waiting: false
     }
   },
   handleChange(event) {
@@ -95,10 +96,22 @@ export default React.createClass({
       return
     }
 
+    if (this.state.waiting) {
+      return
+    }
+
+    this.setState({
+      waiting: true
+    })
+
     const apiURL = 'https://api.zeit.co'
     const verificationToken = await getVerificationToken(apiURL, email)
 
     if (!verificationToken) {
+      this.setState({
+        waiting: false
+      })
+
       return
     }
 
