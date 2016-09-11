@@ -14,7 +14,7 @@ export default async currentWindow => {
 
   // Immediately after logging in, we start checking
   // for updates
-  // if (!isDev && remote.process.platform !== 'linux') {
-  remote.getGlobal('autoUpdater')()
-  // }
+  if (!isDev && remote.process.platform !== 'linux') {
+    remote.getGlobal('autoUpdater')()
+  }
 }

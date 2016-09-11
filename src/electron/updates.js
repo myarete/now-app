@@ -1,10 +1,12 @@
 // Native
 import path from 'path'
+import {execSync as exec} from 'child_process'
 
 // Packages
 import {autoUpdater} from 'electron'
 import ms from 'ms'
 import exists from 'path-exists'
+import compareVersions from 'compare-versions'
 
 // Ours
 import {version} from '../../package'
@@ -15,6 +17,13 @@ import * as binaryUtils from './utils/binary'
 const platform = process.platform ? 'osx' : process.platform === 'darwin'
 const feedURL = 'https://now-auto-updates.now.sh/update/' + platform
 
+const localBinaryVersion = () => {
+  const cmd = exec('now -v').toString()
+  const parts = cmd.split(' ')
+
+  return parts[2].trim()
+}
+
 const updateBinary = async () => {
   const binaryDir = binaryUtils.getPath()
   const fullPath = path.join(binaryDir, 'now')
@@ -24,11 +33,19 @@ const updateBinary = async () => {
   }
 
   const currentRemote = await binaryUtils.getURL()
-  console.log(currentRemote)
+  const currentLocal = localBinaryVersion()
+
+  const comparision = compareVersions(currentLocal, currentRemote.version)
+
+  if (comparision !== -1) {
+    return
+  }
+
+  console.log('haha')
 }
 
 export default () => {
-  setInterval(updateBinary, ms('5s'))
+  setInterval(updateBinary, ms('10s'))
 
   const test = true
 
