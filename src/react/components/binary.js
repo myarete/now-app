@@ -12,16 +12,26 @@ export default React.createClass({
     }
   },
   async componentDidMount() {
+    const fs = remote.require('fs-promise')
+
     const binaryUtils = remote.getGlobal('binaryUtils')
     const binaryPath = binaryUtils.getPath() + '/now'
 
-    const exists = remote.require('path-exists')
+    let stat
 
-    if (await exists(binaryPath)) {
-      this.setState({
-        binaryInstalled: true
-      })
+    try {
+      stat = await fs.stat(binaryPath)
+    } catch (err) {
+      return
     }
+
+    if (stat.isSymbolicLink()) {
+      return
+    }
+
+    this.setState({
+      binaryInstalled: true
+    })
   },
   render() {
     const element = this
