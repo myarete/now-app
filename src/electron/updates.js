@@ -7,6 +7,7 @@ import {autoUpdater} from 'electron'
 import ms from 'ms'
 import exists from 'path-exists'
 import compareVersions from 'compare-versions'
+import fs from 'fs-promise'
 
 // Ours
 import {version} from '../../package'
@@ -60,10 +61,22 @@ const updateBinary = async () => {
     return
   }
 
-  process.env.BINARY_UPDATE_RUNNING = 'no'
+  try {
+    await fs.remove(fullPath)
+  } catch (err) {
+    console.error(err)
+    return
+  }
 
-  console.log(updateFile)
+  try {
+    await fs.rename(updateFile.path, fullPath)
+  } catch (err) {
+    console.error(err)
+    return
+  }
+
   updateFile.cleanup()
+  process.env.BINARY_UPDATE_RUNNING = 'no'
 }
 
 export default () => {
