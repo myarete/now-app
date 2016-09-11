@@ -9,7 +9,9 @@ import installBinary from '../utils/load-binary'
 export default React.createClass({
   getInitialState() {
     return {
-      binaryInstalled: false
+      binaryInstalled: false,
+      installing: false,
+      done: false
     }
   },
   async componentDidMount() {
@@ -52,6 +54,25 @@ export default React.createClass({
 
         await installBinary()
       }
+    }
+
+    if (this.state.installing) {
+      return (
+        <article>
+          <p><strong>Installing the binary...</strong></p>
+          <p>Please be so kind and leave the app open. We will let you know once we are done! Should not take too long.</p>
+        </article>
+      )
+    }
+
+    if (this.state.done) {
+      return (
+        <article>
+          <p><strong>Hooray!</strong></p>
+          <p>The binary successfully landed in <code>/usr/local/bin</code>.</p>
+          <p>You can now use <code>now</code> from the command line.</p>
+        </article>
+      )
     }
 
     return (
