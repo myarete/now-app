@@ -40,6 +40,11 @@ export default async section => {
 
   sudo.exec(command, sudoOptions, async error => {
     if (error) {
+      section.setState({
+        installing: false,
+        done: false
+      })
+
       showError('Not able to move binary', error.toString())
       return
     }
