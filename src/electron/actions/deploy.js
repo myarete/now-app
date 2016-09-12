@@ -124,7 +124,7 @@ export default async (folder, sharing) => {
   try {
     deployment = await apiSession.createDeployment(details)
   } catch (err) {
-    showError('Could not create deployment', err)
+    showError('Could not create deployment', err.toString())
     return
   }
 
