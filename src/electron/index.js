@@ -249,6 +249,9 @@ app.on('ready', async () => {
   // I have no idea why, but path.resolve doesn't work here
   try {
     tray = new Tray(resolvePath('/assets/icons/iconTemplate.png'))
+
+    // Opening the context menu after login should work
+    global.tray = tray
   } catch (err) {
     showError('Could not spawn tray item', err)
     return

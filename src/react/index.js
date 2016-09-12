@@ -84,6 +84,14 @@ const Sections = React.createClass({
   },
   handleReady() {
     const currentWindow = remote.getCurrentWindow()
+    const tray = remote.getGlobal('tray')
+
+    currentWindow.on('hide', () => {
+      // Automatically open the context menu
+      if (tray) {
+        tray.emit('click')
+      }
+    })
 
     // Close the tutorial
     currentWindow.hide()
