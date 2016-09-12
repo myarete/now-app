@@ -73,7 +73,7 @@ export function error(detail, trace, win) {
 
   const goAway = dialog.showMessageBox(win || null, {
     type: 'error',
-    message: 'An error occured',
+    message: 'An Error Occured',
     detail,
     buttons
   })
