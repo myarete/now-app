@@ -23,11 +23,15 @@ export default async (folder, sharing) => {
   const details = {}
 
   const dir = path.resolve(folder)
+
   const pkgFile = path.join(dir, 'package.json')
+  const dockerFile = path.join(dir, 'Dockerfile')
+
+  const nodeProject = await pathExists(pkgFile)
 
   // Ignore the project if there's no package file
-  if (!await pathExists(pkgFile)) {
-    return showError('Not a node project!')
+  if (!nodeProject && !await pathExists(dockerFile)) {
+    return showError('Not a valid project!')
   }
 
   notify({
@@ -40,15 +44,22 @@ export default async (folder, sharing) => {
     console.log(chalk.grey('---'))
   }
 
+  let projectName = 'docker project'
+
   // Load the package file
-  try {
-    details.package = await fs.readJSON(pkgFile)
-  } catch (err) {
-    showError('Not able to load package file', err)
-    return
+  if (nodeProject) {
+    try {
+      details.package = await fs.readJSON(pkgFile)
+    } catch (err) {
+      showError('Not able to load package file', err)
+      return
+    }
+
+    projectName = details.package.name
   }
 
-  const logStatus = message => console.log(chalk.yellow(`[${details.package.name}]`) + ' ' + message)
+  const logStatus = message => console.log(chalk.yellow(`[${projectName}]`) + ' ' + message)
+
   let items
 
   try {
