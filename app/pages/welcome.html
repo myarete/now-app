@@ -12,6 +12,12 @@
     <script src="../dist/styles.js"></script>
     <script src="../dist/react.js"></script>
 
-    <script src="http://localhost:35729/livereload.js"></script>
+    <script>
+      if (require('electron').remote.require('electron-is-dev')) {
+        const me = document.createElement('script')
+        me.setAttribute('src', 'http://localhost:35729/livereload.js')
+        document.body.appendChild(me)
+      }
+    </script>
   </body>
 </html>
