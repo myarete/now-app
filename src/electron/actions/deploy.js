@@ -7,7 +7,7 @@ import pathExists from 'path-exists'
 import glob from 'glob-promise'
 import {dir as isDirectory} from 'path-type'
 import {isTextSync as isText} from 'istextorbinary'
-import {clipboard, shell} from 'electron'
+import {clipboard, shell, dialog} from 'electron'
 import chalk from 'chalk'
 
 // Ours
@@ -27,11 +27,11 @@ export default async (folder, sharing) => {
   const pkgFile = path.join(dir, 'package.json')
   const dockerFile = path.join(dir, 'Dockerfile')
 
-  const nodeProject = await pathExists(pkgFile)
-  const dockerProject = await pathExists(dockerFile)
+  const dockerReady = await pathExists(dockerFile)
+  const nodeReady = await pathExists(pkgFile)
 
   // Ignore the project if there's no package file
-  if (!nodeProject && !await pathExists(dockerFile)) {
+  if (!await pathExists(pkgFile) && !await pathExists(dockerFile)) {
     return showError('Not a valid project!')
   }
 
@@ -46,10 +46,29 @@ export default async (folder, sharing) => {
   }
 
   let projectName = 'docker project'
-  // const propertyName = nodeProject ? 'package' : 'package.json'
-  const propertyName = 'package.json'
+  let projectType = 'docker'
 
-  if (nodeProject) {
+  if (nodeReady && dockerReady) {
+    const dialogAnswer = dialog.showMessageBox({
+      type: 'question',
+      message: 'Which file should be preferred?',
+      noLink: true,
+      buttons: [
+        'package.json',
+        'Dockerfile'
+      ]
+    })
+
+    if (!dialogAnswer) {
+      projectType = 'node'
+    }
+  } else if (nodeReady) {
+    projectType = 'node'
+  }
+
+  const propertyName = projectType === 'node' ? 'package' : 'package.json'
+
+  if (nodeReady) {
     // Load the package file
     let packageJSON
 
@@ -60,10 +79,10 @@ export default async (folder, sharing) => {
       return
     }
 
-    details[propertyName] = dockerProject ? JSON.stringify(packageJSON) : packageJSON
+    details[propertyName] = projectType === 'docker' ? JSON.stringify(packageJSON) : packageJSON
   }
 
-  if (nodeProject) {
+  if (projectType === 'node') {
     projectName = details[propertyName].name
   }
 
@@ -131,6 +150,7 @@ export default async (folder, sharing) => {
   const apiSession = connector()
 
   try {
+    console.log(details)
     deployment = await apiSession.createDeployment(details)
   } catch (err) {
     showError('Could not create deployment', err.toString())
