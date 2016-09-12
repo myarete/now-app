@@ -19,6 +19,30 @@ const ignoredFiles = [
   '.DS_Store'
 ]
 
+const getProjectType = (nodeReady, dockerReady) => {
+  let projectType = 'docker'
+
+  if (nodeReady && dockerReady) {
+    const dialogAnswer = dialog.showMessageBox({
+      type: 'question',
+      message: 'Which file should be preferred?',
+      noLink: true,
+      buttons: [
+        'package.json',
+        'Dockerfile'
+      ]
+    })
+
+    if (!dialogAnswer) {
+      projectType = 'node'
+    }
+  } else if (nodeReady) {
+    projectType = 'node'
+  }
+
+  return projectType
+}
+
 export default async (folder, sharing) => {
   const details = {}
 
@@ -46,26 +70,8 @@ export default async (folder, sharing) => {
   }
 
   let projectName = 'docker project'
-  let projectType = 'docker'
 
-  if (nodeReady && dockerReady) {
-    const dialogAnswer = dialog.showMessageBox({
-      type: 'question',
-      message: 'Which file should be preferred?',
-      noLink: true,
-      buttons: [
-        'package.json',
-        'Dockerfile'
-      ]
-    })
-
-    if (!dialogAnswer) {
-      projectType = 'node'
-    }
-  } else if (nodeReady) {
-    projectType = 'node'
-  }
-
+  const projectType = getProjectType(nodeReady, dockerReady)
   const propertyName = projectType === 'node' ? 'package' : 'package.json'
 
   if (nodeReady) {
