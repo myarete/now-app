@@ -1,5 +1,5 @@
 // Packages
-import Now from 'now-api'
+import Now from 'now-client'
 import Config from 'electron-config'
 import chalk from 'chalk'
 
