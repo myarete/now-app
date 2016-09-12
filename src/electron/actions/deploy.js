@@ -30,6 +30,11 @@ export default async (folder, sharing) => {
     return showError('Not a node project!')
   }
 
+  notify({
+    title: 'Uploading files...',
+    body: 'Your files are being uploaded to our servers.'
+  })
+
   // Log separator
   if (!sharing) {
     console.log(chalk.grey('---'))
