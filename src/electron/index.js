@@ -107,6 +107,8 @@ const aboutWindow = () => {
   win.loadURL('file://' + resolvePath('../app/pages/about.html'))
   attachTrayState(win, tray)
 
+  global.about = win
+
   return win
 }
 
