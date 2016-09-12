@@ -4,11 +4,11 @@
 [![Slack Channel](https://zeit-slackin.now.sh/badge.svg)](https://zeit.chat/)
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 
-A macOS client that allows developers to access all of [ZEIT](https://zeit.co)'s services directly from their OS' menu bar.
+For more details, head to: https://zeit.co/now
 
 ## Usage
 
-Simply download the application from [here](https://now-auto-updates.now.sh/download/osx) and put it into your "Applications" directory.
+You can download the latest release from [here](https://now-auto-updates.now.sh/download/osx).
 
 ## Caught a bug?
 
@@ -17,10 +17,10 @@ Simply download the application from [here](https://now-auto-updates.now.sh/down
 3. Bundle the source code and watch for changes: `npm run dev`
 4. Start the app in a new terminal tab: `npm start`
 
-If you want to build the binaries for all specified platforms, run the command:
+To make sure that your code works in the finished application, you can generated the binaries like that:
 
-```
+```bash
 $ npm run pack
 ```
 
-After that, you'll see the binaries in the `./dist` folder!
+After that, you'll find the binaries in the `./dist` folder!
