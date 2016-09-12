@@ -8,6 +8,7 @@ import Config from 'electron-config'
 import isDev from 'electron-is-dev'
 import {dir as isDirectory} from 'path-type'
 import fs from 'fs-promise'
+import fixPath from 'fix-path'
 
 // Ours
 import {resolve as resolvePath} from 'app-root-path'
@@ -44,6 +45,10 @@ global.isDev = isDev
 // Share these  between renderer process and the main one
 global.errorHandler = showError
 global.binaryUtils = binaryUtils
+
+// Makes sure where inheriting the correct path
+// Within the bundled app, the path would otherwise be different
+fixPath()
 
 // Make sure that unhandled errors get handled
 process.on('uncaughtException', err => {
