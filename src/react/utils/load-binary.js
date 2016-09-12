@@ -40,7 +40,7 @@ export default async section => {
 
   sudo.exec(command, sudoOptions, async error => {
     if (error) {
-      showError('Not able to move binary', error)
+      showError('Not able to move binary', error.toString())
       return
     }
 
