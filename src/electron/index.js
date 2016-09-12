@@ -183,9 +183,7 @@ const isDeployable = async directory => {
 
     try {
       stats = await fs.lstat(pathTo)
-    } catch (err) {
-      return false
-    }
+    } catch (err) {}
 
     if (stats) {
       return true
