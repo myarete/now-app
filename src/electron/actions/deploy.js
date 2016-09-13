@@ -9,6 +9,7 @@ import {dir as isDirectory} from 'path-type'
 import {isTextSync as isText} from 'istextorbinary'
 import {clipboard, shell, dialog} from 'electron'
 import chalk from 'chalk'
+import du from 'du'
 
 // Ours
 import {connector} from '../api'
@@ -43,8 +44,27 @@ const getProjectType = (nodeReady, dockerReady) => {
   return projectType
 }
 
+const tooBig = async item => new Promise(resolve => du(item, (err, size) => {
+  if (err) {
+    console.error(err)
+    return
+  }
+
+  const maxSize = 1000000 * 5
+
+  if (size > maxSize) {
+    resolve(true)
+  } else {
+    resolve(false)
+  }
+}))
+
 export default async (folder, sharing) => {
   const details = {}
+
+  if (await tooBig(folder)) {
+    return
+  }
 
   const dir = path.resolve(folder)
 
