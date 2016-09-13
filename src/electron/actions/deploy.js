@@ -89,7 +89,7 @@ export default async (folder, sharing) => {
     const difference = folderTooBig.size - folderTooBig.maxSize
     const readable = fileSize(difference)
 
-    const warning = `Your project is ${readable} bigger than the currently allowed maximum size.`
+    const warning = `Your project is ${readable} bigger than the currently allowed maximum size of 5 MB.`
     const hope = 'But don\'t worry! We\'ll update the app very soon to make it capable of handling these situations.'
 
     showError(warning + '\n\n' + hope)
