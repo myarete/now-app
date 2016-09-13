@@ -10,10 +10,6 @@ import {connector, refreshCache} from './api'
 import notify from './notify'
 import toggleWindow from './utils/toggle-window'
 
-// Determine if an update is ready to be installed
-// Based on an environment variable
-const updateAvailable = process.env.UPDATE_AVAILABLE || false
-
 export function deploymentOptions(info) {
   const created = moment(new Date(parseInt(info.created, 10)))
   const url = 'https://' + info.url
@@ -108,6 +104,14 @@ export async function innerMenu(app, tray, deployments, windows) {
   }
 
   const config = new Config()
+
+  // Determine if an update is ready to be installed
+  // Based on an environment variable
+  let updateAvailable = false
+
+  if (process.env.UPDATE_STATUS && process.env.UPDATE_STATUS === 'downloaded') {
+    updateAvailable = true
+  }
 
   return [
     {

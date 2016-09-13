@@ -95,10 +95,20 @@ export default () => {
     showError('Auto updated could not set feed URL', err)
   }
 
-  setInterval(autoUpdater.checkForUpdates, ms('30m'))
+  setTimeout(() => {
+    autoUpdater.checkForUpdates()
+  }, ms('10s'))
 
-  autoUpdater.on('update-downloaded', () => notify({
-    title: 'Update downloaded',
-    body: 'Restart the application to enjoy the changes!'
-  }))
+  setInterval(() => {
+    autoUpdater.checkForUpdates()
+  }, ms('30m'))
+
+  autoUpdater.on('update-downloaded', () => {
+    process.env.UPDATE_STATUS = 'downloaded'
+
+    notify({
+      title: 'Update downloaded',
+      body: 'Restart the application to enjoy the changes!'
+    })
+  })
 }
