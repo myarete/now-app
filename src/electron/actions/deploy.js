@@ -16,10 +16,6 @@ import {connector} from '../api'
 import {error as showError} from '../dialogs'
 import notify from '../notify'
 
-const ignoredFiles = [
-  '.DS_Store'
-]
-
 const getProjectType = (nodeReady, dockerReady) => {
   let projectType = 'docker'
 
@@ -168,7 +164,7 @@ export default async (folder, sharing) => {
       return
     }
 
-    if (!isDir && !ignoredFiles.includes(fileName) && relativePath !== 'package.json') {
+    if (!isDir && relativePath !== 'package.json') {
       let fileContent
 
       try {
