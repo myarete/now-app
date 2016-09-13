@@ -10,6 +10,7 @@ import {isTextSync as isText} from 'istextorbinary'
 import {clipboard, shell, dialog} from 'electron'
 import chalk from 'chalk'
 import du from 'du'
+import fileSize from 'filesize'
 
 // Ours
 import {connector} from '../api'
@@ -70,7 +71,10 @@ const tooBig = async directory => new Promise(resolve => {
     const maxSize = 1000000 * 5
 
     if (size > maxSize) {
-      resolve(true)
+      resolve({
+        maxSize,
+        size
+      })
     } else {
       resolve(false)
     }
@@ -79,8 +83,16 @@ const tooBig = async directory => new Promise(resolve => {
 
 export default async (folder, sharing) => {
   const details = {}
+  const folderTooBig = await tooBig(folder)
 
-  if (await tooBig(folder)) {
+  if (folderTooBig) {
+    const difference = folderTooBig.size - folderTooBig.maxSize
+    const readable = fileSize(difference)
+
+    const warning = `Your project is ${readable} bigger than the currently allowed maximum size.`
+    const hope = 'But don\'t worry! We\'ll update the app very soon to make it capable of handling these situations.'
+
+    showError(warning + '\n\n' + hope)
     return
   }
 
