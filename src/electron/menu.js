@@ -58,7 +58,7 @@ export function deploymentOptions(info) {
 
           notify({
             title: `Deleting ${info.name}...`,
-            body: 'The deployment is being deleted from our infrastructure. We\'ll let you know once it\'s gone!'
+            body: 'The deployment is being removed from our servers.'
           })
 
           // Otherwise, delete the deployment
