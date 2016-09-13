@@ -46,15 +46,20 @@ const refreshKind = async (name, session) => {
   config.set(configProperty, freshData)
 }
 
+const stopInterval = interval => {
+  if (!interval) {
+    return
+  }
+
+  console.log('Stopping the refreshing process...')
+  clearInterval(interval)
+}
+
 export async function refreshCache(kind, app, tutorial, interval) {
   const session = connector()
 
   if (!session) {
-    if (interval) {
-      console.log('Stopping the refreshing process...')
-      clearInterval(interval)
-    }
-
+    stopInterval(interval)
     return
   }
 
@@ -63,11 +68,7 @@ export async function refreshCache(kind, app, tutorial, interval) {
       await refreshKind(kind, session)
     } catch (err) {
       showError('Not able to refresh ' + kind, err)
-
-      if (interval) {
-        console.log('Stopping the refreshing process...')
-        clearInterval(interval)
-      }
+      stopInterval(interval)
     }
 
     return
@@ -89,10 +90,7 @@ export async function refreshCache(kind, app, tutorial, interval) {
     await Promise.all(sweepers)
   } catch (err) {
     // Stop trying to load data
-    if (interval) {
-      console.log('Stopping the refreshing process...')
-      clearInterval(interval)
-    }
+    stopInterval(interval)
 
     // If token has been revoked, the server will not respond with data
     // In turn, we need to log out
