@@ -85,8 +85,8 @@ const updateBinary = async () => {
 export default () => {
   setInterval(updateBinary, ms('25m'))
 
-  autoUpdater.on('error', err => {
-    showError('Auto updater failed', err)
+  autoUpdater.on('error', (err, msg) => {
+    showError('Auto updater failed', msg + ' (' + err.stack + ')')
   })
 
   try {
