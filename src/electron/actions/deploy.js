@@ -206,7 +206,6 @@ export default async (folder, sharing) => {
   const apiSession = connector()
 
   try {
-    console.log(details)
     deployment = await apiSession.createDeployment(details)
   } catch (err) {
     showError('Could not create deployment', err.toString())
