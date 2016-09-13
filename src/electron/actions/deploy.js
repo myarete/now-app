@@ -44,20 +44,42 @@ const getProjectType = (nodeReady, dockerReady) => {
   return projectType
 }
 
-const tooBig = async item => new Promise(resolve => du(item, (err, size) => {
-  if (err) {
-    console.error(err)
-    return
+const tooBig = async directory => new Promise(resolve => {
+  const notAllowed = [
+    '.DS_Store',
+    'node_modules'
+  ]
+
+  const duOptions = {
+    filter(item) {
+      const relativePath = path.relative(directory, item)
+      const parts = relativePath.split('/')
+
+      for (const part of parts) {
+        if (notAllowed.includes(part)) {
+          return false
+        }
+      }
+
+      return true
+    }
   }
 
-  const maxSize = 1000000 * 5
+  du(directory, duOptions, (err, size) => {
+    if (err) {
+      console.error(err)
+      return
+    }
 
-  if (size > maxSize) {
-    resolve(true)
-  } else {
-    resolve(false)
-  }
-}))
+    const maxSize = 1000000 * 5
+
+    if (size > maxSize) {
+      resolve(true)
+    } else {
+      resolve(false)
+    }
+  })
+})
 
 export default async (folder, sharing) => {
   const details = {}
