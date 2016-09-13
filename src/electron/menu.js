@@ -47,7 +47,7 @@ export function deploymentOptions(info) {
             detail: info.name,
             buttons: [
               'Yes',
-              'Cancel'
+              'Hell, no!'
             ]
           })
 
