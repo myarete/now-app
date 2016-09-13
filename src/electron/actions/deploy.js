@@ -23,8 +23,8 @@ const getProjectType = (nodeReady, dockerReady) => {
   if (nodeReady && dockerReady) {
     const dialogAnswer = dialog.showMessageBox({
       type: 'question',
-      message: 'Which file should be preferred?',
-      noLink: true,
+      message: 'Which File Should Be Preferred?',
+      detail: 'Depending or your choice, the deployment will either be run in Docker or Node.',
       buttons: [
         'package.json',
         'Dockerfile'
