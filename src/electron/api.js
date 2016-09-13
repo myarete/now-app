@@ -38,14 +38,7 @@ const refreshKind = async (name, session) => {
     return
   }
 
-  let freshData
-
-  try {
-    freshData = await session[method]()
-  } catch (err) {
-    showError('Could not load fresh data for cache refresh', err)
-    return
-  }
+  const freshData = await session[method]()
 
   const config = new Config()
   const configProperty = 'now.cache.' + name
@@ -70,6 +63,11 @@ export async function refreshCache(kind, app, tutorial, interval) {
       await refreshKind(kind, session)
     } catch (err) {
       showError('Not able to refresh ' + kind, err)
+
+      if (interval) {
+        console.log('Stopping the refreshing process...')
+        clearInterval(interval)
+      }
     }
 
     return
