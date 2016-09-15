@@ -24,9 +24,7 @@ import toggleWindow from './utils/toggle-window'
 import * as binaryUtils from './utils/binary'
 
 // Log uncaught exceptions to a file
-// macOS: ~/Library/Logs/Now/log.log
-// Windows: %USERPROFILE%/AppData/Roaming/Now/log.log
-// Linux: ~/.config/Now/log.log
+// Locations: megahertz/electron-log
 process.on('uncaughtException', log.info)
 
 // Prevent garbage collection
