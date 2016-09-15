@@ -46,6 +46,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "appdmg": "^0.4.5",
     "autosize-input": "^0.2.1",
     "ava": "^0.16.0",
     "babel-core": "^6.14.0",
