@@ -1,5 +1,15 @@
 <script>
-  require('electron').ipcRenderer.on('notification', (ev, { title, body }) => {
-    new Notification(title, { body })
+  const electron = require('electron')
+
+  electron.ipcRenderer.on('notification', (ev, { title, body, url }) => {
+    const notification = new Notification(title, { body })
+
+    notification.addEventListener('click', () => {
+      if (!url) {
+        return
+      }
+
+      electron.shell.openExternal(url)
+    })
   })
 </script>

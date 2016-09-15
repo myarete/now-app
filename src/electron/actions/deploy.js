@@ -244,7 +244,8 @@ export default async (folder, sharing) => {
 
         notify({
           title: 'Done ' + (sharing ? 'sharing' : 'deploying') + '!',
-          body: 'Opening the URL in your browser...'
+          body: 'Opening the URL in your browser...',
+          url
         })
 
         // Open the URL in the default browser
@@ -270,7 +271,8 @@ export default async (folder, sharing) => {
   // Let the user now
   notify({
     title: genTitle(),
-    body: 'Your clipboard already contains the URL.'
+    body: 'Your clipboard already contains the URL.',
+    url
   })
 
   // Delete the local deployed directory if required

@@ -12,18 +12,20 @@ let win
 let buffer = []
 
 const notify = details => {
-  const {title, body} = details
+  const {title, body, url} = details
   console.log(`[Notification] ${title}: ${body}`)
 
   if (win) {
     win.webContents.send('notification', {
       title,
-      body
+      body,
+      url
     })
   } else {
     buffer.push([
       title,
-      body
+      body,
+      url
     ])
   }
 }
