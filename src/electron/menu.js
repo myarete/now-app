@@ -15,7 +15,7 @@ export function deploymentOptions(info) {
   const url = 'https://' + info.url
 
   return {
-    label: info.name,
+    label: info.url,
     submenu: [
       {
         label: 'Open in Browser...',
