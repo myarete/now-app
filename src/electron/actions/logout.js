@@ -94,6 +94,10 @@ export default async (app, tutorial) => {
     return
   }
 
+  if (!tokenId) {
+    return
+  }
+
   try {
     await revokeToken(userDetails.token, tokenId)
   } catch (err) {
