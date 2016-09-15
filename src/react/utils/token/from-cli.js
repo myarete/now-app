@@ -17,6 +17,10 @@ export default root => {
   const loader = fs.readJSON(filePath)
 
   loader.then(async content => {
+    if (!await tokenValidated(content.token)) {
+      return
+    }
+
     const config = new Config()
 
     config.set('now.user.token', content.token)
@@ -26,10 +30,6 @@ export default root => {
       loginShown: false,
       loginText: `You've already signed in once in the now CLI.\nBecause of this, you've now been logged in automatically.`
     })
-
-    if (!await tokenValidated(content.token)) {
-      return
-    }
 
     await startRefreshment(remote.getCurrentWindow())
   }).catch(() => {})
