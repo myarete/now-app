@@ -1,9 +1,13 @@
+// Native
+import path from 'path'
+
+// Packages
 import test from 'ava'
 import {Application} from 'spectron'
 
 test.beforeEach(async t => {
   t.context.app = new Application({
-    path: '../dist/mac/Now.app/Contents/MacOS/Now'
+    path: path.join(__dirname, '../dist/mac/Now.app/Contents/MacOS/Now')
   })
 
   await t.context.app.start()
