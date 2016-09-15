@@ -8,7 +8,7 @@
     "dev": "webpack -w",
     "clean": "chmod u+x dist && rm -rf node_modules app/node_modules dist app/dist",
     "build": "NODE_ENV=production webpack",
-    "test": "xo",
+    "test": "npm run pack && xo && ava",
     "pack": "npm run build && build --dir"
   },
   "author": {
@@ -69,6 +69,7 @@
     "react-slick": "^0.13.3",
     "react-svg-inline": "^1.2.0",
     "slick-carousel": "^1.6.0",
+    "spectron": "^3.3.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.2",
     "webpack-livereload-plugin": "^0.8.2",
