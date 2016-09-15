@@ -8,7 +8,7 @@ import {remote, shell} from 'electron'
 // Ours
 import pkg from '../../package.json'
 import showError from './utils/error'
-import tokenFromCLI from './utils/cli-token'
+import tokenFromCLI from './utils/token/from-cli'
 
 import Title from './components/title'
 import Login from './components/login'

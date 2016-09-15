@@ -2,8 +2,8 @@
 import {remote} from 'electron'
 
 // Ours
-import startRefreshment from './refresh'
-import tokenValidated from './validate-token'
+import startRefreshment from '../refresh'
+import tokenValidated from './validate'
 
 export default root => {
   const path = remote.require('path')
