@@ -29,7 +29,8 @@ export function deploymentOptions(info) {
           // Let the user know
           notify({
             title: 'Copied to clipboard',
-            body: 'Your clipboard now contains the URL of your deployment.'
+            body: 'Your clipboard now contains the URL of your deployment.',
+            url
           })
         }
       },
