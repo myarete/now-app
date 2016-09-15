@@ -13,9 +13,16 @@ test.afterEach.always(async t => {
   await t.context.app.stop()
 })
 
-test(async t => {
+test('check window count', async t => {
   const app = t.context.app
   await app.client.waitUntilWindowLoaded()
 
   t.is(await app.client.getWindowCount(), 4)
+})
+
+test('see if dev tools are open', async t => {
+  const app = t.context.app
+  await app.client.waitUntilWindowLoaded()
+
+  t.false(await app.browserWindow.isDevToolsOpened())
 })
