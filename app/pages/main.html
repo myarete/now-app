@@ -2,16 +2,25 @@
 <html>
   <head></head>
 
-  <body id="mount-about">
+  <body>
     <!-- Where the react app gets mounted to -->
     <div></div>
+
+    <!-- Tell react which content to load -->
+    <script>
+      const remote = require('electron').remote
+      const currentWindow = remote.getCurrentWindow()
+      const title = currentWindow.getTitle()
+
+      document.body.id = 'mount-' + title
+    </script>
 
     <!-- styles & scripts -->
     <script src="../dist/styles.js"></script>
     <script src="../dist/react.js"></script>
 
     <script>
-      if (require('electron').remote.require('electron-is-dev')) {
+      if (remote.require('electron-is-dev')) {
         const me = document.createElement('script')
         me.setAttribute('src', 'http://localhost:35729/livereload.js')
         document.body.appendChild(me)

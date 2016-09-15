@@ -77,7 +77,7 @@ const onboarding = () => {
   const win = new BrowserWindow({
     width: 650,
     height: 430,
-    title: 'Welcome to now',
+    title: 'welcome',
     resizable: false,
     center: true,
     frame: false,
@@ -88,7 +88,7 @@ const onboarding = () => {
     backgroundColor: '#000'
   })
 
-  win.loadURL('file://' + resolvePath('../app/pages/welcome.html'))
+  win.loadURL('file://' + resolvePath('../app/pages/main.html'))
   attachTrayState(win, tray)
 
   // We need to access it from the "About" window
@@ -103,7 +103,7 @@ const aboutWindow = () => {
   const win = new BrowserWindow({
     width: 360,
     height: 425,
-    title: 'About',
+    title: 'about',
     resizable: false,
     center: true,
     show: false,
@@ -114,7 +114,7 @@ const aboutWindow = () => {
     backgroundColor: '#ECECEC'
   })
 
-  win.loadURL('file://' + resolvePath('../app/pages/about.html'))
+  win.loadURL('file://' + resolvePath('../app/pages/main.html'))
   attachTrayState(win, tray)
 
   global.about = win
