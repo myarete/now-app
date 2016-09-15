@@ -1,21 +1,21 @@
 import test from 'ava'
 import {Application} from 'spectron'
 
-test.beforeEach(t => {
+test.beforeEach(async t => {
   t.context.app = new Application({
     path: '../dist/mac/Now.app/Contents/MacOS/Now'
   })
 
-  return t.context.app.start()
+  await t.context.app.start()
 })
 
-test.afterEach(t => {
-  return t.context.app.stop()
+test.afterEach.always(async t => {
+  await t.context.app.stop()
 })
 
-test(t => {
-  return t.context.app.client.waitUntilWindowLoaded()
-    .getWindowCount().then(count => {
-      t.is(count, 4)
-    })
+test(async t => {
+  const app = t.context.app
+  await app.client.waitUntilWindowLoaded()
+
+  t.is(await app.client.getWindowCount(), 4)
 })
