@@ -9,6 +9,7 @@ import isDev from 'electron-is-dev'
 import {dir as isDirectory} from 'path-type'
 import fs from 'fs-promise'
 import fixPath from 'fix-path'
+import log from 'electron-log'
 
 // Ours
 import {resolve as resolvePath} from 'app-root-path'
@@ -21,6 +22,12 @@ import {refreshCache} from './api'
 import attachTrayState from './utils/highlight'
 import toggleWindow from './utils/toggle-window'
 import * as binaryUtils from './utils/binary'
+
+// Log uncaught exceptions to a file
+// macOS: ~/Library/Logs/Now/log.log
+// Windows: %USERPROFILE%/AppData/Roaming/Now/log.log
+// Linux: ~/.config/Now/log.log
+process.on('uncaughtException', log.info)
 
 // Prevent garbage collection
 // Otherwise the tray icon would randomly hide after some time
