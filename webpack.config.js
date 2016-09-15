@@ -27,7 +27,8 @@ module.exports = [
       const load = [
         'electron',
         'electron-config',
-        'fs-promise'
+        'fs-promise',
+        'now-client'
       ]
 
       if (load.includes(request)) {

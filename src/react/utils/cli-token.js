@@ -3,6 +3,7 @@ import {remote} from 'electron'
 
 // Ours
 import startRefreshment from './refresh'
+import tokenValidated from './validate-token'
 
 export default root => {
   const path = remote.require('path')
@@ -25,6 +26,10 @@ export default root => {
       loginShown: false,
       loginText: `You've already signed in once in the now CLI.\nBecause of this, you've now been logged in automatically.`
     })
+
+    if (!await tokenValidated(content.token)) {
+      return
+    }
 
     await startRefreshment(remote.getCurrentWindow())
   }).catch(() => {})
