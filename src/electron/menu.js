@@ -122,14 +122,14 @@ export async function innerMenu(app, tray, deployments, windows) {
       type: 'separator'
     },
     {
-      label: 'Share...',
-      accelerator: 'CmdOrCtrl+S',
-      click: async () => await share(tray)
-    },
-    {
       label: 'Deploy...',
       accelerator: 'CmdOrCtrl+D',
       click: async () => await deploy(tray)
+    },
+    {
+      label: 'Share...',
+      accelerator: 'CmdOrCtrl+S',
+      click: async () => await share(tray)
     },
     {
       type: 'separator'
