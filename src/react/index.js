@@ -21,9 +21,6 @@ import updatedSVG from './vectors/updated.svg'
 const anchorWelcome = document.querySelector('#mount-welcome > div')
 const anchorAbout = document.querySelector('#mount-about > div')
 
-// Remove all event listeners on start
-remote.getCurrentWindow().removeAllListeners()
-
 const SliderArrows = React.createClass({
   propTypes: {
     direction: React.PropTypes.string.isRequired,
@@ -89,15 +86,18 @@ const Sections = React.createClass({
     const currentWindow = remote.getCurrentWindow()
     const tray = remote.getGlobal('tray')
 
-    currentWindow.on('hide', () => {
+    const emitTrayClick = () => {
       // Automatically open the context menu
       if (tray) {
         tray.emit('click')
       }
-    })
+    }
+
+    currentWindow.on('hide', emitTrayClick)
 
     // Close the tutorial
     currentWindow.hide()
+    currentWindow.removeEventListener('hide', emitTrayClick)
   },
   render() {
     const videoSettings = {
