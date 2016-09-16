@@ -21,6 +21,9 @@ import updatedSVG from './vectors/updated.svg'
 const anchorWelcome = document.querySelector('#mount-welcome > div')
 const anchorAbout = document.querySelector('#mount-about > div')
 
+// Remove all event listeners on start
+remote.getCurrentWindow().removeAllListeners()
+
 const SliderArrows = React.createClass({
   propTypes: {
     direction: React.PropTypes.string.isRequired,
