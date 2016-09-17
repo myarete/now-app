@@ -133,6 +133,7 @@ const toggleContextMenu = async windows => {
   const aliases = config.get('now.cache.aliases')
 
   const deploymentList = []
+  const deploymentMap = {}
 
   for (const deployment of deployments) {
     const info = deployment
@@ -146,10 +147,42 @@ const toggleContextMenu = async windows => {
       }
     }
 
+    deploymentMap[info.uid] = info
     deploymentList[index] = deploymentOptions(info)
   }
 
-  let generatedMenu = await innerMenu(app, tray, deploymentList, windows)
+  const aliasList = []
+
+  for (const alias of aliases) {
+    const deploymentID = alias.deploymentId
+    const linkedDeployment = deploymentMap[deploymentID]
+
+    aliasList.push({
+      label: alias.alias,
+      submenu: [
+        {
+          type: 'separator'
+        },
+        {
+          label: 'Delete'
+        },
+        {
+          type: 'separator'
+        },
+        {
+          label: 'Deployment',
+          submenu: deploymentOptions(linkedDeployment).submenu
+        }
+      ]
+    })
+  }
+
+  const data = {
+    deployments: deploymentList,
+    aliases: aliasList
+  }
+
+  let generatedMenu = await innerMenu(app, tray, data, windows)
 
   if (process.env.CONNECTION === 'offline') {
     const last = generatedMenu.slice(-1)[0]

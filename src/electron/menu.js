@@ -97,10 +97,10 @@ export function deploymentOptions(info) {
   }
 }
 
-export async function innerMenu(app, tray, deployments, windows) {
+export async function innerMenu(app, tray, data, windows) {
   let hasDeployments = false
 
-  if (Array.isArray(deployments) && deployments.length > 0) {
+  if (Array.isArray(data.deployments) && data.deployments.length > 0) {
     hasDeployments = true
   }
 
@@ -142,8 +142,13 @@ export async function innerMenu(app, tray, deployments, windows) {
       // Even if the submenu is just an empty array
       type: hasDeployments ? 'submenu' : 'normal',
 
-      submenu: hasDeployments ? deployments : [],
+      submenu: hasDeployments ? data.deployments : [],
       visible: hasDeployments
+    },
+    {
+      label: 'Aliases',
+      type: 'submenu',
+      submenu: data.aliases
     },
     {
       type: 'separator'
