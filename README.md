@@ -13,14 +13,14 @@ You can download the latest release from [here](https://now-auto-updates.now.sh/
 ## Caught a bug?
 
 1. [Fork](https://help.github.com/articles/fork-a-repo/) this repository to your own GitHub account and then [clone](https://help.github.com/articles/cloning-a-repository/) it to your local device
-2. Install all dependencies: `npm install`
+2. Install the dependencies: `npm install`
 3. Bundle the source code and watch for changes: `npm run dev`
 4. Start the app in a new terminal tab: `npm start`
 
-To make sure that your code works in the finished application, you can generated the binaries like that:
+To make sure that your code works in the bundled application, you can generate the binaries like this:
 
 ```bash
 $ npm run pack
 ```
 
-After that, you'll find the binaries in the `./dist` folder!
+After that, you'll find them in the `./dist` folder!
