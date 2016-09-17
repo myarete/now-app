@@ -146,11 +146,6 @@ export async function innerMenu(app, tray, data, windows) {
       visible: hasDeployments
     },
     {
-      label: 'Aliases',
-      type: 'submenu',
-      submenu: data.aliases
-    },
-    {
       type: 'separator'
     },
     {
