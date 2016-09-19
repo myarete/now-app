@@ -199,7 +199,6 @@ export function outerMenu(app, windows) {
     },
     {
       label: process.platform === 'darwin' ? `Quit ${app.getName()}` : 'Quit',
-      click: app.quit,
       role: 'quit'
     }
   ]
