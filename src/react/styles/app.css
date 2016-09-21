@@ -366,6 +366,10 @@ body {
   text-decoration: none;
 }
 
+#about article a:hover {
+  color: #2b2b2b;
+}
+
 #about .copyright {
   font-size: 11px;
   margin-top: 11px;
