@@ -22,7 +22,7 @@ export default React.createClass({
     let stat
 
     try {
-      stat = await fs.stat(binaryPath)
+      stat = await fs.lstat(binaryPath)
     } catch (err) {
       return
     }
