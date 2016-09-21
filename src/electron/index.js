@@ -69,6 +69,10 @@ global.startRefresh = tutorialWindow => {
 
   // Periodically rebuild local cache every 10 seconds
   const interval = setInterval(async () => {
+    if (process.env.CONNECTION === 'offline') {
+      return
+    }
+
     await refreshCache(null, app, tutorialWindow, interval)
   }, timeSpan)
 }

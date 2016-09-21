@@ -83,7 +83,13 @@ const updateBinary = async () => {
 }
 
 export default () => {
-  setInterval(updateBinary, ms('25m'))
+  setInterval(() => {
+    if (process.env.CONNECTION === 'offline') {
+      return
+    }
+
+    updateBinary()
+  }, ms('25m'))
 
   autoUpdater.on('error', (err, msg) => {
     showError('Auto updater failed', msg + ' (' + err.stack + ')')
@@ -95,13 +101,19 @@ export default () => {
     showError('Auto updated could not set feed URL', err)
   }
 
-  setTimeout(() => {
-    autoUpdater.checkForUpdates()
-  }, ms('10s'))
+  const checkForUpdates = () => {
+    if (process.env.CONNECTION === 'offline') {
+      return
+    }
 
-  setInterval(() => {
     autoUpdater.checkForUpdates()
-  }, ms('30m'))
+  }
+
+  // Check once in the beginning
+  setTimeout(checkForUpdates, ms('10s'))
+
+  // And then every 30 minutes
+  setInterval(checkForUpdates, ms('30m'))
 
   autoUpdater.on('update-downloaded', () => {
     process.env.UPDATE_STATUS = 'downloaded'
