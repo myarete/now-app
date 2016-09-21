@@ -1,6 +1,6 @@
 {
   "name": "now-app",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": "zeit/now-app",
   "scripts": {
     "start": "electron app/dist/electron",
