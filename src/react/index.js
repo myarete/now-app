@@ -198,7 +198,11 @@ const AboutContent = React.createClass({
       return
     }
 
-    tutorial.show()
+    tutorial.reload()
+
+    tutorial.on('ready-to-show', () => {
+      tutorial.show()
+    })
   },
   prepareLicense(info) {
     let element = '<details>'
