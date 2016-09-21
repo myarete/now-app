@@ -1,6 +1,4 @@
 {
-  "name": "now-app",
-  "version": "0.1.1",
   "repository": "zeit/now-app",
   "scripts": {
     "start": "electron app/dist/electron",
@@ -10,10 +8,6 @@
     "build": "NODE_ENV=production webpack",
     "test": "npm run pack && xo && ava",
     "pack": "npm run build && build --dir"
-  },
-  "author": {
-    "name": "Zeit, Inc.",
-    "email": "team@zeit.co"
   },
   "build": {
     "appId": "co.zeit.now",
