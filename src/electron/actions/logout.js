@@ -62,6 +62,12 @@ const revokeToken = async (token, tokenId) => {
 }
 
 export default async (app, tutorial) => {
+  // The app shouldn't log out if an error occurs while offline
+  // Only do that while online
+  if (process.env.CONNECTION === 'offline') {
+    return
+  }
+
   const config = new Config()
 
   // Cache user information
