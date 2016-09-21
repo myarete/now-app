@@ -185,10 +185,11 @@ if (anchorWelcome) {
 const AboutContent = React.createClass({
   getInitialState() {
     return {
-      licenses: []
+      licenses: [],
+      lastReleaseDate: ''
     }
   },
-  componentDidMount() {
+  loadLicenses() {
     const links = document.querySelectorAll('a')
 
     for (const link of links) {
@@ -208,6 +209,20 @@ const AboutContent = React.createClass({
     this.setState({
       licenses: getLicenses(mainModule)
     })
+
+    this.lastReleaseDate()
+  },
+  lastReleaseDate() {
+    // This is where we can do some logic to show
+    // the date on which the release went online
+    // As soon as the repo is online
+
+    this.setState({
+      lastReleaseDate: '(latest)'
+    })
+  },
+  componentDidMount() {
+    this.loadLicenses()
   },
   handleTutorial() {
     const tutorial = remote.getGlobal('tutorial')
@@ -273,7 +288,7 @@ const AboutContent = React.createClass({
         <img src="../dist/app.ico"/>
         <h1>Now.app</h1>
 
-        <h2>Version <b>{pkg.version}</b> {'(1w ago)'}</h2>
+        <h2>Version <b>{pkg.version}</b> {this.state.lastReleaseDate}</h2>
 
         {this.updateStatus()}
 
