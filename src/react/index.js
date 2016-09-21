@@ -79,7 +79,8 @@ const Sections = React.createClass({
   getInitialState() {
     return {
       loginShown: true,
-      loginText: 'To start using the app, simply enter\nyour email address below.'
+      loginText: 'To start using the app, simply enter\nyour email address below.',
+      tested: false
     }
   },
   handleReady() {
@@ -105,6 +106,24 @@ const Sections = React.createClass({
     currentWindow.hide()
     currentWindow.removeEventListener('hide', emitTrayClick)
   },
+  componentDidMount() {
+    const Config = remote.require('electron-config')
+    const config = new Config()
+
+    if (config.has('now.user')) {
+      this.setState({
+        tested: true,
+        loginShown: false,
+        loginText: '<b>You\'re already logged in!</b>\nClick here to go back to the application:'
+      })
+
+      return
+    }
+
+    this.setState({
+      tested: true
+    })
+  },
   render() {
     const videoSettings = {
       preload: true,
@@ -119,7 +138,7 @@ const Sections = React.createClass({
       window.loginText = element
     }
 
-    if (this.state.loginShown) {
+    if (this.state.loginShown && this.state.tested) {
       tokenFromCLI(this)
     }
 
