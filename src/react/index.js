@@ -87,6 +87,12 @@ const Sections = React.createClass({
     const tray = remote.getGlobal('tray')
 
     const emitTrayClick = () => {
+      const aboutWindow = remote.getGlobal('about')
+
+      if (aboutWindow && aboutWindow.isVisible()) {
+        return
+      }
+
       // Automatically open the context menu
       if (tray) {
         tray.emit('click')
