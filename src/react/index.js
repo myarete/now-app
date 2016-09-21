@@ -6,7 +6,7 @@ import SVGinline from 'react-svg-inline'
 import {remote, shell} from 'electron'
 
 // Ours
-import pkg from '../../package.json'
+import pkg from '../../app/package.json'
 import showError from './utils/error'
 import tokenFromCLI from './utils/token/from-cli'
 
