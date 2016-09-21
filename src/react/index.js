@@ -18,8 +18,8 @@ import logoSVG from './vectors/logo.svg'
 import arrowSVG from './vectors/arrow.svg'
 import updatedSVG from './vectors/updated.svg'
 
-const anchorWelcome = document.querySelector('#mount-welcome > div')
-const anchorAbout = document.querySelector('#mount-about > div')
+const anchorWelcome = document.querySelector('#welcome-to-now > div')
+const anchorAbout = document.querySelector('#about-now > div')
 
 const SliderArrows = React.createClass({
   propTypes: {

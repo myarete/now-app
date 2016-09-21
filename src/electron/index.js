@@ -81,7 +81,7 @@ const onboarding = () => {
   const win = new BrowserWindow({
     width: 650,
     height: 430,
-    title: 'welcome',
+    title: 'Welcome to Now',
     resizable: false,
     center: true,
     frame: false,
@@ -107,7 +107,7 @@ const aboutWindow = () => {
   const win = new BrowserWindow({
     width: 360,
     height: 425,
-    title: 'about',
+    title: 'About Now',
     resizable: false,
     center: true,
     show: false,
