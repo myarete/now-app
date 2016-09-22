@@ -40,6 +40,7 @@ const sliderSettings = {
   infinite: false,
   dots: true,
   draggable: false,
+  accessibility: false,
   nextArrow: <SliderArrows direction="next"/>,
   prevArrow: <SliderArrows direction="prev"/>,
   afterChange(index) {
@@ -106,7 +107,7 @@ const Sections = React.createClass({
     currentWindow.hide()
     currentWindow.removeEventListener('hide', emitTrayClick)
   },
-  componentDidMount() {
+  alreadyLoggedIn() {
     const Config = remote.require('electron-config')
     const config = new Config()
 
@@ -123,6 +124,27 @@ const Sections = React.createClass({
     this.setState({
       tested: true
     })
+  },
+  arrowKeys(event) {
+    const keyCode = event.keyCode
+    const slider = this.slider
+
+    switch (keyCode) {
+      case 37:
+        slider.slickPrev()
+        break
+      case 39:
+        slider.slickNext()
+        break
+      default:
+        return
+    }
+
+    event.preventDefault()
+  },
+  componentDidMount() {
+    this.alreadyLoggedIn()
+    document.addEventListener('keydown', this.arrowKeys, false)
   },
   render() {
     const videoSettings = {
@@ -142,8 +164,12 @@ const Sections = React.createClass({
       tokenFromCLI(this)
     }
 
+    const setRef = c => {
+      this.slider = c
+    }
+
     return (
-      <Slider {...sliderSettings}>
+      <Slider {...sliderSettings} ref={setRef}>
         <section id="intro">
           <SVGinline svg={logoSVG} width="90px"/>
 
