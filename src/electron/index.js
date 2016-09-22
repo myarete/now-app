@@ -136,8 +136,9 @@ const toggleContextMenu = async windows => {
   const deployments = config.get('now.cache.deployments')
   const aliases = config.get('now.cache.aliases')
 
-  const deploymentList = []
+  let deploymentList = []
   const deploymentMap = {}
+  const apps = {}
 
   for (const deployment of deployments) {
     const info = deployment
@@ -153,6 +154,60 @@ const toggleContextMenu = async windows => {
 
     deploymentMap[info.uid] = info
     deploymentList[index] = deploymentOptions(info)
+  }
+
+  for (const deployment of deploymentList) {
+    if (!deployment.label.includes('.now.sh')) {
+      apps[deployment.label] = deployment
+      continue
+    }
+
+    const labelParts = deployment.label.split('.')
+    const label = labelParts[0].indexOf('-') > -1 ? labelParts[0].split('-')[0] : labelParts[0]
+
+    if (!apps[label]) {
+      apps[label] = []
+    }
+
+    apps[label].push(deployment)
+  }
+
+  deploymentList = []
+
+  for (const app in apps) {
+    if (!{}.hasOwnProperty.call(apps, app)) {
+      continue
+    }
+
+    const item = apps[app]
+
+    if (!Array.isArray(item)) {
+      deploymentList.push(item)
+      continue
+    }
+
+    deploymentList.push({
+      type: 'separator'
+    })
+
+    deploymentList.push({
+      label: app,
+      enabled: false
+    })
+
+    for (const deployment of item) {
+      let label = deployment.label
+
+      label = label.replace(app + '-', '').replace(app, '')
+      label = label.replace('.now.sh', '')
+
+      deployment.label = label
+      deploymentList.push(deployment)
+    }
+
+    deploymentList.push({
+      type: 'separator'
+    })
   }
 
   const aliasList = []
