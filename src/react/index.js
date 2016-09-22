@@ -92,6 +92,7 @@ const Sections = React.createClass({
       const aboutWindow = remote.getGlobal('about')
 
       if (aboutWindow && aboutWindow.isVisible()) {
+        currentWindow.removeListener('hide', emitTrayClick)
         return
       }
 
@@ -99,13 +100,14 @@ const Sections = React.createClass({
       if (tray) {
         tray.emit('click')
       }
+
+      currentWindow.removeListener('hide', emitTrayClick)
     }
 
     currentWindow.on('hide', emitTrayClick)
 
     // Close the tutorial
     currentWindow.hide()
-    currentWindow.removeEventListener('hide', emitTrayClick)
   },
   alreadyLoggedIn() {
     const Config = remote.require('electron-config')

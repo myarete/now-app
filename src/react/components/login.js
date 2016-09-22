@@ -144,7 +144,6 @@ export default React.createClass({
     config.set('now.user.token', final)
 
     const currentWindow = remote.getCurrentWindow()
-    const loginInput = window.loginInput
 
     // Load fresh data and auto-update it
     await startRefreshment(currentWindow)
@@ -156,10 +155,6 @@ export default React.createClass({
     window.sliderElement.setState({
       loginShown: false,
       loginText: 'Congratulations! <strong>You\'re now signed in.</strong>\nAre you ready for deploying something? Then click the button:'
-    })
-
-    loginInput.setState({
-      classes: loginInput.getInitialState().classes
     })
   },
   componentWillUnmount() {
