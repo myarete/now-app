@@ -1,7 +1,11 @@
+// Native
+import {execSync} from 'child_process'
+
 // Packages
 import React from 'react'
 import {remote} from 'electron'
 import fs from 'fs-promise'
+import compareVersion from 'compare-version'
 
 // Ours
 import installBinary from '../utils/load-binary'
@@ -14,6 +18,27 @@ export default React.createClass({
       done: false,
       downloading: false
     }
+  },
+  async isOlderThanLatest(utils, binaryPath) {
+    const current = await utils.getURL()
+    const remoteVersion = current.version
+
+    let localVersion
+
+    try {
+      localVersion = execSync(binaryPath + ' -v').toString()
+    } catch (err) {
+      return
+    }
+
+    localVersion = String(localVersion.split(' ')[2])
+    const comparision = compareVersion(remoteVersion, localVersion)
+
+    if (comparision === 1) {
+      return true
+    }
+
+    return false
   },
   async componentDidMount() {
     const binaryUtils = remote.getGlobal('binaryUtils')
@@ -28,6 +53,10 @@ export default React.createClass({
     }
 
     if (stat.isSymbolicLink()) {
+      return
+    }
+
+    if (await this.isOlderThanLatest(binaryUtils, binaryPath)) {
       return
     }
 
