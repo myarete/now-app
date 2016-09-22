@@ -8,6 +8,7 @@ import {remote} from 'electron'
 // Ours
 import error from '../utils/error'
 import startRefreshment from '../utils/refresh'
+import saveToCLI from '../utils/token/to-cli'
 
 const domains = [
   'aol.com',
@@ -142,6 +143,9 @@ export default React.createClass({
     // Save user information to consistant configuration
     config.set('now.user.email', email)
     config.set('now.user.token', final)
+
+    // Also save it to now.json
+    saveToCLI(email, final)
 
     const currentWindow = remote.getCurrentWindow()
 
