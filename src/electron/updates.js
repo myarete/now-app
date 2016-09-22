@@ -80,6 +80,11 @@ const updateBinary = async () => {
 
   updateFile.cleanup()
   process.env.BINARY_UPDATE_RUNNING = 'no'
+
+  notify({
+    title: 'Updated the Now Binary to v' + currentRemote.version,
+    body: 'Try it in your terminal!'
+  })
 }
 
 export default () => {
