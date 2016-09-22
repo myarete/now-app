@@ -181,7 +181,7 @@ export default async (folder, sharing) => {
     const fileName = itemDetails.base
     const relativePath = path.relative(dir, itemPath)
 
-    if (await pathExists(itemPath)) {
+    if (!await pathExists(itemPath)) {
       continue
     }
 
