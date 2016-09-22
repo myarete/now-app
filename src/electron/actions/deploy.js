@@ -230,12 +230,6 @@ export default async (folder, sharing) => {
     return
   }
 
-  if (!deployment) {
-    // Trigger an error if the deployment didn't work
-    showError('Not able to deploy')
-    return
-  }
-
   const url = 'https://' + deployment.host
 
   if (deployment.state === 'READY') {
@@ -283,7 +277,7 @@ export default async (folder, sharing) => {
 
   // Let the user now
   notify({
-    title: genTitle(),
+    title: genTitle(deployment, sharing),
     body: 'Your clipboard already contains the URL.',
     url
   })
