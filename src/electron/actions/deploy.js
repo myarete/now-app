@@ -82,18 +82,30 @@ const tooBig = async directory => new Promise(resolve => {
   })
 })
 
+const sizeWarning = folderTooBig => {
+  const difference = folderTooBig.size - folderTooBig.maxSize
+  const readable = fileSize(difference)
+
+  const warning = `Your project is ${readable} bigger than the currently allowed maximum size of 5 MB.`
+  const hope = 'But don\'t worry! We\'ll update the app very soon to make it capable of handling these situations.'
+
+  showError(warning + '\n\n' + hope)
+}
+
+const genTitle = (deployment, sharing) => {
+  if (deployment.state === 'READY') {
+    return 'Already deployed!'
+  }
+
+  return (sharing ? 'Sharing' : 'Deploying') + '...'
+}
+
 export default async (folder, sharing) => {
   const details = {}
   const folderTooBig = await tooBig(folder)
 
   if (folderTooBig) {
-    const difference = folderTooBig.size - folderTooBig.maxSize
-    const readable = fileSize(difference)
-
-    const warning = `Your project is ${readable} bigger than the currently allowed maximum size of 5 MB.`
-    const hope = 'But don\'t worry! We\'ll update the app very soon to make it capable of handling these situations.'
-
-    showError(warning + '\n\n' + hope)
+    sizeWarning(folderTooBig)
     return
   }
 
@@ -106,8 +118,9 @@ export default async (folder, sharing) => {
   const nodeReady = await pathExists(pkgFile)
 
   // Ignore the project if there's no package file
-  if (!await pathExists(pkgFile) && !await pathExists(dockerFile)) {
-    return showError('Not a valid project!')
+  if (!nodeReady && !dockerReady) {
+    showError('Not a valid project!')
+    return
   }
 
   notify({
@@ -168,12 +181,16 @@ export default async (folder, sharing) => {
     const fileName = itemDetails.base
     const relativePath = path.relative(dir, itemPath)
 
+    if (await pathExists(itemPath)) {
+      continue
+    }
+
     let isDir
 
     try {
       isDir = await isDirectory(itemPath)
     } catch (err) {
-      showError('Not able to test if deployment is a directory', err)
+      showError('Not able to test if item is a directory', err)
       return
     }
 
@@ -259,14 +276,6 @@ export default async (folder, sharing) => {
 
   // Copy deployment URL to clipboard
   clipboard.writeText(url)
-
-  const genTitle = () => {
-    if (deployment.state === 'READY') {
-      return 'Already deployed!'
-    }
-
-    return (sharing ? 'Sharing' : 'Deploying') + '...'
-  }
 
   // Let the user now
   notify({

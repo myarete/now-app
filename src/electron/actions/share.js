@@ -9,6 +9,7 @@ import fs from 'fs-promise'
 import tmp from 'tmp-promise'
 import retry from 'async-retry'
 import chalk from 'chalk'
+import pathExists from 'path-exists'
 
 // Ours
 import injectPackage from '../utils/inject'
@@ -16,6 +17,11 @@ import copyContents from '../utils/copy'
 import {error as showError} from '../dialogs'
 
 export default async item => {
+  if (!await pathExists(item)) {
+    showError('Path doesn\'t exist!')
+    return
+  }
+
   const uniqueIdentifier = md5(item)
   const itemName = path.parse(item).name
 
