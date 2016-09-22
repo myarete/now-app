@@ -82,7 +82,7 @@ const updateBinary = async () => {
   process.env.BINARY_UPDATE_RUNNING = 'no'
 
   notify({
-    title: 'Updated the Now Binary to v' + currentRemote.version,
+    title: `Updated ${binaryDir}/now to v${currentRemote.version}`,
     body: 'Try it in your terminal!'
   })
 }
