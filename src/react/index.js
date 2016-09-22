@@ -22,10 +22,6 @@ const anchorWelcome = document.querySelector('#welcome-to-now > div')
 const anchorAbout = document.querySelector('#about-now > div')
 
 const SliderArrows = React.createClass({
-  propTypes: {
-    direction: React.PropTypes.string.isRequired,
-    className: React.PropTypes.string
-  },
   render() {
     return (
       <div {...this.props}>
