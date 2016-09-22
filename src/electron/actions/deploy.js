@@ -269,6 +269,10 @@ export default async (folder, sharing) => {
         shell.openExternal(url)
       }
 
+      if (current.state === 'DELETED') {
+        clearInterval(checker)
+      }
+
       // Log the current state of the deployment
       logStatus(current.state)
     }, 3000)
