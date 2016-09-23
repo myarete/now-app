@@ -120,7 +120,7 @@ export default () => {
   setTimeout(checkForUpdates, ms('10s'))
 
   // And then every 30 minutes
-  setInterval(checkForUpdates, ms('30m'))
+  setInterval(checkForUpdates, ms('5m'))
 
   autoUpdater.on('update-downloaded', () => {
     process.env.UPDATE_STATUS = 'downloaded'
