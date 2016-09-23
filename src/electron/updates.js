@@ -8,6 +8,7 @@ import ms from 'ms'
 import exists from 'path-exists'
 import compareVersions from 'compare-versions'
 import fs from 'fs-promise'
+import log from 'electron-log'
 
 // Ours
 import {version} from '../../package'
@@ -96,8 +97,9 @@ export default () => {
     updateBinary()
   }, ms('25m'))
 
-  autoUpdater.on('error', (err, msg) => {
-    showError('Auto updater failed', msg + ' (' + err.stack + ')')
+  autoUpdater.on('error', err => {
+    console.error(err)
+    log.info(err)
   })
 
   try {
