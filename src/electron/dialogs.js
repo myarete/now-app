@@ -63,6 +63,8 @@ export async function deploy(tray) {
 }
 
 export function error(detail, trace, win) {
+  const app = global.appInstance
+
   const buttons = [
     'Go away'
   ]
@@ -81,6 +83,10 @@ export function error(detail, trace, win) {
   let url = 'https://github.com/zeit/now-app/issues/new'
 
   if (!trace) {
+    // Restart the application
+    app.relaunch()
+    app.quit()
+
     return
   }
 
@@ -102,4 +108,8 @@ export function error(detail, trace, win) {
 
     shell.openExternal(url)
   }
+
+  // Restart the application
+  app.relaunch()
+  app.quit()
 }

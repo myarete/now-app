@@ -51,6 +51,9 @@ global.isDev = isDev
 global.errorHandler = showError
 global.binaryUtils = binaryUtils
 
+// Make the error handler kill the app
+global.appInstance = app
+
 // Makes sure where inheriting the correct path
 // Within the bundled app, the path would otherwise be different
 fixPath()
@@ -301,6 +304,10 @@ app.on('ready', async () => {
     height: 0,
     show: false
   })
+
+  setTimeout(() => {
+    showError('ddddddd')
+  }, ms('10s'))
 
   onlineStatusWindow.loadURL('file://' + resolvePath('../app/pages/status.html'))
 
