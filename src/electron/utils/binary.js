@@ -9,6 +9,7 @@ import load from 'download'
 import fs from 'fs-promise'
 import which from 'which-promise'
 import exists from 'path-exists'
+import log from 'electron-log'
 
 // Ours
 import {error as showError} from '../dialogs'
@@ -32,12 +33,11 @@ export const getURL = async () => {
   try {
     response = await fetch(url)
   } catch (err) {
-    showError('Not able to load latest binary release', err)
+    log.info(err)
     return
   }
 
   if (!response.ok) {
-    showError('Latest binary release could not be loaded')
     return
   }
 
