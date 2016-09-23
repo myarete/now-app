@@ -109,7 +109,7 @@ const onboarding = () => {
   const emitTrayClick = aboutWindow => {
     win.hide()
 
-    win.on('hide', () => {
+    const emitClick = () => {
       if (aboutWindow && aboutWindow.isVisible()) {
         return
       }
@@ -118,7 +118,11 @@ const onboarding = () => {
       if (tray) {
         tray.emit('click')
       }
-    })
+
+      win.removeListener('hide', emitClick)
+    }
+
+    win.on('hide', emitClick)
   }
 
   win.on('open-tray', emitTrayClick)

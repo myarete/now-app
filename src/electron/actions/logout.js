@@ -79,8 +79,6 @@ export default async (app, tutorial) => {
     return
   }
 
-  process.env.LOGOUT_STATUS = 'running'
-
   // Cache user information
   const userDetails = config.get('now.user')
 
@@ -106,7 +104,7 @@ export default async (app, tutorial) => {
     tutorial.reload()
 
     // Once the content has loaded again, show it
-    tutorial.once('ready-to-show', () => tutorial.show())
+    // tutorial.once('ready-to-show', () => tutorial.show())
   }
 
   let tokenId
