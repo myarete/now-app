@@ -27,10 +27,11 @@ const domains = [
 
 const getVerificationToken = async (url, email) => {
   const os = remote.require('os')
+  const host = os.hostname().replace('-', ' ').replace('.local', '')
 
   const body = JSON.stringify({
     email,
-    tokenName: 'Now on ' + os.hostname()
+    tokenName: 'Now on ' + host
   })
 
   const apiURL = `${url}/now/registration`
