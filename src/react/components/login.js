@@ -27,7 +27,8 @@ const domains = [
 
 const getVerificationToken = async (url, email) => {
   const os = remote.require('os')
-  const host = os.hostname().replace('-', ' ').replace('.local', '')
+  const hyphens = new RegExp('-', 'g')
+  const host = os.hostname().replace(hyphens, ' ').replace('.local', '')
 
   const body = JSON.stringify({
     email,
