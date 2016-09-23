@@ -186,6 +186,19 @@ const toggleContextMenu = async windows => {
     const labelParts = deployment.label.split('.')
     const label = labelParts[0].indexOf('-') > -1 ? labelParts[0].split('-')[0] : labelParts[0]
 
+    let count = 0
+
+    for (const item of deployments) {
+      if (item.name === label) {
+        count++
+      }
+    }
+
+    if (count === 1) {
+      apps[deployment.label] = deployment
+      continue
+    }
+
     if (!apps[label]) {
       apps[label] = []
     }
