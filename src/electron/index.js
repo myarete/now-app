@@ -374,7 +374,7 @@ app.on('ready', async () => {
 
   if (isLoggedIn()) {
     // Periodically rebuild local cache every 10 seconds
-    global.startRefresh()
+    global.startRefresh(windows.tutorial)
   }
 
   if (!isLoggedIn()) {

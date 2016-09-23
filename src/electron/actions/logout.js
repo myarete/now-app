@@ -85,11 +85,13 @@ export default async (app, tutorial) => {
     showError('Couldn\'t log out')
   }
 
-  // Prepare the tutorial by reloading its contents
-  tutorial.reload()
+  if (tutorial) {
+    // Prepare the tutorial by reloading its contents
+    tutorial.reload()
 
-  // Once the content has loaded again, show it
-  tutorial.once('ready-to-show', () => tutorial.show())
+    // Once the content has loaded again, show it
+    tutorial.once('ready-to-show', () => tutorial.show())
+  }
 
   let tokenId
 
