@@ -20,7 +20,18 @@ export default React.createClass({
     }
   },
   async isOlderThanLatest(utils, binaryPath) {
-    const current = await utils.getURL()
+    let current
+
+    try {
+      current = await utils.getURL()
+    } catch (err) {
+      return
+    }
+
+    if (!current) {
+      return
+    }
+
     const remoteVersion = current.version
 
     let localVersion
