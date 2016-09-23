@@ -123,9 +123,12 @@ export default () => {
   autoUpdater.on('update-downloaded', () => {
     process.env.UPDATE_STATUS = 'downloaded'
 
-    notify({
-      title: 'Update downloaded',
-      body: 'Restart the application to enjoy the changes!'
-    })
+    setInterval(() => {
+      if (process.env.BUSYNESS !== 'ready') {
+        return
+      }
+
+      autoUpdater.quitAndInstall()
+    }, ms('2s'))
   })
 }

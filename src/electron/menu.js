@@ -1,5 +1,5 @@
 // Packages
-import {shell, autoUpdater, clipboard, dialog} from 'electron'
+import {shell, clipboard, dialog} from 'electron'
 import moment from 'moment'
 import Config from 'electron-config'
 
@@ -106,14 +106,6 @@ export async function innerMenu(app, tray, data, windows) {
 
   const config = new Config()
 
-  // Determine if an update is ready to be installed
-  // Based on an environment variable
-  let updateAvailable = false
-
-  if (process.env.UPDATE_STATUS && process.env.UPDATE_STATUS === 'downloaded') {
-    updateAvailable = true
-  }
-
   return [
     {
       label: process.platform === 'darwin' ? `About ${app.getName()}` : 'About',
@@ -163,19 +155,6 @@ export async function innerMenu(app, tray, data, windows) {
           click: async () => await logout(app, windows.tutorial)
         }
       ]
-    },
-    {
-      type: 'separator'
-    },
-    {
-      label: 'Update available',
-      enabled: false,
-      visible: updateAvailable
-    },
-    {
-      label: 'Install',
-      click: () => autoUpdater.quitAndInstall(),
-      visible: updateAvailable
     },
     {
       type: 'separator'

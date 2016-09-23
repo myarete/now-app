@@ -22,6 +22,8 @@ export default async item => {
     return
   }
 
+  process.env.BUSYNESS = 'sharing'
+
   const uniqueIdentifier = md5(item)
   const itemName = path.parse(item).name
 

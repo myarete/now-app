@@ -55,6 +55,10 @@ global.binaryUtils = binaryUtils
 // Within the bundled app, the path would otherwise be different
 fixPath()
 
+// Keep track of the app's busyness for telling
+// the autoupdater if it can restart the application
+process.env.BUSYNESS = 'ready'
+
 // Make sure that unhandled errors get handled
 process.on('uncaughtException', err => {
   console.error(err)

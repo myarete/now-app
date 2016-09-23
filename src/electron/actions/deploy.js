@@ -109,6 +109,8 @@ export default async (folder, sharing) => {
     return
   }
 
+  process.env.BUSYNESS = 'deploying'
+
   const dir = path.resolve(folder)
 
   const pkgFile = path.join(dir, 'package.json')
@@ -252,6 +254,8 @@ export default async (folder, sharing) => {
 
       if (current.state === 'READY') {
         clearInterval(checker)
+
+        process.env.BUSYNESS = 'ready'
 
         notify({
           title: 'Done ' + (sharing ? 'sharing' : 'deploying') + '!',
