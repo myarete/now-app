@@ -297,6 +297,7 @@ body {
 #about .update {
   font-size: 11px;
   margin-top: 5px;
+  display: none;
 }
 
 #about .update.latest {
