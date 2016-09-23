@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import Slider from 'react-slick'
 import SVGinline from 'react-svg-inline'
 import {remote, shell} from 'electron'
+import timeAgo from 'time-ago'
 
 // Ours
 import pkg from '../../app/package.json'
@@ -195,7 +196,7 @@ const AboutContent = React.createClass({
       lastReleaseDate: ''
     }
   },
-  loadLicenses() {
+  async loadLicenses() {
     const links = document.querySelectorAll('a')
 
     for (const link of links) {
@@ -216,19 +217,37 @@ const AboutContent = React.createClass({
       licenses: getLicenses(mainModule)
     })
 
-    this.lastReleaseDate()
+    await this.lastReleaseDate()
   },
-  lastReleaseDate() {
-    // This is where we can do some logic to show
-    // the date on which the release went online
-    // As soon as the repo is online
+  async lastReleaseDate() {
+    let data
+
+    try {
+      data = await fetch('https://api.github.com/repos/zeit/now/releases/latest')
+    } catch (err) {
+      console.log(err)
+      return
+    }
+
+    if (!data.ok) {
+      return
+    }
+
+    try {
+      data = await data.json()
+    } catch (err) {
+      console.log(err)
+      return
+    }
+
+    const ago = timeAgo().ago(new Date(data.published_at))
 
     this.setState({
-      lastReleaseDate: '(latest)'
+      lastReleaseDate: `(${ago})`
     })
   },
-  componentDidMount() {
-    this.loadLicenses()
+  async componentDidMount() {
+    await this.loadLicenses()
   },
   handleTutorial() {
     const tutorial = remote.getGlobal('tutorial')

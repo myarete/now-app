@@ -29,7 +29,8 @@ module.exports = [
         'electron-config',
         'fs-promise',
         'now-client',
-        'child_process'
+        'child_process',
+        'time-ago'
       ]
 
       if (load.includes(request)) {
