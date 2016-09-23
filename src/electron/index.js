@@ -317,7 +317,7 @@ app.on('ready', async () => {
 
   // Start auto updater if not in development mode
   if (!isDev && process.platform !== 'linux') {
-    global.autoUpdater()
+    global.autoUpdater(app)
   }
 
   // DO NOT create the tray icon BEFORE the login status has been checked!

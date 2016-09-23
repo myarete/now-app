@@ -88,7 +88,7 @@ const updateBinary = async () => {
   })
 }
 
-export default () => {
+export default app => {
   setInterval(() => {
     if (process.env.CONNECTION === 'offline') {
       return
@@ -124,13 +124,17 @@ export default () => {
 
   autoUpdater.on('update-downloaded', () => {
     process.env.UPDATE_STATUS = 'downloaded'
+    log.info('Downloaded update')
 
     setInterval(() => {
       if (process.env.BUSYNESS !== 'ready') {
         return
       }
 
+      log.info('Installing update')
+
       autoUpdater.quitAndInstall()
+      app.quit()
     }, ms('2s'))
   })
 }
