@@ -70,15 +70,12 @@ const revokeToken = async (token, tokenId) => {
 export default async (app, tutorial) => {
   const config = new Config()
 
-  const status = process.env.LOGOUT_STATUS
-
   const noUser = config.has('now.user') === false
   const offline = process.env.CONNECTION === 'offline'
-  const logOutRunning = status === 'running' || status === 'done'
 
   // The app shouldn't log out if an error occurs while offline
   // Only do that while online
-  if (offline || noUser || logOutRunning) {
+  if (offline || noUser) {
     return
   }
 
@@ -131,6 +128,4 @@ export default async (app, tutorial) => {
     showError('Could not revoke token on logout', err)
     return
   }
-
-  process.env.LOGOUT_STATUS = 'done'
 }
