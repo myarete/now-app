@@ -82,28 +82,10 @@ const Sections = React.createClass({
   },
   handleReady() {
     const currentWindow = remote.getCurrentWindow()
-    const tray = remote.getGlobal('tray')
-
-    const emitTrayClick = () => {
-      const aboutWindow = remote.getGlobal('about')
-
-      if (aboutWindow && aboutWindow.isVisible()) {
-        currentWindow.removeListener('hide', emitTrayClick)
-        return
-      }
-
-      // Automatically open the context menu
-      if (tray) {
-        tray.emit('click')
-      }
-
-      currentWindow.removeListener('hide', emitTrayClick)
-    }
-
-    currentWindow.on('hide', emitTrayClick)
+    const aboutWindow = remote.getGlobal('about')
 
     // Close the tutorial
-    currentWindow.hide()
+    currentWindow.emit('open-tray', aboutWindow)
   },
   alreadyLoggedIn() {
     const Config = remote.require('electron-config')

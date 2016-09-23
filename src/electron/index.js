@@ -99,6 +99,23 @@ const onboarding = () => {
   // To be able to open it from there
   global.tutorial = win
 
+  const emitTrayClick = aboutWindow => {
+    win.hide()
+
+    win.on('hide', () => {
+      if (aboutWindow && aboutWindow.isVisible()) {
+        return
+      }
+
+      // Automatically open the context menu
+      if (tray) {
+        tray.emit('click')
+      }
+    })
+  }
+
+  win.on('open-tray', emitTrayClick)
+
   // Just hand it back
   return win
 }
