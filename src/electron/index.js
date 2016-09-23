@@ -153,70 +153,45 @@ app.on('window-all-closed', () => {
   }
 })
 
+const assignAliases = (aliases, deployment) => {
+  if (aliases) {
+    const aliasInfo = aliases.find(a => deployment.uid === a.deploymentId)
+
+    if (aliasInfo) {
+      deployment.url = aliasInfo.alias
+    }
+  }
+
+  return deploymentOptions(deployment)
+}
+
 const toggleContextMenu = async windows => {
   const deployments = config.get('now.cache.deployments')
   const aliases = config.get('now.cache.aliases')
 
-  let deploymentList = []
-  const deploymentMap = {}
   const apps = {}
+  const deploymentList = []
 
   for (const deployment of deployments) {
-    const info = deployment
-    const index = deployments.indexOf(deployment)
+    const name = deployment.name
 
-    if (aliases) {
-      const aliasInfo = aliases.find(a => deployment.uid === a.deploymentId)
-
-      if (aliasInfo) {
-        info.url = aliasInfo.alias
-      }
-    }
-
-    deploymentMap[info.uid] = info
-    deploymentList[index] = deploymentOptions(info)
-  }
-
-  for (const deployment of deploymentList) {
-    if (!deployment.label.includes('.now.sh')) {
-      apps[deployment.label] = deployment
+    if (apps[name]) {
+      apps[name].push(deployment)
       continue
     }
 
-    const labelParts = deployment.label.split('.')
-    const label = labelParts[0].indexOf('-') > -1 ? labelParts[0].split('-')[0] : labelParts[0]
-
-    let count = 0
-
-    for (const item of deployments) {
-      if (item.name === label) {
-        count++
-      }
-    }
-
-    if (count === 1) {
-      apps[deployment.label] = deployment
-      continue
-    }
-
-    if (!apps[label]) {
-      apps[label] = []
-    }
-
-    apps[label].push(deployment)
+    apps[name] = [deployment]
   }
-
-  deploymentList = []
 
   for (const app in apps) {
     if (!{}.hasOwnProperty.call(apps, app)) {
-      continue
+      return
     }
 
-    const item = apps[app]
+    const appInfo = apps[app]
 
-    if (!Array.isArray(item)) {
-      deploymentList.push(item)
+    if (appInfo.length === 1) {
+      deploymentList.push(assignAliases(aliases, appInfo[0]))
       continue
     }
 
@@ -229,14 +204,8 @@ const toggleContextMenu = async windows => {
       enabled: false
     })
 
-    for (const deployment of item) {
-      let label = deployment.label
-
-      label = label.replace(app + '-', '').replace(app, '')
-      label = label.replace('.now.sh', '')
-
-      deployment.label = label
-      deploymentList.push(deployment)
+    for (const deployment of appInfo) {
+      deploymentList.push(assignAliases(aliases, deployment))
     }
 
     deploymentList.push({
@@ -244,35 +213,8 @@ const toggleContextMenu = async windows => {
     })
   }
 
-  const aliasList = []
-
-  for (const alias of aliases) {
-    const deploymentID = alias.deploymentId
-    const linkedDeployment = deploymentMap[deploymentID]
-
-    aliasList.push({
-      label: alias.alias,
-      submenu: [
-        {
-          type: 'separator'
-        },
-        {
-          label: 'Delete'
-        },
-        {
-          type: 'separator'
-        },
-        {
-          label: 'Deployment',
-          submenu: deploymentOptions(linkedDeployment).submenu
-        }
-      ]
-    })
-  }
-
   const data = {
-    deployments: deploymentList,
-    aliases: aliasList
+    deployments: deploymentList
   }
 
   let generatedMenu = await innerMenu(app, tray, data, windows)
