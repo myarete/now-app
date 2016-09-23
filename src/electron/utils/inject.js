@@ -1,4 +1,4 @@
-// Natives
+// Native
 import path from 'path'
 
 // Packages
