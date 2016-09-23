@@ -11,7 +11,7 @@ import fs from 'fs-promise'
 import log from 'electron-log'
 
 // Ours
-import {version} from '../../package'
+import {version} from '../../app/package'
 import {error as showError} from './dialogs'
 import notify from './notify'
 import * as binaryUtils from './utils/binary'
