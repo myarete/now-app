@@ -1,6 +1,12 @@
+// Native
+import os from 'os'
+import path from 'path'
+
 // Packages
 import Config from 'electron-config'
 import fetch from 'node-fetch'
+import fs from 'fs-promise'
+import log from 'electron-log'
 
 // Ours
 import {error as showError} from '../dialogs'
@@ -64,25 +70,38 @@ const revokeToken = async (token, tokenId) => {
 export default async (app, tutorial) => {
   const config = new Config()
 
+  const status = process.env.LOGOUT_STATUS
+
+  const noUser = config.has('now.user') === false
+  const offline = process.env.CONNECTION === 'offline'
+  const logOutRunning = status === 'running' || status === 'done'
+
   // The app shouldn't log out if an error occurs while offline
   // Only do that while online
-  if (process.env.CONNECTION === 'offline' || !config.has('now.user')) {
+  if (offline || noUser || logOutRunning) {
     return
   }
+
+  process.env.LOGOUT_STATUS = 'running'
 
   // Cache user information
   const userDetails = config.get('now.user')
 
   // Remove configuration information
-  config.delete('now.user')
-
-  // And clear the cache
-  config.delete('now.cache')
+  config.clear()
 
   const existent = config.has('now.user')
 
   if (existent) {
     showError('Couldn\'t log out')
+  }
+
+  const configCLI = path.join(os.homedir(), '.now.json')
+
+  try {
+    await fs.remove(configCLI)
+  } catch (err) {
+    log.info(err)
   }
 
   if (tutorial) {
@@ -112,4 +131,6 @@ export default async (app, tutorial) => {
     showError('Could not revoke token on logout', err)
     return
   }
+
+  process.env.LOGOUT_STATUS = 'done'
 }
