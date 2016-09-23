@@ -305,10 +305,6 @@ app.on('ready', async () => {
     show: false
   })
 
-  setTimeout(() => {
-    showError('ddddddd')
-  }, ms('10s'))
-
   onlineStatusWindow.loadURL('file://' + resolvePath('../app/pages/status.html'))
 
   ipcMain.on('online-status-changed', (event, status) => {
