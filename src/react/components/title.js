@@ -5,7 +5,7 @@ export default React.createClass({
   render() {
     return (
       <aside id="window-title">
-        <h1>Welcome to now</h1>
+        <h1>Welcome to Now</h1>
       </aside>
     )
   }
