@@ -223,7 +223,7 @@ const AboutContent = React.createClass({
     let data
 
     try {
-      data = await fetch('https://api.github.com/repos/zeit/now/releases/latest')
+      data = await fetch('https://api.github.com/repos/zeit/now-app/releases/latest')
     } catch (err) {
       console.log(err)
       return
