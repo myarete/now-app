@@ -8,7 +8,7 @@ For more details, head to: https://zeit.co/now
 
 ## Usage
 
-You can download the latest release from [here](https://now-auto-updates.now.sh/download/osx).
+You can download the latest release from [here](https://now-auto-updates.now.sh/download/osx) (macOS - more platforms soon).
 
 ## Caught a bug?
 
