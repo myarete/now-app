@@ -6,7 +6,6 @@ import path from 'path'
 import Config from 'electron-config'
 import fetch from 'node-fetch'
 import fs from 'fs-promise'
-import log from 'electron-log'
 
 // Ours
 import {error as showError} from '../dialogs'
@@ -67,6 +66,21 @@ const revokeToken = async (token, tokenId) => {
   }
 }
 
+const logoutConfig = async () => {
+  const file = path.join(os.homedir(), '.now.json')
+  const currentContent = await fs.readJSON(file)
+
+  if (currentContent.email) {
+    delete currentContent.email
+  }
+
+  if (currentContent.token) {
+    delete currentContent.token
+  }
+
+  await fs.writeJSON(file, currentContent)
+}
+
 export default async (app, tutorial) => {
   const config = new Config()
 
@@ -91,13 +105,9 @@ export default async (app, tutorial) => {
     showError('Couldn\'t log out')
   }
 
-  const configCLI = path.join(os.homedir(), '.now.json')
-
   try {
-    await fs.remove(configCLI)
-  } catch (err) {
-    log.info(err)
-  }
+    await logoutConfig()
+  } catch (err) {}
 
   if (tutorial) {
     // Prepare the tutorial by reloading its contents

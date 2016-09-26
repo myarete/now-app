@@ -147,7 +147,7 @@ export default React.createClass({
     config.set('now.user.token', final)
 
     // Also save it to now.json
-    saveToCLI(email, final)
+    await saveToCLI(email, final)
 
     const currentWindow = remote.getCurrentWindow()
 
