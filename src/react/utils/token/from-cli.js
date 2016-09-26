@@ -17,6 +17,10 @@ export default root => {
   const loader = fs.readJSON(filePath)
 
   loader.then(async content => {
+    if (!content.token) {
+      return
+    }
+
     if (!await tokenValidated(content.token)) {
       return
     }
