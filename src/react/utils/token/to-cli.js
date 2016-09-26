@@ -8,13 +8,18 @@ export default async (mail, token) => {
 
   const filePath = path.join(os.homedir(), '.now.json')
 
-  let currentContent
+  try {
+    await fs.ensureFile(filePath)
+  } catch (err) {
+    console.error(err)
+    return
+  }
+
+  let currentContent = {}
 
   try {
     currentContent = await fs.readJSON(filePath)
-  } catch (err) {
-    return
-  }
+  } catch (err) {}
 
   currentContent.email = mail
   currentContent.token = token
