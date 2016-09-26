@@ -7,14 +7,6 @@ export default async (mail, token) => {
   const fs = remote.require('fs-promise')
 
   const filePath = path.join(os.homedir(), '.now.json')
-
-  try {
-    await fs.ensureFile(filePath)
-  } catch (err) {
-    console.error(err)
-    return
-  }
-
   let currentContent = {}
 
   try {
@@ -24,9 +16,11 @@ export default async (mail, token) => {
   currentContent.email = mail
   currentContent.token = token
 
+  const newContent = JSON.stringify(currentContent, null, 2)
+
   try {
-    await fs.writeJSON(filePath, currentContent)
+    await fs.writeFile(filePath, newContent)
   } catch (err) {
-    console.error('Could not overwrite .now.json')
+    console.error(err)
   }
 }
