@@ -10,7 +10,6 @@ import {dir as isDirectory} from 'path-type'
 import fs from 'fs-promise'
 import fixPath from 'fix-path'
 import log from 'electron-log'
-import AutoLauncher from 'auto-launch'
 
 // Ours
 import {resolve as resolvePath} from 'app-root-path'
@@ -37,6 +36,13 @@ app.dock.hide()
 
 // Define the application name
 app.setName('Now')
+
+// Make Now start automatically on login
+if (!isDev) {
+  app.setLoginItemSettings({
+    openAtLogin: true
+  })
+}
 
 // We need this method in the renderer process
 // So that we can load all data after the user has logged in
@@ -303,20 +309,6 @@ const fileDropped = async (event, files) => {
   await deploy(item)
 }
 
-const controlAutoLaunch = async () => {
-  const autoLaunch = new AutoLauncher({
-    name: 'Now'
-  })
-
-  const isEnabled = await autoLaunch.isEnabled()
-
-  if (isEnabled || isDev) {
-    return
-  }
-
-  autoLaunch.enable()
-}
-
 app.on('ready', async () => {
   const onlineStatusWindow = new BrowserWindow({
     width: 0,
@@ -325,12 +317,6 @@ app.on('ready', async () => {
   })
 
   onlineStatusWindow.loadURL('file://' + resolvePath('../app/pages/status.html'))
-
-  try {
-    await controlAutoLaunch()
-  } catch (err) {
-    console.error(err)
-  }
 
   ipcMain.on('online-status-changed', (event, status) => {
     process.env.CONNECTION = status
